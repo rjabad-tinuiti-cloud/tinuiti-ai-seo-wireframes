@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonobos_Local_GEO_Wireframe_V1</title>
+<style>
+  :root {
+    --brand-primary: #00799c;
+    --brand-light: #e6f2f5;
+    --text-main: #232323;
+    --text-muted: #666666;
+    --bg-page: #f5f5f5;
+    --bg-block: #ffffff;
+    --border-color: #dddddd;
+    --state-visible: #2e7d32;
+    --state-collapsed: #ed6c02;
+    --state-conditional: #9c27b0;
+    --state-inline: #0288d1;
+    --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-stack); color: var(--text-main); background: var(--bg-page); line-height: 1.5; padding-bottom: 60px; }
+  a { text-decoration: none; color: inherit; }
+  
+  /* Intro Banner */
+  .intro-banner { display: flex; justify-content: space-between; align-items: center; background: var(--text-main); color: #fff; padding: 20px 40px; font-size: 14px; }
+  .intro-brand { display: flex; align-items: center; gap: 16px; }
+  .intro-logo { background: var(--brand-primary); color: #fff; font-weight: bold; padding: 8px 16px; border-radius: 4px; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; }
+  .intro-meta h1 { font-size: 18px; margin-bottom: 4px; font-weight: 600; }
+  .intro-meta p { color: #aaa; font-size: 12px; }
+  .intro-instructions { max-width: 500px; }
+  .intro-instructions ol { margin-left: 20px; margin-bottom: 12px; color: #ddd; }
+  .intro-instructions li { margin-bottom: 4px; }
+  .query-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 12px; font-size: 11px; color: #fff; border: 0.5px solid rgba(255,255,255,0.2); }
+
+  /* Chrome & Controls Sticky Wrapper */
+  .sticky-wrapper { position: sticky; top: 0; z-height: 100; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+
+  /* Browser Chrome */
+  .browser-chrome { background: #e0e0e0; padding: 12px 20px; display: flex; align-items: center; gap: 20px; border-bottom: 0.5px solid #ccc; border-top-left-radius: 8px; border-top-right-radius: 8px; margin: 20px 20px 0 20px; }
+  .traffic-lights { display: flex; gap: 6px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.red { background: #ff5f56; }
+  .dot.yellow { background: #ffbd2e; }
+  .dot.green { background: #27c93f; }
+  .address-bar { background: #fff; flex-grow: 1; padding: 6px 12px; border-radius: 4px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+
+  /* Controls Bar */
+  .controls-bar { background: #1a1a1a; color: #fff; padding: 12px 40px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin: 0 20px; }
+  .toggle-group { display: flex; align-items: center; gap: 12px; }
+  .toggle-label { font-weight: 600; color: #aaa; text-transform: uppercase; font-size: 10px; letter-spacing: 0.5px; }
+  .pill-toggle { display: flex; background: #333; border-radius: 20px; overflow: hidden; border: 0.5px solid #444; }
+  .pill-btn { background: transparent; border: none; color: #aaa; padding: 6px 16px; font-size: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .pill-btn.active { background: #fff; color: #000; font-weight: 600; }
+  .legend { display: flex; gap: 16px; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #ccc; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .hint-text { color: #888; font-style: italic; }
+  .toggle-subtext { font-size: 10px; color: #777; margin-top: 4px; }
+
+  /* Site Nav */
+  .site-nav { background: #fff; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 0.5px solid var(--border-color); margin: 0 20px; }
+  .nav-logo { background: var(--brand-primary); color: #fff; font-weight: bold; padding: 8px 16px; border-radius: 4px; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; display: inline-block;}
+  .nav-links { display: flex; gap: 20px; font-size: 13px; font-weight: 500; color: var(--text-main); }
+  .nav-actions { display: flex; gap: 16px; align-items: center; }
+  .sec-cta { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .btn-primary { background: var(--brand-primary); color: #fff; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; text-align: center; }
+
+  /* Page Layout */
+  .page-container { margin: 0 20px; background: #fff; min-height: 100vh; position: relative; padding-bottom: 40px; }
+  .zone-divider { background: var(--bg-page); padding: 8px 40px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 600; border-top: 0.5px solid var(--border-color); border-bottom: 0.5px solid var(--border-color); margin-top: 20px; }
+  
+  /* Content Blocks */
+  .block { position: relative; padding: 40px; border-bottom: 0.5px solid var(--border-color); transition: outline 0.2s; cursor: default; }
+  .block:hover { outline: 2px solid var(--brand-primary); outline-offset: -2px; z-index: 10; }
+  
+  .block-meta { position: absolute; top: 12px; left: 12px; display: flex; gap: 8px; align-items: center; z-index: 5; }
+  .badge-num { background: #000; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
+  .badge-state { color: #fff; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+  .badge-audit { background: #eee; color: #333; font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; border: 0.5px solid #ccc; }
+  .hover-cue { font-size: 10px; color: var(--brand-primary); font-weight: 600; opacity: 0; transition: opacity 0.2s; background: var(--brand-light); padding: 4px 8px; border-radius: 4px; }
+  .block:hover .hover-cue { opacity: 1; }
+  .block.tooltip-active .hover-cue { opacity: 0; }
+
+  .state-visible { background: var(--state-visible); }
+  .state-collapsed { background: var(--state-collapsed); }
+  .state-conditional { background: var(--state-conditional); }
+  .state-inline { background: var(--state-inline); }
+
+  /* Block Interiors */
+  .wire-img { background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 12px; border: 0.5px dashed #ccc; border-radius: 4px; }
+  .wire-text { background: #f5f5f5; height: 12px; margin-bottom: 8px; border-radius: 2px; }
+  .wire-text.w-80 { width: 80%; }
+  .wire-text.w-60 { width: 60%; }
+  .wire-text.w-40 { width: 40%; }
+
+  /* Specific Block Layouts */
+  .b01-hero { display: flex; gap: 40px; }
+  .b01-hero .wire-img { width: 50%; height: 400px; }
+  .b01-hero .content { width: 50%; display: flex; flex-direction: column; justify-content: center; }
+  .b01-hero h1 { font-size: 32px; margin-bottom: 12px; line-height: 1.2; }
+  .review-stars { color: #ffb400; font-size: 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; }
+  .review-stars span { color: var(--text-muted); font-size: 12px; }
+  .action-row { display: flex; gap: 12px; margin-top: 24px; }
+  .action-row .btn-primary { flex: 1; padding: 14px; font-size: 14px; }
+
+  .b02-promo { background: var(--brand-light); padding: 16px 40px; text-align: center; font-weight: 600; font-size: 14px; color: var(--brand-primary); display: none; }
+  body[data-page-state="promo"] .b02-promo { display: block; }
+  body[data-page-state="holiday"] .b02-promo { display: block; background: #fff3e0; color: #e65100; }
+
+  .b03-nap { display: flex; gap: 40px; }
+  .nap-col { flex: 1; background: #fafafa; padding: 24px; border-radius: 8px; border: 0.5px solid #eee; }
+  .nap-col h3 { font-size: 16px; margin-bottom: 16px; }
+  .nap-detail { font-size: 14px; margin-bottom: 12px; color: var(--text-muted); display: flex; gap: 8px; }
+  .nap-status { display: inline-block; padding: 4px 8px; background: #e8f5e9; color: #2e7d32; font-size: 12px; font-weight: 600; border-radius: 4px; margin-bottom: 16px; }
+
+  .b04-services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 20px; }
+  .service-card { border: 0.5px solid var(--border-color); padding: 20px; border-radius: 8px; }
+  .service-card h3 { font-size: 16px; margin-bottom: 8px; }
+  .service-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+
+  .b05-map { display: flex; gap: 40px; align-items: center; }
+  .b05-map .wire-img { width: 60%; height: 300px; }
+  .b05-map .context { width: 40%; }
+  .b05-map h3 { font-size: 20px; margin-bottom: 16px; }
+
+  .b06-proof { background: #fafafa; border-radius: 8px; padding: 32px; display: flex; gap: 40px; align-items: center; }
+  .proof-summary { text-align: center; min-width: 150px; }
+  .proof-summary h2 { font-size: 48px; line-height: 1; }
+  .proof-quotes { display: flex; gap: 20px; flex: 1; }
+  .quote-card { background: #fff; padding: 16px; border-radius: 8px; border: 0.5px solid #eee; flex: 1; font-size: 13px; font-style: italic; color: var(--text-muted); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+
+  .accordion-row { border-top: 0.5px solid var(--border-color); padding: 20px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding-right: 72px; }
+  .accordion-row:last-child { border-bottom: 0.5px solid var(--border-color); }
+  .accordion-title { font-weight: 600; font-size: 16px; }
+  .accordion-toggle { width: 24px; height: 24px; border: 1.5px solid var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.2s; color: var(--text-main); }
+  .accordion-row:hover .accordion-toggle { background: var(--brand-primary); border-color: var(--brand-primary); color: #fff; }
+  .accordion-row.open .accordion-toggle { background: var(--brand-primary); border-color: var(--brand-primary); color: #fff; transform: rotate(45deg); }
+  .accordion-content { display: none; padding: 0 72px 20px 0; font-size: 14px; color: var(--text-muted); }
+  .accordion-row.open + .accordion-content { display: block; }
+
+  .b09-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }
+  .b09-gallery .wire-img { height: 200px; }
+
+  .inline-row { display: flex; justify-content: center; gap: 32px; padding: 20px 0; font-size: 13px; color: var(--text-muted); align-items: center; }
+  .inline-link { color: var(--brand-primary); font-weight: 500; text-decoration: underline; }
+
+  .b12-final { text-align: center; padding: 60px 40px; background: #fafafa; }
+  .b12-final h2 { font-size: 28px; margin-bottom: 24px; }
+  .b12-final .action-row { justify-content: center; max-width: 600px; margin: 0 auto; }
+
+  /* Tooltip System */
+  #tooltip-container { position: fixed; top: 50%; right: 60px; transform: translateY(-50%); width: 380px; z-index: 2000; pointer-events: none; overflow: visible; display: flex; flex-direction: column; filter: drop-shadow(0 10px 24px rgba(0,0,0,0.15)); }
+  .tooltip-body { background: #fff; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; min-height: 0; max-height: min(460px, calc(100vh - 200px)); overflow-y: auto; pointer-events: auto; opacity: 0; transition: opacity 0.2s; scrollbar-width: thin; scrollbar-color: rgba(0,0,0,0.2) transparent; }
+  .tooltip-body::-webkit-scrollbar { width: 4px; }
+  .tooltip-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+  .tooltip-caret { position: absolute; right: -6px; top: 50%; transform: translateY(-50%) rotate(45deg); width: 12px; height: 12px; background: #fff; border-top: 1px solid var(--border-color); border-right: 1px solid var(--border-color); opacity: 0; transition: opacity 0.2s; }
+  #tooltip-container.visible .tooltip-body, #tooltip-container.visible .tooltip-caret { opacity: 1; pointer-events: auto; }
+  
+  .tt-header { background: var(--bg-page); padding: 16px 20px; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 2; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+  .tt-block-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .tt-state { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); }
+  
+  .tt-content { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+  .tt-section-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; border-bottom: 0.5px solid #eee; padding-bottom: 4px; }
+  .tt-text { font-size: 12px; color: #444; line-height: 1.5; }
+  .tt-legacy { background: #fdfdfd; border: 0.5px dashed #ccc; padding: 8px; font-family: monospace; font-size: 11px; margin-bottom: 8px; color: #666; border-radius: 4px; }
+
+  /* Sprint Order */
+  .sprint-container { margin: 40px 20px; background: #fff; border-radius: 8px; border: 0.5px solid var(--border-color); padding: 40px; }
+  .sprint-header { font-size: 24px; margin-bottom: 8px; }
+  .sprint-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; }
+  .sprint-warning { background: #fff3e0; border-left: 4px solid #ed6c02; padding: 16px; margin-bottom: 32px; font-size: 13px; color: #e65100; border-radius: 0 4px 4px 0; }
+  .sprint-warning strong { display: block; margin-bottom: 4px; }
+  .sprint-list { display: flex; flex-direction: column; gap: 16px; }
+  .sprint-item { display: flex; gap: 24px; padding: 20px; border: 0.5px solid #eee; border-radius: 8px; background: #fafafa; }
+  .sprint-num { font-size: 24px; font-weight: 800; color: var(--border-color); min-width: 40px; }
+  .sprint-info { flex: 1; }
+  .sprint-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .sprint-detail { font-size: 13px; color: var(--text-muted); }
+  .sprint-effort { font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; background: #e0e0e0; color: #333; height: fit-content; text-transform: uppercase; }
+  .effort-low { background: #e8f5e9; color: #2e7d32; }
+  .effort-med { background: #fff8e1; color: #ed6c02; }
+  .effort-high { background: #ffebee; color: #c62828; }
+
+</style>
+</head>
+<body data-page-state="standard">
+
+<div class="intro-banner">
+  <div class="intro-brand">
+    <div class="intro-logo">Bonobos</div>
+    <div class="intro-meta">
+      <h1>Scottsdale Quarter GEO Wireframe</h1>
+      <p>Prepared by Tinuiti - V1 - October 2026</p>
+    </div>
+  </div>
+  <div class="intro-instructions">
+    <ol>
+      <li>Use the toggle below to switch between page-type variants.</li>
+      <li>Hover over any section for rationale and AI search impact.</li>
+      <li>Click FAQ rows and expand toggles to preview interactive behavior.</li>
+    </ol>
+    <div class="query-chips">
+      <div class="chip">"Men's clothing store in Scottsdale"</div>
+      <div class="chip">"Bonobos Scottsdale Quarter hours"</div>
+      <div class="chip">"Where to buy men's suits in Scottsdale"</div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-wrapper">
+  <div class="browser-chrome">
+    <div class="traffic-lights">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    <div class="address-bar">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      bonobos.com/locations/s/scottsdale-quarter-scottsdale
+    </div>
+  </div>
+
+  <div class="controls-bar">
+    <div class="toggle-group">
+      <div>
+        <div class="toggle-label">Page Type</div>
+        <div class="toggle-subtext">Switches conditional blocks on/off</div>
+      </div>
+      <div class="pill-toggle" id="page-toggle">
+        <button class="pill-btn active" data-state="standard">Standard</button>
+        <button class="pill-btn" data-state="promo">Promotion active</button>
+        <button class="pill-btn" data-state="holiday">Holiday hours</button>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot state-visible"></div>Visible</div>
+      <div class="legend-item"><div class="legend-dot state-collapsed"></div>Collapsed</div>
+      <div class="legend-item"><div class="legend-dot state-conditional"></div>Conditional</div>
+      <div class="legend-item"><div class="legend-dot state-inline"></div>Inline</div>
+    </div>
+    <div class="hint-text">Hover any section for rationale →</div>
+  </div>
+
+  <div class="site-nav">
+    <div class="nav-logo">Bonobos</div>
+    <div class="nav-links">
+      <span>Bundles</span>
+      <span>New & Trending</span>
+      <span>Pants & Jeans</span>
+      <span>Shirts & Tees</span>
+      <span>Sweaters</span>
+      <span>Suits & Blazers</span>
+      <span>Outerwear</span>
+      <span>Shorts & Swim</span>
+      <span>Golf</span>
+      <span>Accessories</span>
+      <span>Sale</span>
+    </div>
+    <div class="nav-actions">
+      <span class="sec-cta">Sign In</span>
+      <button class="btn-primary">Book An Appointment</button>
+    </div>
+  </div>
+</div>
+
+<div class="page-container">
+  
+  <div class="zone-divider">Above the fold</div>
+
+  <div class="block b01-hero" data-block="01">
+    <div class="block-meta">
+      <div class="badge-num">01</div>
+      <div class="badge-state state-visible">Visible</div>
+      <div class="badge-audit">Restructured</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <div class="wire-img">Storefront Hero Image (Scottsdale Specific)</div>
+    <div class="content">
+      <h1>Bonobos - Men's Clothing Store in Scottsdale</h1>
+      <div class="review-stars">★★★★★ <span>4.8 (124 Reviews)</span></div>
+      <div class="wire-text w-80"></div>
+      <div class="wire-text w-60"></div>
+      <div class="action-row">
+        <button class="btn-primary">Call Now</button>
+        <button class="btn-primary">Get Directions</button>
+        <button class="btn-primary">Book An Appointment</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="block b02-promo" data-block="02">
+    <div class="block-meta" style="top: 4px; left: 12px;">
+      <div class="badge-num">02</div>
+      <div class="badge-state state-conditional">Conditional</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <span class="promo-text">The Big Spring Sale: Get 30% Off Your Purchase for a Limited Time</span>
+  </div>
+
+  <div class="zone-divider">Location and proof zone</div>
+
+  <div class="block b03-nap" data-block="03">
+    <div class="block-meta">
+      <div class="badge-num">03</div>
+      <div class="badge-state state-visible">Visible</div>
+      <div class="badge-audit">Restructured</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <div class="nap-col">
+      <h3>Address & Contact</h3>
+      <div class="nap-detail">15257 N Scottsdale Rd, Suite F1-130</div>
+      <div class="nap-detail">Scottsdale, AZ, 85254, US</div>
+      <div class="nap-detail" style="margin-top:16px; font-weight:600; color:var(--text-main);">(480) 273-3687</div>
+      <div class="nap-detail" style="color:var(--brand-primary); text-decoration:underline;">scottsdaleguides@bonobos.com</div>
+    </div>
+    <div class="nap-col">
+      <h3>Store Hours</h3>
+      <div class="nap-status">Open Today until 8:00 PM</div>
+      <div class="nap-detail">Monday - Saturday: 10:00 AM - 8:00 PM</div>
+      <div class="nap-detail">Sunday: 12:00 PM - 6:00 PM</div>
+      <div class="wire-text w-40" style="margin-top: 16px;"></div>
+    </div>
+  </div>
+
+  <div class="block" data-block="04">
+    <div class="block-meta">
+      <div class="badge-num">04</div>
+      <div class="badge-state state-visible">Visible</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <h2 style="font-size:24px; margin-bottom:12px;">Store Services in Scottsdale</h2>
+    <div class="b04-services">
+      <div class="service-card">
+        <h3>1-on-1 Fittings</h3>
+        <p>Book a complimentary session with a Guide to find your exact fit across all our styles.</p>
+        <div style="color:var(--brand-primary); font-weight:600; font-size:12px;">Book a Fitting →</div>
+      </div>
+      <div class="service-card">
+        <h3>Styling Advice</h3>
+        <p>Need a wardrobe refresh? Get personalized recommendations for work, weddings, or weekends.</p>
+        <div style="color:var(--brand-primary); font-weight:600; font-size:12px;">Learn More →</div>
+      </div>
+      <div class="service-card">
+        <h3>Wedding Appointments</h3>
+        <p>Groom and groomsmen styling and fitting for the big day.</p>
+        <div style="color:var(--brand-primary); font-weight:600; font-size:12px;">Book Wedding Party →</div>
+      </div>
+      <div class="service-card">
+        <h3>Walk-Ins Welcome</h3>
+        <p>No appointment? No problem. Stop by anytime to browse or get quick sizing help.</p>
+        <div style="color:var(--brand-primary); font-weight:600; font-size:12px;">Get Directions →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block b05-map" data-block="05">
+    <div class="block-meta">
+      <div class="badge-num">05</div>
+      <div class="badge-state state-visible">Visible</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <div class="wire-img">Static Google Map Embed</div>
+    <div class="context">
+      <h3>Finding Our Scottsdale Quarter Store</h3>
+      <p style="font-size:14px; color:var(--text-muted); margin-bottom:16px;">We are located in the heart of Scottsdale Quarter on N Scottsdale Rd. Look for us in Suite F1-130, near the central plaza fountain.</p>
+      <p style="font-size:14px; color:var(--text-muted); margin-bottom:24px;">Ample free parking is available in the North or South parking garages. Walk-ins are always welcome, or you can book an appointment to skip the wait.</p>
+      <button class="btn-primary">Get Directions</button>
+    </div>
+  </div>
+
+  <div class="block b06-proof" data-block="06">
+    <div class="block-meta">
+      <div class="badge-num">06</div>
+      <div class="badge-state state-visible">Visible</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <div class="proof-summary">
+      <div style="color:#ffb400; font-size:24px; margin-bottom:8px;">★★★★★</div>
+      <h2>4.8</h2>
+      <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">Based on 124 local reviews</p>
+    </div>
+    <div class="proof-quotes">
+      <div class="quote-card">"The Guides at the Scottsdale location were incredibly helpful. Found my exact fit for a new suit in under 30 minutes." - Mark T.</div>
+      <div class="quote-card">"Great experience! Booking an appointment made it so easy. They ordered the chinos right to my door." - Jason R.</div>
+      <div class="quote-card">"Beautiful store in Scottsdale Quarter. The staff knows exactly how everything should fit." - Alex K.</div>
+    </div>
+  </div>
+
+  <div class="zone-divider">AI answer engine fuel zone</div>
+
+  <div class="block" data-block="07">
+    <div class="block-meta">
+      <div class="badge-num">07</div>
+      <div class="badge-state state-collapsed">Collapsed</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <h2 style="font-size:24px; margin-bottom:24px; padding-top:20px;">Frequently Asked Questions</h2>
+    <div class="accordion-row">
+      <div class="accordion-title">Do I need an appointment to visit the Scottsdale Guideshop?</div>
+      <div class="accordion-toggle">+</div>
+    </div>
+    <div class="accordion-content">
+      Walk-ins are always welcome at our Scottsdale Quarter location! However, we highly recommend booking an appointment for dedicated 1-on-1 time with a Guide, especially for suit fittings or wedding parties.
+    </div>
+    <div class="accordion-row">
+      <div class="accordion-title">Can I walk out with the clothes I try on?</div>
+      <div class="accordion-toggle">+</div>
+    </div>
+    <div class="accordion-content">
+      Bonobos Guideshops operate as an e-commerce showroom. You try on samples to find your perfect fit, and we place the order for you in-store. Your items will be shipped directly to your home or office, usually within a few days.
+    </div>
+    <div class="accordion-row">
+      <div class="accordion-title">Where is the best place to park at Scottsdale Quarter?</div>
+      <div class="accordion-toggle">+</div>
+    </div>
+    <div class="accordion-content">
+      The closest parking to our store is the North Garage off of 73rd Place. Parking is free for all Scottsdale Quarter visitors.
+    </div>
+  </div>
+
+  <div class="block" data-block="08">
+    <div class="block-meta">
+      <div class="badge-num">08</div>
+      <div class="badge-state state-collapsed">Collapsed</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <div class="accordion-row" style="border-top:none;">
+      <div class="accordion-title">Meet the Scottsdale Team</div>
+      <div class="accordion-toggle">+</div>
+    </div>
+    <div class="accordion-content">
+      Our team of expert Guides at Scottsdale Quarter is ready to help you build your wardrobe. Led by our Store Manager, the Scottsdale team specializes in everything from finding your perfect chino fit to styling a full wedding party. We pride ourselves on making menswear simple, comfortable, and tailored just for you.
+    </div>
+  </div>
+
+  <div class="block" data-block="09">
+    <div class="block-meta">
+      <div class="badge-num">09</div>
+      <div class="badge-state state-visible">Visible</div>
+      <div class="badge-audit">Restructured</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <h2 style="font-size:24px; margin-bottom:12px; padding-top:20px;">Inside the Scottsdale Guideshop</h2>
+    <div class="b09-gallery">
+      <div class="wire-img">Storefront Photo</div>
+      <div class="wire-img">Interior Displays</div>
+      <div class="wire-img">Fitting Room Area</div>
+      <div class="wire-img">Suiting Section</div>
+    </div>
+  </div>
+
+  <div class="zone-divider">Conversion close</div>
+
+  <div class="block" style="padding: 20px 40px;" data-block="10">
+    <div class="block-meta" style="top: 8px; left: 12px;">
+      <div class="badge-num">10</div>
+      <div class="badge-state state-inline">Inline</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <div class="inline-row">
+      <span style="font-weight:600; color:var(--text-main);">Other Arizona Locations:</span>
+      <span class="inline-link">Bonobos Kierland Commons</span>
+      <span class="inline-link">Bonobos Chandler Fashion Center</span>
+    </div>
+  </div>
+
+  <div class="block" style="padding: 20px 40px; background: #fdfdfd;" data-block="11">
+    <div class="block-meta" style="top: 8px; left: 12px;">
+      <div class="badge-num">11</div>
+      <div class="badge-state state-inline">Inline</div>
+      <div class="badge-audit">New</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <div class="inline-row" style="justify-content: space-around;">
+      <span>✓ Free Shipping & Returns</span>
+      <span>✓ 90-Day Return Policy</span>
+      <span>✓ The Bonobos Fit Guarantee</span>
+    </div>
+  </div>
+
+  <div class="block b12-final" data-block="12">
+    <div class="block-meta">
+      <div class="badge-num">12</div>
+      <div class="badge-state state-visible">Visible</div>
+      <div class="badge-audit">Restructured</div>
+      <div class="hover-cue">Hover for insight</div>
+    </div>
+    <h2>Ready to find your fit?</h2>
+    <p style="margin-bottom:24px; color:var(--text-muted);">15257 N Scottsdale Rd, Suite F1-130 • Open today until 8:00 PM</p>
+    <div class="action-row">
+      <button class="btn-primary">Call (480) 273-3687</button>
+      <button class="btn-primary">Get Directions</button>
+      <button class="btn-primary" style="background:#232323;">Book An Appointment</button>
+    </div>
+  </div>
+
+  <div class="sprint-container">
+    <div class="sprint-header">Implementation Sprints</div>
+    <div class="sprint-desc">Recommended rollout order based on GEO impact vs. engineering effort.</div>
+    
+    <div class="sprint-warning">
+      <strong>⚠️ SPRINT 1 TECHNICAL PRIORITY: SSR FOR LOCAL DATA</strong>
+      The current site relies heavily on React/Next.js hydration for dynamic content. To ensure AI tools can reliably crawl your NAP (Name, Address, Phone) and Hours, these elements must be delivered via Server-Side Rendering (SSR). If this data is only loaded client-side via JS, LLMs will not index it.
+    </div>
+
+    <div class="sprint-list">
+      <div class="sprint-item">
+        <div class="sprint-num">01</div>
+        <div class="sprint-info">
+          <div class="sprint-title">Schema Expansion & SSR NAP Fix</div>
+          <div class="sprint-detail">Implement full LocalBusiness, PostalAddress, OpeningHoursSpecification, and FAQPage JSON-LD schema. Ensure all NAP data (Block 03) is Server-Side Rendered. (No new content required).</div>
+        </div>
+        <div class="sprint-effort effort-med">Medium Effort</div>
+      </div>
+      
+      <div class="sprint-item">
+        <div class="sprint-num">02</div>
+        <div class="sprint-info">
+          <div class="sprint-title">Headline & Title Optimization</div>
+          <div class="sprint-detail">Update legacy H1 from "Scottsdale Quarter, Scottsdale" to natural language target: "Bonobos - Men's Clothing Store in Scottsdale" (Block 01).</div>
+        </div>
+        <div class="sprint-effort effort-low">Low Effort</div>
+      </div>
+
+      <div class="sprint-item">
+        <div class="sprint-num">03</div>
+        <div class="sprint-info">
+          <div class="sprint-title">FAQ Module Addition</div>
+          <div class="sprint-detail">Deploy the collapsed FAQ module (Block 07) answering top local queries (walk-ins, parking, process). Must be fully crawlable.</div>
+        </div>
+        <div class="sprint-effort effort-low">Low Effort</div>
+      </div>
+
+      <div class="sprint-item">
+        <div class="sprint-num">04</div>
+        <div class="sprint-info">
+          <div class="sprint-title">Location Content Prose & Map Context</div>
+          <div class="sprint-detail">Add descriptive prose around the map embed (Block 05) detailing parking and specific suite finding instructions to build geographic entity context.</div>
+        </div>
+        <div class="sprint-effort effort-med">Medium Effort</div>
+      </div>
+
+      <div class="sprint-item">
+        <div class="sprint-num">05</div>
+        <div class="sprint-info">
+          <div class="sprint-title">Local Social Proof Extraction</div>
+          <div class="sprint-detail">Pull 3 specific, real reviews for the Scottsdale Quarter location and display them prominently (Block 06) marked up with AggregateRating and Review schema.</div>
+        </div>
+        <div class="sprint-effort effort-med">Medium Effort</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="tooltip-container">
+  <div class="tooltip-caret"></div>
+  <div class="tooltip-body">
+    <div class="tt-header">
+      <div class="tt-block-name" id="tt-name">Block Name</div>
+      <div class="tt-state" id="tt-state">VISIBLE</div>
+    </div>
+    <div class="tt-content">
+      <div>
+        <div class="tt-section-label">Legacy H1 / Status</div>
+        <div class="tt-legacy" id="tt-legacy">Legacy content here</div>
+      </div>
+      <div>
+        <div class="tt-section-label">What this is</div>
+        <div class="tt-text" id="tt-what">Description goes here.</div>
+      </div>
+      <div>
+        <div class="tt-section-label">Why we recommend this structure</div>
+        <div class="tt-text" id="tt-why">Rationale goes here.</div>
+      </div>
+      <div>
+        <div class="tt-section-label">AI Search Impact</div>
+        <div class="tt-text" id="tt-impact">AI impact goes here.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Tooltip Data Dictionary
+const tooltipData = {
+  "01": {
+    name: "Hero + Above-Fold Conversion Unit",
+    state: "VISIBLE",
+    legacy: "Legacy H1: Scottsdale Quarter, Scottsdale",
+    what: "The hero image, optimized H1 headline, local rating, and three primary conversion actions above the fold.",
+    why: "We recommend this because three equal CTAs serve the three most common local visitor intents simultaneously (Call, Visit, Book). The legacy H1 was just a mall name, which lacks context.",
+    impact: "An H1 written as \"[Service] in [City]\" is the single most important local GEO signal. This exact phrasing aligns perfectly with how users query LLMs for local apparel stores."
+  },
+  "02": {
+    name: "Promotional / Seasonal Banner",
+    state: "CONDITIONAL",
+    legacy: "Legacy: Always-on top banner",
+    what: "A single-row alert for active promotions or seasonal hours that only renders when a CMS flag is active.",
+    why: "We recommend this because conditional banners that only appear when genuinely active are more credible than permanent promotional copy. It keeps the page clean during standard periods.",
+    impact: "SpecialAnnouncement schema makes the promotion readable by AI tools answering \"[business] deals\" queries, ensuring your limited-time offers are surfaced dynamically."
+  },
+  "03": {
+    name: "NAP + Hours Block",
+    state: "VISIBLE",
+    legacy: "Legacy: Basic address block, hours hidden in lower text.",
+    what: "Business name, full address, phone, open/closed status, and full weekly hours rendered as real HTML text.",
+    why: "We recommend this because JS-loaded NAP looks right to a human but is invisible to everything else. Keeping this prominent and SSR ensures no friction for users or crawlers.",
+    impact: "This is the most important block on the page for local AI search. AI tools answering \"is [business] open right now?\" read the page code. If hours are in a JS embed, AI tools cannot find them."
+  },
+  "04": {
+    name: "Services Overview",
+    state: "VISIBLE",
+    legacy: "Legacy: Services implicitly understood, not explicitly detailed.",
+    what: "Service cards with short descriptions and direct actions for Fittings, Styling, Weddings, and Walk-ins.",
+    why: "We recommend this because a location page needs to tell visitors exactly what they can accomplish there. Two sentences of prose provides the context a simple label cannot.",
+    impact: "AI tools answering \"[specific service] in [city]\" need that service named in crawlable prose. Defining 'Wedding Appointments' explicitly captures those high-value queries."
+  },
+  "05": {
+    name: "Map Embed + Location Context",
+    state: "VISIBLE",
+    legacy: "Legacy: Simple map link.",
+    what: "A map embed with descriptive location context (parking, suite location, landmarks) as real text around it.",
+    why: "We recommend this because written prose tells people how to actually get there, reducing friction for first-time visitors navigating a complex mall like Scottsdale Quarter.",
+    impact: "SSR location context prose builds location entity confidence beyond coordinates alone. Mentioning 'North Garage' and 'Suite F1-130' grounds the entity in reality for LLMs."
+  },
+  "06": {
+    name: "Social Proof Strip",
+    state: "VISIBLE",
+    legacy: "Legacy: No local-specific reviews visible on page.",
+    what: "The overall local rating and selected customer quotes specifically about the Scottsdale Quarter location, visible on load.",
+    why: "We recommend this because local reviews are often the deciding factor between this location and a competitor nearby. Highlighting the expertise of local Guides builds immense trust.",
+    impact: "AggregateRating schema is what gets this business into AI \"best [type] in [city]\" answer lists. Individual Review schema gives AI tools verbatim quotes to cite."
+  },
+  "07": {
+    name: "FAQ Module",
+    state: "COLLAPSED",
+    legacy: "Legacy: No FAQ structure.",
+    what: "Questions visitors need answered before visiting (walk-ins, inventory model, parking), collapsed into an expandable accordion.",
+    why: "We recommend this because answering specific logistical questions on the page converts passive interest into confirmed visits while managing vertical scroll length.",
+    impact: "FAQPage schema with location-specific answers is a direct citation source for local intent queries. It is our highest single GEO ROI recommendation."
+  },
+  "08": {
+    name: "Team / About This Location",
+    state: "COLLAPSED",
+    legacy: "Legacy: Generic brand copy.",
+    what: "A short about section for this specific location, collapsed by default.",
+    why: "We recommend this because location-specific copy builds personal trust that chain-wide generic copy cannot. It reinforces the 'Guideshop' personalized service model.",
+    impact: "Location-specific, named-individual content builds entity confidence for AI tools, proving this is a distinct, active location, not just a directory listing."
+  },
+  "09": {
+    name: "Gallery",
+    state: "VISIBLE",
+    legacy: "Legacy: Standard hero images, lacking descriptive gallery.",
+    what: "Real photos of this specific location with descriptive alt text.",
+    why: "We recommend this because real photos confirm to first-time visitors exactly what to expect when they arrive, reducing intimidation.",
+    impact: "Descriptive alt text (e.g., 'Suiting section inside Bonobos Scottsdale Quarter') on location-specific photography builds location entity confidence and aids visual AI search."
+  },
+  "10": {
+    name: "Nearby Locations",
+    state: "INLINE",
+    legacy: "Legacy: Relies on top nav store locator.",
+    what: "Links to nearby Arizona locations, keeping visitors within the brand ecosystem.",
+    why: "We recommend this because a visitor who finds this location is too far away will leave to search Google again. Nearby links keep them in the Bonobos brand.",
+    impact: "Internal links between location pages help AI tools understand your regional geographic footprint and establish topical authority for the metro area."
+  },
+  "11": {
+    name: "Trust Bar",
+    state: "INLINE",
+    legacy: "Legacy: Buried in footer links.",
+    what: "A compact row of brand promises: Free Shipping, Returns, and Fit Guarantee.",
+    why: "We recommend this because highlighting low-risk policies near the conversion point reduces perceived risk, especially for the unique 'try-on but ship-to-home' Guideshop model.",
+    impact: "Structured credential and policy data helps AI tools definitively answer \"does [brand] offer free returns?\" queries."
+  },
+  "12": {
+    name: "Final CTA + Contact",
+    state: "VISIBLE",
+    legacy: "Legacy: Single 'Book an Appointment' button.",
+    what: "The final conversion prompt for visitors who scrolled the full page, repeating the three equal CTAs and core NAP details.",
+    why: "We recommend this because visitors at the bottom of the page are highly intent. Offering all three actions captures whatever mode they are in.",
+    impact: "Repeating SSR NAP at the bottom reinforces location entity confidence for AI crawlers and anchors the LocalBusiness schema effectively."
+  }
+};
+
+// Interaction Logic
+document.addEventListener('DOMContentLoaded', () => {
+  // Accordions
+  document.querySelectorAll('.accordion-row').forEach(row => {
+    row.addEventListener('click', () => {
+      row.classList.toggle('open');
+      const toggle = row.querySelector('.accordion-toggle');
+      toggle.textContent = row.classList.contains('open') ? '×' : '+';
+    });
+  });
+
+  // Page State Toggle
+  const toggleBtns = document.querySelectorAll('.pill-btn');
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      toggleBtns.forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      
+      const state = e.target.getAttribute('data-state');
+      document.body.setAttribute('data-page-state', state);
+      
+      const promoText = document.querySelector('.promo-text');
+      if (state === 'promo') {
+        promoText.textContent = "The Big Spring Sale: Get 30% Off Your Purchase for a Limited Time";
+      } else if (state === 'holiday') {
+        promoText.textContent = "Holiday Hours: Closing at 4 PM on Thanksgiving Day";
+      }
+    });
+  });
+
+  // Tooltip Logic
+  const blocks = document.querySelectorAll('.block');
+  const tooltip = document.getElementById('tooltip-container');
+  const ttName = document.getElementById('tt-name');
+  const ttState = document.getElementById('tt-state');
+  const ttLegacy = document.getElementById('tt-legacy');
+  const ttWhat = document.getElementById('tt-what');
+  const ttWhy = document.getElementById('tt-why');
+  const ttImpact = document.getElementById('tt-impact');
+
+  let leaveTimeout;
+
+  const openTooltip = (blockId, blockElement) => {
+    clearTimeout(leaveTimeout);
+    
+    // Deactivate all
+    blocks.forEach(b => b.classList.remove('tooltip-active'));
+    blockElement.classList.add('tooltip-active');
+
+    const data = tooltipData[blockId];
+    if (data) {
+      ttName.textContent = data.name;
+      ttState.textContent = data.state;
+      ttLegacy.textContent = data.legacy;
+      ttWhat.textContent = data.what;
+      ttWhy.textContent = data.why;
+      ttImpact.textContent = data.impact;
+      
+      // Update state badge color
+      ttState.style.color = 
+        data.state === 'VISIBLE' ? 'var(--state-visible)' : 
+        data.state === 'COLLAPSED' ? 'var(--state-collapsed)' : 
+        data.state === 'CONDITIONAL' ? 'var(--state-conditional)' : 
+        'var(--state-inline)';
+
+      tooltip.classList.add('visible');
+    }
+  };
+
+  const closeTooltip = () => {
+    leaveTimeout = setTimeout(() => {
+      tooltip.classList.remove('visible');
+      blocks.forEach(b => b.classList.remove('tooltip-active'));
+    }, 300);
+  };
+
+  blocks.forEach(block => {
+    block.addEventListener('mouseenter', () => {
+      const blockId = block.getAttribute('data-block');
+      openTooltip(blockId, block);
+    });
+    block.addEventListener('mouseleave', closeTooltip);
+  });
+
+  tooltip.addEventListener('mouseenter', () => clearTimeout(leaveTimeout));
+  tooltip.addEventListener('mouseleave', closeTooltip);
+});
+</script>
+</body>
+</html>

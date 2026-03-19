@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zappos_PDP_GEO_Wireframe_V1</title>
+<style>
+  :root {
+    --brand: #003953;
+    --brand-text: #ffffff;
+    --bg: #f8f9fa;
+    --chrome: #e0e0e0;
+    --text-main: #333333;
+    --text-muted: #666666;
+    --border: #cccccc;
+    --visible: #107c10;
+    --collapsed: #d48806;
+    --conditional: #722ed1;
+    --inline: #096dd9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  body { background-color: var(--bg); color: var(--text-main); font-size: 14px; line-height: 1.5; padding-bottom: 60px; }
+  
+  /* Intro Banner */
+  .intro-banner { background: #ffffff; border-bottom: 1px solid var(--border); padding: 20px 40px; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .intro-left .logo-box { background: var(--brand); color: var(--brand-text); padding: 10px 20px; font-weight: bold; font-size: 18px; display: inline-block; margin-bottom: 10px; border-radius: 4px; }
+  .intro-left h1 { font-size: 20px; margin-bottom: 4px; }
+  .intro-left p { color: var(--text-muted); font-size: 12px; }
+  .intro-right { max-width: 400px; }
+  .intro-right ol { margin-left: 20px; font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { background: #f0f0f0; border: 1px solid var(--border); padding: 4px 10px; border-radius: 16px; font-size: 11px; color: var(--text-main); }
+
+  /* Browser Chrome */
+  .browser-container { max-width: 1200px; margin: 0 auto; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
+  .browser-header { background: var(--chrome); padding: 10px 16px; display: flex; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .dots { display: flex; gap: 6px; margin-right: 20px; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+  .address-bar { background: #ffffff; border-radius: 4px; padding: 6px 12px; flex-grow: 1; font-size: 12px; color: var(--text-muted); text-align: center; }
+
+  /* Controls */
+  .controls-bar { background: #1a1a1a; color: #ffffff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 45px; z-index: 99; font-size: 12px; }
+  .toggle-group { display: flex; align-items: center; gap: 12px; }
+  .toggle-pills { display: flex; background: #333333; border-radius: 20px; padding: 2px; }
+  .toggle-pill { padding: 6px 16px; cursor: pointer; border-radius: 18px; color: #aaaaaa; transition: all 0.2s; }
+  .toggle-pill.active { background: #ffffff; color: #1a1a1a; font-weight: bold; }
+  .legend { display: flex; gap: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  
+  /* Nav */
+  .site-nav { background: var(--brand); color: var(--brand-text); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 97px; z-index: 98; }
+  .nav-logo { font-size: 24px; font-weight: bold; letter-spacing: -0.5px; }
+  .nav-links { display: flex; gap: 24px; font-size: 14px; }
+  .nav-right button { background: transparent; border: 1px solid var(--brand-text); color: var(--brand-text); padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+
+  /* Page Content */
+  .page-content { padding: 40px; position: relative; }
+  .zone-divider { border-bottom: 2px dashed var(--border); margin: 40px 0; position: relative; }
+  .zone-label { position: absolute; top: -10px; left: 0; background: #ffffff; padding: 0 10px; font-size: 9px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Blocks */
+  .block { border: 1px solid var(--border); border-radius: 6px; padding: 24px; margin-bottom: 24px; position: relative; transition: all 0.2s; cursor: crosshair; background: #ffffff; }
+  .block:hover { outline: 2px solid var(--brand); outline-offset: -2px; }
+  .block-badge { position: absolute; top: -12px; left: 16px; background: #333; color: #fff; padding: 4px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  .state-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .tag-pill { border-left: 1px solid rgba(255,255,255,0.3); padding-left: 6px; }
+  .hover-cue { position: absolute; top: 12px; right: 12px; font-size: 10px; color: var(--brand); opacity: 0.6; pointer-events: none; transition: opacity 0.2s; }
+  .block:hover .hover-cue { opacity: 0; }
+
+  /* Structural elements inside blocks */
+  .wire-img { background: #f0f0f0; border: 1px dashed var(--border); display: flex; align-items: center; justify-content: center; color: var(--text-muted); border-radius: 4px; }
+  .wire-text { background: #f0f0f0; height: 12px; border-radius: 2px; margin-bottom: 8px; }
+  .cta-btn { background: var(--brand); color: var(--brand-text); padding: 14px 24px; border: none; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 16px; text-align: center; }
+  .sec-btn { background: transparent; border: 1px solid var(--brand); color: var(--brand); padding: 14px 24px; border-radius: 4px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 8px; text-align: center; display: none; }
+  
+  /* Specific Block Layouts */
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .hero-img { height: 400px; }
+  .price { font-size: 24px; font-weight: bold; margin: 16px 0; }
+  .stars { color: #f5b041; letter-spacing: 2px; margin-bottom: 8px; }
+  
+  .banner-block { background: #fff3cd; color: #856404; padding: 12px; text-align: center; font-weight: bold; border-radius: 4px; border: 1px solid #ffeeba; display: none; }
+  .banner-block.active { display: block; }
+  
+  .use-cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .use-case-card { border: 1px solid var(--border); padding: 16px; border-radius: 4px; }
+  
+  .review-strip { display: flex; gap: 24px; }
+  .review-card { flex: 1; border: 1px solid var(--border); padding: 16px; border-radius: 4px; font-style: italic; }
+  
+  .comp-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .comp-table th, .comp-table td { border: 1px solid var(--border); padding: 12px; text-align: left; }
+  .comp-table th { background: #f8f9fa; }
+  .oos-label { display: none; background: #dc3545; color: white; padding: 2px 6px; font-size: 10px; border-radius: 2px; margin-left: 8px; }
+  
+  .accordion-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding: 16px 72px 16px 0; cursor: pointer; }
+  .accordion-row:last-child { border-bottom: none; }
+  .acc-toggle { width: 24px; height: 24px; border: 1.5px solid var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 16px; line-height: 1; }
+  .accordion-row:hover .acc-toggle { background: var(--brand); border-color: var(--brand); color: white; }
+  .accordion-row.open .acc-toggle { background: var(--brand); border-color: var(--brand); color: white; transform: rotate(45deg); }
+  .acc-content { display: none; padding: 16px 72px 16px 0; color: var(--text-muted); }
+  .accordion-row.open + .acc-content { display: block; border-bottom: 1px solid var(--border); }
+  
+  .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .related-card .wire-img { height: 150px; margin-bottom: 12px; }
+
+  /* Tooltip */
+  #tooltip { position: fixed; top: 50%; right: 60px; transform: translateY(-50%); width: 380px; max-height: min(460px, calc(100vh - 200px)); background: #ffffff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; display: none; flex-direction: column; overflow: visible; }
+  #tooltip::after { content: ''; position: absolute; top: 50%; right: -8px; transform: translateY(-50%); border-width: 8px 0 8px 8px; border-style: solid; border-color: transparent transparent transparent #ffffff; }
+  #tooltip::before { content: ''; position: absolute; top: 50%; right: -9px; transform: translateY(-50%); border-width: 9px 0 9px 9px; border-style: solid; border-color: transparent transparent transparent var(--border); }
+  .tt-header { background: var(--brand); color: #ffffff; padding: 12px 16px; border-radius: 8px 8px 0 0; font-weight: bold; font-size: 14px; flex-shrink: 0; }
+  .tt-body { padding: 16px; overflow-y: auto; min-height: 0; display: flex; flex-direction: column; gap: 16px; }
+  .tt-body::-webkit-scrollbar { width: 4px; }
+  .tt-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+  .tt-section h4 { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; border-bottom: 1px solid var(--border); padding-bottom: 2px; }
+  .tt-section p { font-size: 12px; line-height: 1.4; color: var(--text-main); }
+
+  /* Sprint Order */
+  .sprint-container { max-width: 1200px; margin: 40px auto; background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 32px; }
+  .sprint-container h2 { margin-bottom: 24px; font-size: 18px; }
+  .sprint-row { display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .sprint-row:last-child { border-bottom: none; }
+  .sprint-num { font-weight: bold; color: var(--brand); width: 80px; flex-shrink: 0; }
+  .sprint-desc { flex-grow: 1; }
+  .sprint-desc strong { display: block; margin-bottom: 4px; }
+  .sprint-effort { font-size: 11px; padding: 2px 8px; border-radius: 12px; background: #f0f0f0; border: 1px solid var(--border); align-self: flex-start; }
+  .warning-callout { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="intro-banner">
+  <div class="intro-left">
+    <div class="logo-box">Zappos</div>
+    <h1>Ecommerce PDP GEO Wireframe</h1>
+    <p>Prepared by Tinuiti - V1 - March 2026</p>
+  </div>
+  <div class="intro-right">
+    <ol>
+      <li>Use the toggle to switch between page-type variants</li>
+      <li>Hover over any section for rationale and AI search impact</li>
+      <li>Click FAQ rows and expand toggles to preview interactive behavior</li>
+    </ol>
+    <div class="chips">
+      <div class="chip">"Women's leather boots review"</div>
+      <div class="chip">"Best boots for walking all day"</div>
+      <div class="chip">"Are Zappos boots worth it?"</div>
+    </div>
+  </div>
+</div>
+
+<div class="browser-container">
+  <div class="browser-header">
+    <div class="dots">
+      <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+    </div>
+    <div class="address-bar">zappos.com/p/womens-leather-ankle-boots</div>
+  </div>
+
+  <div class="controls-bar">
+    <div class="toggle-group">
+      <span style="font-weight: bold; color: #aaa;">PAGE TYPE:</span>
+      <div class="toggle-pills">
+        <div class="toggle-pill active" data-state="standard">Standard</div>
+        <div class="toggle-pill" data-state="sale">Sale active</div>
+        <div class="toggle-pill" data-state="oos">Out of stock</div>
+      </div>
+      <span style="color: #666; margin-left: 10px;">Switches conditional blocks on/off</span>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background: var(--visible);"></div> Visible</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--collapsed);"></div> Collapsed</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--conditional);"></div> Conditional</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--inline);"></div> Inline</div>
+    </div>
+    <div style="color: var(--brand-text); font-style: italic;">Hover any section for rationale</div>
+  </div>
+
+  <nav class="site-nav">
+    <div class="nav-logo">Zappos</div>
+    <div class="nav-links">
+      <span>New</span><span>Women</span><span>Men</span><span>Kids</span><span>Departments</span><span>Brands</span><span>Sale</span>
+    </div>
+    <div class="nav-right">
+      <button>My Cart</button>
+    </div>
+  </nav>
+
+  <div class="page-content">
+    
+    <div class="zone-divider"><span class="zone-label">Above the fold</span></div>
+
+    <div class="block banner-block" id="block-02" data-id="02">
+      <div class="block-badge"><div class="state-dot" style="background: var(--conditional);"></div> 02 <span class="tag-pill">NEW</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <span id="banner-text">Special Offer: 20% off selected boots</span>
+    </div>
+
+    <div class="block" id="block-01" data-id="01">
+      <div class="block-badge"><div class="state-dot" style="background: var(--visible);"></div> 01 <span class="tag-pill">RESTRUCTURED</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <div class="hero-grid">
+        <div class="wire-img hero-img">Product Image Gallery</div>
+        <div>
+          <div class="stars">★★★★☆ (1,248)</div>
+          <h1 style="font-size: 28px; margin-bottom: 8px;">Women's Leather Ankle Boots</h1>
+          <p style="color: var(--text-muted); margin-bottom: 16px;">The perfect everyday boot for all-day walking.</p>
+          <div class="price">$149.95</div>
+          <div class="wire-text" style="width: 40%;"></div>
+          <div class="wire-text" style="width: 60%;"></div>
+          <div style="display: flex; gap: 8px; margin-top: 16px;">
+            <div class="wire-img" style="width: 40px; height: 40px;"></div>
+            <div class="wire-img" style="width: 40px; height: 40px;"></div>
+          </div>
+          <div id="availability-status" style="margin-top: 16px; font-weight: bold; color: #27c93f;">In Stock - Ships Tomorrow</div>
+          <button class="cta-btn primary-cta">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="zone-divider"><span class="zone-label">AI Answer Engine Fuel Zone</span></div>
+
+    <div class="block" id="block-03" data-id="03">
+      <div class="block-badge"><div class="state-dot" style="background: var(--visible);"></div> 03 <span class="tag-pill">NEW</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <h3>Why these boots?</h3>
+      <p style="margin-top: 8px; max-width: 800px;">Crafted from premium full-grain leather, these ankle boots offer a versatile profile designed specifically for all-day comfort and urban commuting.</p>
+      <div class="use-cases">
+        <div class="use-case-card"><strong>Best for all-day walking</strong><br><span style="font-size:12px;color:#666;">Cushioned footbed absorbs impact.</span></div>
+        <div class="use-case-card"><strong>Best for wet weather</strong><br><span style="font-size:12px;color:#666;">Water-resistant coating protects.</span></div>
+        <div class="use-case-card"><strong>Best for office to evening</strong><br><span style="font-size:12px;color:#666;">Sleek silhouette transitions easily.</span></div>
+      </div>
+    </div>
+
+    <div class="block" id="block-05" data-id="05">
+      <div class="block-badge"><div class="state-dot" style="background: var(--visible);"></div> 05 <span class="tag-pill">NEW</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <h3>Compare with similar styles</h3>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>This Item <span class="oos-label" id="comp-oos">Out of stock</span></th>
+            <th>Chelsea Boot</th>
+            <th>Lace-Up Boot</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Material</td><td>Full-grain leather</td><td>Suede</td><td>Vegan leather</td></tr>
+          <tr><td>Best For</td><td>All-day walking</td><td>Quick slip-on</td><td>Rugged terrain</td></tr>
+          <tr><td>Waterproof</td><td>Water-resistant</td><td>No</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="block" id="block-06" data-id="06">
+      <div class="block-badge"><div class="state-dot" style="background: var(--collapsed);"></div> 06 <span class="tag-pill">NEW</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <h3 style="margin-bottom: 16px;">Frequently Asked Questions</h3>
+      <div class="accordion">
+        <div class="accordion-row">
+          <span style="font-weight: bold;">Are these boots true to size?</span>
+          <div class="acc-toggle">+</div>
+        </div>
+        <div class="acc-content">Yes, they run true to size. If you plan to wear thick winter socks, we recommend sizing up by half a size for the best fit.</div>
+        <div class="accordion-row">
+          <span style="font-weight: bold;">Do they require breaking in?</span>
+          <div class="acc-toggle">+</div>
+        </div>
+        <div class="acc-content">The full-grain leather is supple out of the box, requiring minimal break-in time. Most customers report full comfort within two wears.</div>
+        <div class="accordion-row">
+          <span style="font-weight: bold;">Can the insoles be removed?</span>
+          <div class="acc-toggle">+</div>
+        </div>
+        <div class="acc-content">Yes, the cushioned insoles are fully removable, allowing you to use your own custom orthotics if preferred.</div>
+      </div>
+    </div>
+
+    <div class="block" id="block-07" data-id="07">
+      <div class="block-badge"><div class="state-dot" style="background: var(--collapsed);"></div> 07 <span class="tag-pill">RETAINED</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <div class="accordion-row" style="padding: 0; border: none;">
+        <h3 style="margin: 0;">Technical Specifications</h3>
+        <div class="acc-toggle">+</div>
+      </div>
+      <div class="acc-content" style="padding-left: 0;">
+        <div class="wire-text" style="width: 100%;"></div>
+        <div class="wire-text" style="width: 80%;"></div>
+        <div class="wire-text" style="width: 90%;"></div>
+      </div>
+    </div>
+
+    <div class="block" id="block-08" data-id="08">
+      <div class="block-badge"><div class="state-dot" style="background: var(--collapsed);"></div> 08 <span class="tag-pill">NEW</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <div class="wire-img" style="height: 250px; margin-bottom: 16px;">Product Video Demo</div>
+      <div class="accordion-row" style="padding: 0; border: none;">
+        <span style="font-size: 12px; color: var(--text-muted);">View Transcript</span>
+        <div class="acc-toggle" style="width: 16px; height: 16px; font-size: 12px;">+</div>
+      </div>
+      <div class="acc-content" style="padding-left: 0; font-size: 12px;">[SSR Transcript text renders here to provide crawlable content without cluttering the UI]</div>
+    </div>
+
+    <div class="zone-divider"><span class="zone-label">Trust and Proof Zone</span></div>
+
+    <div class="block" id="block-04" data-id="04">
+      <div class="block-badge"><div class="state-dot" style="background: var(--visible);"></div> 04 <span class="tag-pill">RESTRUCTURED</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <h3 style="margin-bottom: 16px;">What Customers Are Saying</h3>
+      <div class="review-strip">
+        <div class="review-card">"Wore these for 12 hours straight in the city. Best walking boots I've ever owned."<br><br><strong>- Sarah T.</strong></div>
+        <div class="review-card">"The leather quality is incredible for the price. They transitioned perfectly from office to dinner."<br><br><strong>- Emily R.</strong></div>
+        <div class="review-card">"Finally a boot that doesn't pinch my toes. True to size."<br><br><strong>- Jessica M.</strong></div>
+      </div>
+    </div>
+
+    <div class="block" id="block-09" data-id="09">
+      <div class="block-badge"><div class="state-dot" style="background: var(--collapsed);"></div> 09 <span class="tag-pill">RETAINED</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <div class="accordion-row" style="padding: 0; border: none;">
+        <h3 style="margin: 0;">Read all 1,248 Reviews</h3>
+        <div class="acc-toggle">+</div>
+      </div>
+      <div class="acc-content" style="padding-left: 0;">
+        <div class="wire-text" style="width: 100%;"></div>
+        <div class="wire-text" style="width: 100%;"></div>
+      </div>
+    </div>
+
+    <div class="zone-divider"><span class="zone-label">Conversion Close</span></div>
+
+    <div class="block" id="block-10" data-id="10">
+      <div class="block-badge"><div class="state-dot" style="background: var(--inline);"></div> 10 <span class="tag-pill">RETAINED</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <h3 id="related-title" style="margin-bottom: 16px;">You might also like</h3>
+      <div class="related-grid">
+        <div class="related-card"><div class="wire-img"></div><div class="wire-text"></div></div>
+        <div class="related-card"><div class="wire-img"></div><div class="wire-text"></div></div>
+        <div class="related-card"><div class="wire-img"></div><div class="wire-text"></div></div>
+        <div class="related-card"><div class="wire-img"></div><div class="wire-text"></div></div>
+      </div>
+    </div>
+
+    <div class="block" id="block-11" data-id="11">
+      <div class="block-badge"><div class="state-dot" style="background: var(--inline);"></div> 11 <span class="tag-pill">NEW</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <div style="display: flex; justify-content: space-around; background: #f8f9fa; padding: 16px; border-radius: 4px;">
+        <div style="display: flex; align-items: center; gap: 8px;"><strong>Free Shipping</strong> (Delivers in 2-3 days)</div>
+        <div style="display: flex; align-items: center; gap: 8px;"><strong>365-Day Returns</strong> (No questions asked)</div>
+        <div style="display: flex; align-items: center; gap: 8px;"><strong>Secure Checkout</strong></div>
+      </div>
+    </div>
+
+    <div class="block" id="block-12" data-id="12">
+      <div class="block-badge"><div class="state-dot" style="background: var(--visible);"></div> 12 <span class="tag-pill">NEW</span></div>
+      <div class="hover-cue">Hover for insight</div>
+      <div style="text-align: center; max-width: 400px; margin: 0 auto;">
+        <h3 style="margin-bottom: 16px;">Ready to step up?</h3>
+        <button class="cta-btn primary-cta">Add to Cart</button>
+        <button class="sec-btn" id="sec-cta">View similar products</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sprint-container">
+  <div class="warning-callout">
+    CRITICAL: Verify that Price, Reviews, and Availability status are Server-Side Rendered (SSR). Client-Side Rendered (CSR) values are invisible to LLM crawlers.
+  </div>
+  <h2>Implementation Sprints</h2>
+  
+  <div class="sprint-row">
+    <div class="sprint-num">Sprint 1</div>
+    <div class="sprint-desc">
+      <strong>FAQ Schema Implementation</strong>
+      Implement FAQPage schema on the existing or new Block 06 accordion content. No new content required if Q&A pairs exist.
+    </div>
+    <div class="sprint-effort">LOW EFFORT</div>
+  </div>
+  
+  <div class="sprint-row">
+    <div class="sprint-num">Sprint 2</div>
+    <div class="sprint-desc">
+      <strong>SSR Audit & Remediation</strong>
+      Ensure AggregateRating, Price, and Offer availability schema are delivered server-side to guarantee ingestion by AI shopping tiles.
+    </div>
+    <div class="sprint-effort">HIGH EFFORT</div>
+  </div>
+  
+  <div class="sprint-row">
+    <div class="sprint-num">Sprint 3</div>
+    <div class="sprint-desc">
+      <strong>Comparison Table Construction</strong>
+      Build and implement the static Comparison Table (Block 05). Ensures AI cites your brand instead of third-party affiliates for versus queries.
+    </div>
+    <div class="sprint-effort">MEDIUM EFFORT</div>
+  </div>
+  
+  <div class="sprint-row">
+    <div class="sprint-num">Sprint 4</div>
+    <div class="sprint-desc">
+      <strong>Conditional Banner & OOS Logic</strong>
+      Implement the CMS-flagged SpecialOffer banner (Block 02) and configure the Out-Of-Stock page state shift (email capture + explicit schema).
+    </div>
+    <div class="sprint-effort">MEDIUM EFFORT</div>
+  </div>
+
+</div>
+
+<div id="tooltip">
+  <div class="tt-header" id="tt-header">Block Name</div>
+  <div class="tt-body">
+    <div class="tt-section">
+      <h4>What this is</h4>
+      <p id="tt-what">Description goes here.</p>
+    </div>
+    <div class="tt-section">
+      <h4>Why we recommend this structure</h4>
+      <p id="tt-why">Rationale goes here.</p>
+    </div>
+    <div class="tt-section">
+      <h4>AI Search Impact</h4>
+      <p id="tt-impact">Impact goes here.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tooltip Data
+  const tooltips = {
+    '01': {
+      title: 'Block 01: Product Hero + Conversion',
+      what: 'The entire above-fold zone. Everything a user needs to decide whether to keep reading. Features product imagery, a rewritten H1, pricing, ratings, and explicit availability status.',
+      why: 'We recommend this because it answers five conversion questions before the scroll. Price and availability must be Server-Side Rendered (SSR). When out of stock, capturing the email becomes the primary conversion goal, completely replacing the cart CTA.',
+      impact: 'AggregateRating schema drives inclusion in AI shopping tile carousels. Client-Side Rendered prices are invisible to AI crawlers. Explicit availability status in Offer schema prevents AI shopping tools from hallucinating out-of-stock products as purchasable.'
+    },
+    '02': {
+      title: 'Block 02: Conditional Banner',
+      what: 'A single-row alert for active promotions or out-of-stock status. Only renders when flagged in the CMS.',
+      why: 'We recommend this because it surfaces the most important page-state information at the top without permanently occupying scroll space, offering clear communication without layout shift.',
+      impact: 'Applying SpecialOffer schema during sales makes promotional pricing readable by AI shopping tools. On an out-of-stock state, providing a restockDate in schema gives AI tools a factual, citable answer for "when will [product] be back?" queries.'
+    },
+    '03': {
+      title: 'Block 03: Description + Use Cases',
+      what: 'A short, declarative description and three use-case cards answering "who is this for?" based on query patterns.',
+      why: 'We recommend this because product features alone do not validate purchasing decisions. Use cases explicitly tell customers whether a product fits their specific context.',
+      impact: 'AI tools answering "best [product] for [use case]" directly parse and cite pages that name the specific use case in crawlable, natural language prose.'
+    },
+    '04': {
+      title: 'Block 04: Social Proof Strip',
+      what: 'The review summary and selected customer quotes, visible immediately on load without requiring user interaction.',
+      why: 'We recommend this because customers read reviews before reading product descriptions. Visible social proof acts as a primary conversion trigger.',
+      impact: 'Review schema gives AI tools individual quote content to extract and cite when answering "what do people say about [product]?"'
+    },
+    '05': {
+      title: 'Block 05: Comparison Table',
+      what: 'A side-by-side comparison matrix evaluating this item against 2-3 direct alternatives across dimensions customers search by.',
+      why: 'We recommend this because most customers comparing products leave the brand site to do it on a review aggregator. Keeping the comparison here keeps the customer. During out-of-stock events, this table functionally redirects customers to an available alternative.',
+      impact: 'Without structured comparison content, AI tools answering "[product] vs [competitor]" cite third-party affiliates. This table ensures the brand remains the primary source for versus queries.'
+    },
+    '06': {
+      title: 'Block 06: FAQ Module',
+      what: 'Common pre-purchase questions paired with declarative answers, collapsed within a toggle accordion but fully Server-Side Rendered.',
+      why: 'We recommend this because unresolved questions are the last barrier between consideration and purchase. A collapsed architecture saves visual space while maintaining SEO value.',
+      impact: 'FAQPage schema implementation is the highest single Generative Engine Optimization priority. Each question-answer pair acts as a direct citation candidate for AI tools.'
+    },
+    '07': {
+      title: 'Block 07: Technical Specifications',
+      what: 'A complete specification table, collapsed by default for casual browsers but present in the DOM for crawlers.',
+      why: 'We recommend this because technical buyers need precise specifications, whereas casual buyers do not. This resolves the tension between clean UX and deep content needs.',
+      impact: 'The full spec table resides in the page code regardless of its collapsed visual state, making it readable by AI crawlers answering compatibility or technical specification queries.'
+    },
+    '08': {
+      title: 'Block 08: Video + Transcript',
+      what: 'A product demonstration video with a text transcript stored invisibly beneath it in an accordion element.',
+      why: 'We recommend this because video drives higher engagement, while the transcript adds zero visual weight but contributes hundreds of context-rich words to the page.',
+      impact: 'VideoObject schema combined with an SSR transcript provides a powerful multimodal signal, positioning the page as a rich, authoritative source for AI engines.'
+    },
+    '09': {
+      title: 'Block 09: Extended Reviews',
+      what: 'Additional customer quotes and detailed reviews, collapsed to manage page verticality.',
+      why: 'We recommend this because, for considered purchases, deeper review content is often the deciding factor. It handles the scroll burden efficiently.',
+      impact: 'Each additional Review schema entry adds structural citation surface area, feeding AI tools for deeper "what do customers think of [product]?" queries.'
+    },
+    '10': {
+      title: 'Block 10: Related Products',
+      what: 'A single inline row of related product cards utilizing ItemList schema.',
+      why: 'We recommend this because customers who abandon a PDP to look for alternatives rarely return. When out of stock, this block acts as a primary conversion path.',
+      impact: 'ItemList schema helps build topical authority for the broader product category beyond this single SKU.'
+    },
+    '11': {
+      title: 'Block 11: Trust + Shipping Bar',
+      what: 'A single, compact row confirming shipping policies, returns, and security credentials directly above the final CTA.',
+      why: 'We recommend this because shipping and returns uncertainty drives cart abandonment. Answering both dynamically at the moment of decision removes that hesitation.',
+      impact: 'Server-Side Rendered shipping and returns copy allows AI tools to confidently answer "does [brand] offer free returns?" which are increasingly common pre-purchase queries.'
+    },
+    '12': {
+      title: 'Block 12: Final CTA',
+      what: 'The final conversion prompt for users who reached the bottom of the page.',
+      why: 'We recommend this to capture intent from users who scroll heavily. In the out-of-stock state, the sole goal is email capture with a clear forward path via alternative product links.',
+      impact: 'No direct AI ranking impact—purely structural conversion architecture. However, capturing higher engagement contributes to long-term positive user signals.'
+    }
+  };
+
+  // Tooltip Logic
+  const tooltip = document.getElementById('tooltip');
+  const ttHeader = document.getElementById('tt-header');
+  const ttWhat = document.getElementById('tt-what');
+  const ttWhy = document.getElementById('tt-why');
+  const ttImpact = document.getElementById('tt-impact');
+  let ttTimeout;
+
+  const showTooltip = (id) => {
+    const data = tooltips[id];
+    if(!data) return;
+    ttHeader.textContent = data.title;
+    ttWhat.textContent = data.what;
+    ttWhy.textContent = data.why;
+    ttImpact.textContent = data.impact;
+    tooltip.style.display = 'flex';
+  };
+
+  const hideTooltip = () => {
+    tooltip.style.display = 'none';
+  };
+
+  document.querySelectorAll('.block').forEach(block => {
+    block.addEventListener('mouseenter', () => {
+      clearTimeout(ttTimeout);
+      showTooltip(block.getAttribute('data-id'));
+    });
+    block.addEventListener('mouseleave', () => {
+      ttTimeout = setTimeout(hideTooltip, 300);
+    });
+  });
+
+  tooltip.addEventListener('mouseenter', () => clearTimeout(ttTimeout));
+  tooltip.addEventListener('mouseleave', () => {
+    ttTimeout = setTimeout(hideTooltip, 300);
+  });
+
+  // Accordion Logic
+  document.querySelectorAll('.accordion-row').forEach(row => {
+    row.addEventListener('click', () => {
+      row.classList.toggle('open');
+    });
+  });
+
+  // Page State Toggle Logic
+  const pills = document.querySelectorAll('.toggle-pill');
+  const banner = document.getElementById('block-02');
+  const bannerText = document.getElementById('banner-text');
+  const ctas = document.querySelectorAll('.primary-cta');
+  const secCta = document.getElementById('sec-cta');
+  const availStatus = document.getElementById('availability-status');
+  const compOos = document.getElementById('comp-oos');
+  const relatedTitle = document.getElementById('related-title');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const state = pill.getAttribute('data-state');
+
+      if (state === 'standard') {
+        banner.classList.remove('active');
+        ctas.forEach(btn => btn.textContent = 'Add to Cart');
+        secCta.style.display = 'none';
+        availStatus.textContent = 'In Stock - Ships Tomorrow';
+        availStatus.style.color = '#27c93f';
+        compOos.style.display = 'none';
+        relatedTitle.textContent = 'You might also like';
+      } 
+      else if (state === 'sale') {
+        banner.classList.add('active');
+        bannerText.textContent = 'Special Offer: 20% off selected boots';
+        banner.style.background = '#fff3cd';
+        banner.style.color = '#856404';
+        banner.style.borderColor = '#ffeeba';
+        ctas.forEach(btn => btn.textContent = 'Add to Cart');
+        secCta.style.display = 'none';
+        availStatus.textContent = 'In Stock - Sale Active';
+        availStatus.style.color = '#27c93f';
+        compOos.style.display = 'none';
+        relatedTitle.textContent = 'You might also like';
+      } 
+      else if (state === 'oos') {
+        banner.classList.add('active');
+        bannerText.textContent = 'Currently out of stock. Expected restock: Next week.';
+        banner.style.background = '#f8d7da';
+        banner.style.color = '#721c24';
+        banner.style.borderColor = '#f5c6cb';
+        ctas.forEach(btn => btn.textContent = 'Notify me when available');
+        secCta.style.display = 'block';
+        availStatus.textContent = 'Out of Stock';
+        availStatus.style.color = '#dc3545';
+        compOos.style.display = 'inline-block';
+        relatedTitle.textContent = 'Available now';
+      }
+    });
+  });
+</script>
+</body>
+</html>

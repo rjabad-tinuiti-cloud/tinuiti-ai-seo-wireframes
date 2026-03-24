@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashlane Omnix_SaaS_GEO_Wireframe_V1</title>
+    <style>
+        :root {
+            --brand-bg: #0a0a0a;
+            --brand-surface: #1a1a1a;
+            --brand-text: #f0f0f0;
+            --brand-primary: #0e8a75; /* Aquamarine derived */
+            --brand-secondary: #085246;
+            --border-color: rgba(14, 138, 117, 0.2);
+            --placeholder-bar: rgba(240, 240, 240, 0.12);
+            --placeholder-box: rgba(240, 240, 240, 0.06);
+            --state-visible: #27ae60;
+            --state-collapsed: #f39c12;
+            --state-conditional: #9b59b6;
+            --state-inline: #3498db;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background-color: #000; color: var(--brand-text); padding-bottom: 100px; }
+
+        /* Intro Banner */
+        .intro-banner { background-color: var(--brand-primary); color: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .intro-left .logo-box { background-color: #fff; color: var(--brand-primary); padding: 8px 16px; font-weight: bold; font-size: 20px; display: inline-block; margin-bottom: 10px; }
+        .intro-left h1 { font-size: 24px; margin-bottom: 5px; }
+        .intro-left p { font-size: 14px; opacity: 0.9; }
+        .intro-right { font-size: 14px; text-align: right; }
+        .intro-right ol { margin-left: 20px; text-align: left; display: inline-block; margin-bottom: 15px; }
+        .query-chips { display: flex; gap: 10px; justify-content: flex-end; }
+        .query-chip { background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+
+        /* Browser Chrome */
+        .browser-chrome { background-color: #222; padding: 10px 20px; display: flex; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; }
+        .dots { display: flex; gap: 6px; margin-right: 20px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background-color: #ff5f56; }
+        .dot.yellow { background-color: #ffbd2e; }
+        .dot.green { background-color: #27c93f; }
+        .address-bar { background-color: #111; color: #aaa; padding: 6px 16px; border-radius: 4px; font-size: 12px; flex-grow: 1; max-width: 600px; }
+
+        /* Controls Bar */
+        .controls-bar { background-color: #111; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 45px; z-index: 99; border-bottom: 1px solid #333; }
+        .controls-left { display: flex; align-items: center; gap: 20px; }
+        .controls-left span { font-size: 12px; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+        .toggle-pill { display: flex; background: #222; border-radius: 20px; overflow: hidden; border: 1px solid #444; }
+        .toggle-option { padding: 8px 16px; font-size: 12px; cursor: pointer; color: #aaa; transition: 0.2s; }
+        .toggle-option.active { background-color: #fff; color: #000; font-weight: bold; }
+        .controls-center { display: flex; gap: 15px; font-size: 12px; color: #fff; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .controls-right { font-size: 12px; color: #aaa; }
+
+        /* Site Nav */
+        .site-nav { background-color: var(--brand-bg); padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 112px; z-index: 98; border-bottom: 0.5px solid var(--border-color); }
+        .nav-logo { background-color: var(--brand-primary); color: #fff; padding: 6px 12px; font-weight: bold; font-size: 18px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links div { color: var(--brand-text); font-size: 14px; }
+        .nav-ctas { display: flex; gap: 15px; align-items: center; }
+        .btn-secondary { background: transparent; border: 1.5px solid var(--brand-primary); color: var(--brand-primary); padding: 8px 16px; border-radius: 4px; font-size: 14px; cursor: pointer; }
+        .btn-primary { background: var(--brand-primary); border: 1.5px solid var(--brand-primary); color: #fff; padding: 8px 16px; border-radius: 4px; font-size: 14px; cursor: pointer; }
+
+        /* Content Area */
+        .wireframe-container { max-width: 1200px; margin: 0 auto; padding: 40px; background-color: var(--brand-bg); }
+        .zone-divider { margin: 60px 0 20px; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--brand-primary); opacity: 0.8; border-bottom: 0.5px solid var(--border-color); padding-bottom: 8px; }
+
+        /* Blocks */
+        .block { background-color: var(--brand-surface); border: 0.5px solid var(--border-color); border-radius: 8px; padding: 40px; margin-bottom: 20px; position: relative; transition: outline 0.2s; }
+        .block:hover { outline: 2px solid var(--brand-primary); outline-offset: -2px; }
+        
+        .block-header { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+        .badge-num { background-color: var(--brand-primary); color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .badge-state { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; color: #fff; }
+        .badge-tag { background-color: #333; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
+        .hover-cue { font-size: 10px; color: #888; font-style: italic; margin-left: auto; transition: opacity 0.2s; }
+
+        /* Render States */
+        .state-visible { background-color: var(--state-visible); }
+        .state-collapsed { background-color: var(--state-collapsed); }
+        .state-conditional { background-color: var(--state-conditional); }
+        .state-inline { background-color: var(--state-inline); }
+
+        /* Placeholders */
+        .text-bar { background-color: var(--placeholder-bar); height: 14px; border-radius: 2px; margin-bottom: 10px; }
+        .text-bar.w-100 { width: 100%; }
+        .text-bar.w-80 { width: 80%; }
+        .text-bar.w-60 { width: 60%; }
+        .text-bar.title { height: 32px; margin-bottom: 20px; }
+        .img-box { background-color: var(--placeholder-box); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--placeholder-bar); }
+        
+        /* Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .flex-row { display: flex; gap: 20px; align-items: center; margin-top: 20px; }
+        
+        /* Accordion */
+        .accordion-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 0.5px solid var(--border-color); cursor: pointer; padding-right: 72px; }
+        .accordion-icon { width: 24px; height: 24px; border: 1.5px solid rgba(240, 240, 240, 0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 16px; color: rgba(240, 240, 240, 0.4); }
+        .accordion-row:hover .accordion-icon { background-color: var(--brand-primary); border-color: var(--brand-primary); color: #fff; }
+        .accordion-row.open .accordion-icon { background-color: var(--brand-primary); border-color: var(--brand-primary); color: #fff; transform: rotate(45deg); }
+
+        /* Tooltip */
+        #geo-tooltip { position: fixed; top: 50%; right: 60px; transform: translateY(-50%); width: 380px; max-height: min(460px, calc(100vh - 200px)); background-color: rgba(26, 26, 26, 0.95); border: 1px solid rgba(14, 138, 117, 0.3); border-radius: 8px; z-index: 1000; display: none; flex-direction: column; overflow: visible; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .tooltip-body { padding: 20px; overflow-y: auto; min-height: 0; }
+        .tooltip-body::-webkit-scrollbar { width: 4px; }
+        .tooltip-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+        .tooltip-section { margin-bottom: 15px; }
+        .tooltip-section:last-child { margin-bottom: 0; }
+        .tooltip-label { font-size: 9px; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; font-weight: bold; }
+        .tooltip-text { font-size: 12px; line-height: 1.5; color: var(--brand-text); }
+        .caret { position: absolute; right: -6px; top: 50%; transform: translateY(-50%) rotate(45deg); width: 10px; height: 10px; background-color: rgba(26, 26, 26, 0.95); border-top: 1px solid rgba(14, 138, 117, 0.3); border-right: 1px solid rgba(14, 138, 117, 0.3); }
+
+        /* Sprint Order */
+        .sprint-container { max-width: 1200px; margin: 40px auto; padding: 40px; background-color: var(--brand-surface); border-radius: 8px; border: 0.5px solid var(--border-color); }
+        .sprint-container h2 { margin-bottom: 20px; font-size: 18px; }
+        .sprint-row { display: flex; border-bottom: 0.5px solid var(--border-color); padding: 15px 0; gap: 20px; align-items: flex-start; }
+        .sprint-num { font-weight: bold; color: var(--brand-primary); width: 80px; }
+        .sprint-desc { flex-grow: 1; font-size: 14px; }
+        .sprint-effort { font-size: 10px; padding: 4px 8px; background: #333; border-radius: 4px; }
+        .warning-callout { background-color: rgba(231, 76, 60, 0.1); border-left: 4px solid #e74c3c; padding: 15px; margin-bottom: 20px; font-size: 13px; }
+
+        /* Conditional Visibility */
+        .cond-new-feature, .cond-integration { display: none; }
+        body[data-state="new-feature"] .cond-new-feature { display: block; }
+        body[data-state="integration"] .cond-integration { display: block; }
+
+    </style>
+</head>
+<body data-state="standard">
+
+    <div class="intro-banner">
+        <div class="intro-left">
+            <div class="logo-box">DASHLANE</div>
+            <h1>Dashlane Omnix - SaaS GEO Wireframe</h1>
+            <p>Prepared by Tinuiti - V1 - March 2026 - DARK MODE [cite: 25]</p>
+        </div>
+        <div class="intro-right">
+            <ol>
+                <li>Use the toggle to switch between page-type variants</li>
+                <li>Hover over any section for rationale and AI search impact</li>
+                <li>Click FAQ rows and expand toggles to preview interactive behavior</li>
+            </ol>
+            <div class="query-chips">
+                <div class="query-chip">Best credential security platform</div>
+                <div class="query-chip">Dashlane Omnix vs Competitors</div>
+                <div class="query-chip">Dashlane Omnix phishing protection</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="browser-chrome">
+        <div class="dots">
+            <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+        </div>
+        <div class="address-bar">dashlane.com/omnix</div>
+    </div>
+
+    <div class="controls-bar">
+        <div class="controls-left">
+            <span>Page Type</span>
+            <div class="toggle-pill">
+                <div class="toggle-option active" onclick="setState('standard', this)">Standard</div>
+                <div class="toggle-option" onclick="setState('new-feature', this)">New Feature Active</div>
+                <div class="toggle-option" onclick="setState('integration', this)">Integration Highlight</div>
+            </div>
+            <span style="text-transform: none; opacity: 0.7;">Switches conditional blocks on/off</span>
+        </div>
+        <div class="controls-center">
+            <div class="legend-item"><div class="legend-dot state-visible"></div> Visible</div>
+            <div class="legend-item"><div class="legend-dot state-collapsed"></div> Collapsed</div>
+            <div class="legend-item"><div class="legend-dot state-conditional"></div> Conditional</div>
+            <div class="legend-item"><div class="legend-dot state-inline"></div> Inline</div>
+        </div>
+        <div class="controls-right">Hover any section for rationale</div>
+    </div>
+
+    <div class="site-nav">
+        <div class="nav-logo">DASHLANE</div>
+        <div class="nav-links">
+            <div>Why Dashlane</div>
+            <div>Platform</div>
+            <div>Password Management</div>
+            <div>Resources</div>
+            <div>Customers</div>
+            <div>Pricing</div>
+        </div>
+        <div class="nav-ctas">
+            <button class="btn-secondary">Request a demo</button>
+            <button class="btn-primary">Contact Sales</button>
+        </div>
+    </div>
+
+    <div class="wireframe-container">
+
+        <div class="zone-divider">Above the fold</div>
+
+        <div class="block" data-tooltip="01">
+            <div class="block-header">
+                <div class="badge-num">01</div>
+                <div class="badge-state state-visible">VISIBLE</div>
+                <div class="badge-tag">RESTRUCTURED</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <h2 style="font-size: 32px; margin-bottom: 20px;">The Intelligent Credential Security Platform</h2>
+                    <div class="text-bar w-100"></div>
+                    <div class="text-bar w-80"></div>
+                    <div style="font-size: 12px; margin: 15px 0; color: #f39c12;">★★★★★ 4.8/5 (Based on 1,200+ reviews)</div>
+                    <div style="display:flex; gap: 10px; margin: 15px 0;">
+                        <div class="img-box" style="width: 40px; height: 40px;">SSO</div>
+                        <div class="img-box" style="width: 40px; height: 40px;">SCIM</div>
+                        <div class="img-box" style="width: 40px; height: 40px;">SIEM</div>
+                    </div>
+                    <div class="flex-row">
+                        <button class="btn-primary">Contact Sales</button>
+                        <button class="btn-secondary">Request a demo</button>
+                    </div>
+                    <div style="display: flex; gap: 20px; margin-top: 10px; font-size: 10px; color: #888;">
+                        <span>Talk to an expert.</span>
+                        <span>See Dashlane configured for your team.</span>
+                    </div>
+                </div>
+                <div class="img-box" style="height: 300px;">Omnix Dashboard UI</div>
+            </div>
+        </div>
+
+        <div class="block cond-new-feature cond-integration" data-tooltip="02">
+            <div class="block-header">
+                <div class="badge-num">02</div>
+                <div class="badge-state state-conditional">CONDITIONAL</div>
+                <div class="badge-tag">NEW</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <div style="background: var(--brand-secondary); padding: 15px; border-radius: 4px; text-align: center; color: #fff; font-size: 14px;">
+                <span class="cond-new-feature"><strong>New Feature:</strong> AI Phishing Alerts are now active. <a href="#" style="color:#fff; text-decoration:underline;">Learn more</a></span>
+                <span class="cond-integration"><strong>New Integration:</strong> Dashlane Omnix now natively supports major SIEM tools. <a href="#" style="color:#fff; text-decoration:underline;">Read the docs</a></span>
+            </div>
+        </div>
+
+        <div class="zone-divider">Use case and proof zone</div>
+
+        <div class="block" data-tooltip="03">
+            <div class="block-header">
+                <div class="badge-num">03</div>
+                <div class="badge-state state-visible">VISIBLE</div>
+                <div class="badge-tag">RETAINED</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <div class="text-bar title w-60"></div>
+            <div class="text-bar w-100"></div>
+            <div class="text-bar w-80" style="margin-bottom: 30px;"></div>
+            
+            <div class="grid-3">
+                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
+                    <h3 style="font-size: 16px; margin-bottom: 10px;">Proactively detect risk</h3>
+                    <div class="text-bar w-100"></div>
+                    <div class="text-bar w-100"></div>
+                    <div style="margin-top: 15px; color: var(--brand-primary); font-size: 12px; cursor: pointer;">Learn more →</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
+                    <h3 style="font-size: 16px; margin-bottom: 10px;">Automate risk response</h3>
+                    <div class="text-bar w-100"></div>
+                    <div class="text-bar w-100"></div>
+                    <div style="margin-top: 15px; color: var(--brand-primary); font-size: 12px; cursor: pointer;">Learn more →</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
+                    <h3 style="font-size: 16px; margin-bottom: 10px;">Outsmart phishing attacks</h3>
+                    <div class="text-bar w-100"></div>
+                    <div class="text-bar w-100"></div>
+                    <div style="margin-top: 15px; color: var(--brand-primary); font-size: 12px; cursor: pointer;">Learn more →</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block" data-tooltip="04">
+            <div class="block-header">
+                <div class="badge-num">04</div>
+                <div class="badge-state state-visible">VISIBLE</div>
+                <div class="badge-tag">RESTRUCTURED</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <h3 style="font-size: 18px; margin-bottom: 20px;">Trusted by top security teams</h3>
+            <div class="grid-2">
+                <div style="border-left: 2px solid var(--brand-primary); padding-left: 15px;">
+                    <p style="font-size: 14px; font-style: italic; margin-bottom: 10px;">"Omnix has become our standardized intelligent credential management solution across the organization."</p>
+                    <p style="font-size: 12px; font-weight: bold;">Leo Cunningham</p>
+                    <p style="font-size: 12px; color: #888;">CISO, Owkin</p>
+                </div>
+                <div style="border-left: 2px solid var(--brand-primary); padding-left: 15px;">
+                    <p style="font-size: 14px; font-style: italic; margin-bottom: 10px;">"Upgrading to Omnix was a logical choice for us, and it gave us more features."</p>
+                    <p style="font-size: 12px; font-weight: bold;">Marin Godart</p>
+                    <p style="font-size: 12px; color: #888;">DevOps Engineer, HelloCSE</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="zone-divider">AI answer engine fuel zone</div>
+
+        <div class="block" data-tooltip="05">
+            <div class="block-header">
+                <div class="badge-num">05</div>
+                <div class="badge-state state-visible">VISIBLE</div>
+                <div class="badge-tag">NEW</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <h3 style="font-size: 18px; margin-bottom: 20px;">Dashlane Omnix vs. Alternatives</h3>
+            <table style="width: 100%; text-align: left; border-collapse: collapse; font-size: 13px;">
+                <tr style="border-bottom: 1px solid #333;">
+                    <th style="padding: 10px;">Feature</th>
+                    <th style="padding: 10px; color: var(--brand-primary);">Dashlane Omnix</th>
+                    <th style="padding: 10px; color: #888;">Competitor A</th>
+                    <th style="padding: 10px; color: #888;">Competitor B</th>
+                </tr>
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 10px;">AI Phishing Alerts</td>
+                    <td style="padding: 10px;">Yes (Real-time AI model)</td>
+                    <td style="padding: 10px;">Add-on required</td>
+                    <td style="padding: 10px;">No</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 10px;">Credential Risk Detection</td>
+                    <td style="padding: 10px;">Yes (Company-wide)</td>
+                    <td style="padding: 10px;">Vault-users only</td>
+                    <td style="padding: 10px;">Vault-users only</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #333;">
+                    <td style="padding: 10px;">Zero-Knowledge Architecture</td>
+                    <td style="padding: 10px;">Yes</td>
+                    <td style="padding: 10px;">Yes</td>
+                    <td style="padding: 10px;">Partial</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="block" data-tooltip="06">
+            <div class="block-header">
+                <div class="badge-num">06</div>
+                <div class="badge-state state-collapsed">COLLAPSED</div>
+                <div class="badge-tag">RETAINED</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <h3 style="font-size: 18px; margin-bottom: 20px;">Frequently Asked Questions</h3>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">What is Dashlane Omnix?</div>
+                <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">How does Omnix detect phishing attacks?</div>
+                <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">Can Omnix integrate with existing security tools?</div>
+                <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">How does Dashlane Omnix use AI to keep data secure?</div>
+                <div class="accordion-icon">+</div>
+            </div>
+        </div>
+
+        <div class="block" data-tooltip="07">
+            <div class="block-header">
+                <div class="badge-num">07</div>
+                <div class="badge-state state-collapsed">COLLAPSED</div>
+                <div class="badge-tag">NEW</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <h3 style="font-size: 18px; margin-bottom: 20px;">Integration Ecosystem</h3>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">Identity & Access (SSO/SCIM)</div>
+                <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">Security & Logging (SIEM)</div>
+                <div class="accordion-icon">+</div>
+            </div>
+        </div>
+
+        <div class="block" data-tooltip="08">
+            <div class="block-header">
+                <div class="badge-num">08</div>
+                <div class="badge-state state-collapsed">COLLAPSED</div>
+                <div class="badge-tag">NEW</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <div class="grid-2">
+                <div class="img-box" style="height: 200px;">Video Player Placeholder</div>
+                <div>
+                    <h3 style="font-size: 18px; margin-bottom: 15px;">See Omnix in Action</h3>
+                    <div class="text-bar w-100"></div>
+                    <div class="text-bar w-80"></div>
+                    <div class="accordion-row" style="margin-top: 20px; border-bottom: none;" onclick="this.classList.toggle('open')">
+                        <div style="font-size: 12px; color: var(--brand-primary);">Read Video Transcript</div>
+                        <div class="accordion-icon" style="width: 16px; height: 16px; font-size: 12px;">+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block" data-tooltip="09">
+            <div class="block-header">
+                <div class="badge-num">09</div>
+                <div class="badge-state state-collapsed">COLLAPSED</div>
+                <div class="badge-tag">NEW</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <h3 style="font-size: 18px; margin-bottom: 20px;">Customer Outcomes</h3>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">Aidan Turner, Downer Group: Proactive risk reduction</div>
+                <div class="accordion-icon">+</div>
+            </div>
+            <div class="accordion-row" onclick="this.classList.toggle('open')">
+                <div style="font-size: 14px; font-weight: bold;">Joaquín Rodriguez, Thirdfort: Feature adoption</div>
+                <div class="accordion-icon">+</div>
+            </div>
+        </div>
+
+        <div class="zone-divider">Conversion close</div>
+
+        <div class="block" data-tooltip="10">
+            <div class="block-header">
+                <div class="badge-num">10</div>
+                <div class="badge-state state-inline">INLINE</div>
+                <div class="badge-tag">NEW</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px;">
+                <div>
+                    <h3 style="font-size: 16px;">Business Plan Pricing</h3>
+                    <div style="font-size: 12px; color: #888; margin-top: 5px;">Starting at $8/user/month (billed annually)</div>
+                </div>
+                <button class="btn-secondary" style="font-size: 12px; padding: 6px 12px;">View Full Pricing</button>
+            </div>
+        </div>
+
+        <div class="block" data-tooltip="11">
+            <div class="block-header">
+                <div class="badge-num">11</div>
+                <div class="badge-state state-inline">INLINE</div>
+                <div class="badge-tag">RETAINED</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px; color: #888; text-align: center;">
+                <div><strong>Zero-Knowledge Architecture</strong><br>Your data remains private</div>
+                <div><strong>Confidential Computing</strong><br>End-to-end security</div>
+                <div><strong>Patented Tech</strong><br>Industry-leading algorithms</div>
+            </div>
+        </div>
+
+        <div class="block" data-tooltip="12">
+            <div class="block-header">
+                <div class="badge-num">12</div>
+                <div class="badge-state state-visible">VISIBLE</div>
+                <div class="badge-tag">RETAINED</div>
+                <div class="hover-cue">Hover for insight</div>
+            </div>
+            <div style="text-align: center; padding: 40px 0;">
+                <h2 style="font-size: 28px; margin-bottom: 20px;">Experience the intelligent credential security platform</h2>
+                <div style="display: flex; gap: 20px; justify-content: center;">
+                    <div style="text-align: center;">
+                        <button class="btn-primary" style="padding: 12px 24px;">Contact Sales</button>
+                        <div style="font-size: 10px; color: #888; margin-top: 8px;">Talk to an expert.</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="btn-secondary" style="padding: 12px 24px;">Request a demo</button>
+                        <div style="font-size: 10px; color: #888; margin-top: 8px;">30-minute call. See Dashlane configured.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="sprint-container">
+        <h2>Implementation Sprints</h2>
+        
+        <div class="warning-callout">
+            <strong>Technical Note:</strong> Ensure all core content, including prices and integrations, is Server-Side Rendered (SSR). Client-Side Rendering (CSR) hides content from LLM crawlers like ChatGPT and Perplexity.
+        </div>
+
+        <div class="sprint-row">
+            <div class="sprint-num">SPRINT 1</div>
+            <div class="sprint-desc">
+                <strong>FAQ Schema Validation</strong><br>
+                The page currently has FAQPage schema[cite: 3]. Validate that it correctly maps to the collapsed FAQ module. No new content required.
+            </div>
+            <div class="sprint-effort">LOW</div>
+        </div>
+        <div class="sprint-row">
+            <div class="sprint-num">SPRINT 2</div>
+            <div class="sprint-desc">
+                <strong>Comparison Table Deployment</strong><br>
+                Deploy the side-by-side competitor comparison (Block 05). This reclaims "[Dashlane] vs [Competitor]" queries from aggregators like G2.
+            </div>
+            <div class="sprint-effort">MEDIUM</div>
+        </div>
+        <div class="sprint-row">
+            <div class="sprint-num">SPRINT 3</div>
+            <div class="sprint-desc">
+                <strong>H1 Rewrite & Dual CTA Normalization</strong><br>
+                Update the H1 from "Deep insights. Dynamic defense." [cite: 36] to match natural language SaaS queries. Ensure both CTAs carry equal weight globally.
+            </div>
+            <div class="sprint-effort">LOW</div>
+        </div>
+        <div class="sprint-row">
+            <div class="sprint-num">SPRINT 4</div>
+            <div class="sprint-desc">
+                <strong>Integration & Video Modules</strong><br>
+                Add the collapsed integration list (Block 07) and the VideoObject schema with an SSR transcript (Block 08) to build multimodal and technical authority.
+            </div>
+            <div class="sprint-effort">HIGH</div>
+        </div>
+    </div>
+
+    <div id="geo-tooltip">
+        <div class="caret"></div>
+        <div class="tooltip-body" id="tooltip-content"></div>
+    </div>
+
+    <script>
+        // Tooltip Content Dictionary
+        const tooltips = {
+            "01": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">The feature hero and primary conversion zone, answering what the platform does and who it is for without requiring a scroll.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">SaaS pages must serve self-serve and sales-assisted buyers simultaneously. We maintain "Contact Sales" and "Request a demo" at equal weight. We rewrite the legacy H1 ("Deep insights. Dynamic defense." [cite: 36]) to explicitly state what the product is.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">H1s written to match natural language query patterns (e.g., "Credential Security Platform") rather than internal marketing language are the strongest semantic signal for SaaS GEO[cite: 179].</div>
+                </div>`,
+            "02": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A conditional alert banner for time-sensitive feature releases or new integrations.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">A date-stamped "New" badge communicates recency without permanently occupying page real estate. Zero layout impact when inactive.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">Freshness signals (like new feature announcements) are weighted heavily by LLMs [cite: 180] deciding which source provides the most up-to-date information.</div>
+                </div>`,
+            "03": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A section highlighting the core use cases of Dashlane Omnix, including proactive risk detection and automated response[cite: 52, 54].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">SaaS buyers filter by use case. Grouping these answers "is this built for my situation?" explicitly.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">AI tools answering "best [category] for [use case]" queries rely on finding those use cases explicitly named in crawlable SSR prose[cite: 179].</div>
+                </div>`,
+            "04": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A social proof strip utilizing named customer quotes, such as Leo Cunningham (CISO) and Marin Godart (DevOps)[cite: 45, 46].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Named, role-specific social proof builds E-E-A-T and converts much better than anonymous quotes.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">Review schema with specific outcomes provides LLMs with quotable, attributable evidence to cite in "is [product] legit?" queries[cite: 180].</div>
+                </div>`,
+            "05": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A visible, side-by-side comparison of Dashlane Omnix against its top 2 alternatives based on features like AI Phishing Alerts[cite: 56].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">SaaS buyers always compare. If you don't host the comparison, they leave for G2 or Reddit. This keeps them in the ecosystem.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">Without structured comparison content, AI tools cite third-party aggregators for "[product] vs [competitor]" queries. This reclaims the brand's authority[cite: 202].</div>
+                </div>`,
+            "06": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A collapsed accordion of 6-8 Q&A pairs covering integration, AI security models, and deployment details[cite: 5, 8].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Addresses pre-trial objections without cluttering the page. Collapsed content saves scroll depth while remaining fully indexable.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">The existing FAQPage schema [cite: 3] is the highest single GEO priority. It provides direct extraction points for LLMs fielding multi-turn questions[cite: 189].</div>
+                </div>`,
+            "07": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A structured list of supported integrations like SSO, SCIM, and SIEM tools[cite: 8].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Integration capability is a primary purchase driver for IT buyers evaluating Omnix.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">Integration names in SSR text are directly crawlable, ensuring Dashlane appears in "does [product] integrate with [tool]?" queries[cite: 194].</div>
+                </div>`,
+            "08": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A product walkthrough video paired with a collapsed, SSR text transcript.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Video increases time-on-page, while the transcript provides rich semantic data describing product operation in natural language.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">VideoObject schema paired with an SSR transcript signals multimodal authority, increasing visibility as AI models increasingly cite video content[cite: 225, 226].</div>
+                </div>`,
+            "09": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">Extended customer evidence detailing specific business outcomes, like proactive risk reduction at Downer Group[cite: 49].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Enterprise buyers require proof of outcome. Placing this in a collapsed accordion manages page length for casual scrollers.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">Specific, measurable outcomes linked to named entities provide the exact factual density AI models favor for "does it work" queries[cite: 184].</div>
+                </div>`,
+            "10": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">A compact inline summary of starting pricing or plan structures.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Hiding pricing completely forces buyers to competitors. An inline summary answers "what does it cost?" while linking to the full pricing page.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">SSR pricing text provides a citable answer for cost-related queries. Pages lacking pricing signals are dropped from AI cost-comparisons.</div>
+                </div>`,
+            "11": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">An inline bar summarizing platform security, emphasizing Zero-Knowledge Architecture and Confidential Computing[cite: 61, 62].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Placing security credentials right before the final conversion prompt removes hesitation for enterprise IT buyers.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">Listing specific architectural and compliance standards in SSR helps AI tools authoritatively answer "is Dashlane secure?"[cite: 182].</div>
+                </div>`,
+            "12": `
+                <div class="tooltip-section">
+                    <div class="tooltip-label">What this is</div>
+                    <div class="tooltip-text">The final conversion prompt. Both the self-serve ("Request a demo") and sales-assisted ("Contact Sales") CTAs are repeated[cite: 71].</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">Why we recommend this structure</div>
+                    <div class="tooltip-text">Users scrolling this far have high intent. Clarifying "what happens next" under each button removes final friction.</div>
+                </div>
+                <div class="tooltip-section">
+                    <div class="tooltip-label">AI Search Impact</div>
+                    <div class="tooltip-text">Purely conversion focused. Retaining users and driving interaction helps long-term user engagement signals.</div>
+                </div>`
+        };
+
+        // Tooltip Logic
+        const tooltip = document.getElementById('geo-tooltip');
+        const tooltipContent = document.getElementById('tooltip-content');
+        let tooltipTimeout;
+        let isHoveringBlock = false;
+        let isHoveringTooltip = false;
+
+        document.querySelectorAll('.block').forEach(block => {
+            block.addEventListener('mouseenter', (e) => {
+                isHoveringBlock = true;
+                clearTimeout(tooltipTimeout);
+                const id = block.getAttribute('data-tooltip');
+                if (tooltips[id]) {
+                    tooltipContent.innerHTML = tooltips[id];
+                    tooltip.style.display = 'flex';
+                }
+            });
+
+            block.addEventListener('mouseleave', () => {
+                isHoveringBlock = false;
+                checkTooltipClose();
+            });
+        });
+
+        tooltip.addEventListener('mouseenter', () => {
+            isHoveringTooltip = true;
+            clearTimeout(tooltipTimeout);
+        });
+
+        tooltip.addEventListener('mouseleave', () => {
+            isHoveringTooltip = false;
+            checkTooltipClose();
+        });
+
+        function checkTooltipClose() {
+            tooltipTimeout = setTimeout(() => {
+                if (!isHoveringBlock && !isHoveringTooltip) {
+                    tooltip.style.display = 'none';
+                }
+            }, 300);
+        }
+
+        // Toggle State Logic
+        function setState(state, element) {
+            document.body.setAttribute('data-state', state);
+            document.querySelectorAll('.toggle-option').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>maurices_Local_GEO_Wireframe_V1</title>
+<style>
+  :root {
+    --brand-primary: #46a09a; /* Extracted from header wrapper */
+    --brand-dark: #333333;
+    --bg-light: #f9f7fb;
+    --border-color: #dddddd;
+    --text-main: #333333;
+    --text-muted: #707070;
+    
+    --state-visible: #10b981;
+    --state-collapsed: #f59e0b;
+    --state-conditional: #8b5cf6;
+    --state-inline: #3b82f6;
+  }
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  body { background-color: #f3f4f6; color: var(--text-main); line-height: 1.5; padding-bottom: 100px; }
+  
+  /* Intro Banner */
+  .intro-banner { background: #111; color: #fff; padding: 20px 40px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .intro-left .logo-placeholder { background: var(--brand-primary); color: #fff; padding: 10px 20px; font-weight: bold; font-size: 20px; display: inline-block; margin-bottom: 10px; }
+  .intro-left h1 { font-size: 24px; margin-bottom: 5px; }
+  .intro-left p { color: #aaa; font-size: 14px; }
+  .intro-right { max-width: 400px; }
+  .intro-right ol { margin-left: 20px; font-size: 14px; color: #ccc; margin-bottom: 15px; }
+  .intro-right li { margin-bottom: 5px; }
+  .query-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .query-chip { background: #333; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 12px; }
+
+  /* Browser Chrome */
+  .browser-container { max-width: 1200px; margin: 20px auto; background: #fff; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; position: relative; }
+  .browser-header { background: #e5e7eb; padding: 10px 20px; display: flex; align-items: center; border-bottom: 1px solid #d1d5db; position: sticky; top: 0; z-index: 40; }
+  .traffic-lights { display: flex; gap: 6px; margin-right: 20px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .light.red { background: #ef4444; }
+  .light.yellow { background: #f59e0b; }
+  .light.green { background: #10b981; }
+  .address-bar { background: #fff; padding: 4px 15px; border-radius: 4px; font-size: 12px; color: #6b7280; flex-grow: 1; text-align: center; border: 1px solid #d1d5db; }
+
+  /* Controls Bar */
+  .controls-bar { background: #1f2937; color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 45px; z-index: 39; border-bottom: 1px solid #374151; }
+  .toggle-group { display: flex; flex-direction: column; gap: 5px; }
+  .toggle-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #9ca3af; }
+  .toggle-pills { display: flex; background: #374151; border-radius: 20px; padding: 3px; }
+  .toggle-pill { padding: 6px 15px; font-size: 13px; border-radius: 17px; cursor: pointer; user-select: none; transition: all 0.2s; color: #d1d5db; }
+  .toggle-pill.active { background: #fff; color: #111; font-weight: 500; }
+  .toggle-hint { font-size: 10px; color: #9ca3af; }
+  .legend { display: flex; gap: 15px; font-size: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* Site Nav */
+  .site-nav { background: #fff; padding: 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 110px; z-index: 38; }
+  .nav-logo { background: var(--brand-primary); color: #fff; padding: 8px 15px; font-weight: bold; font-size: 18px; }
+  .nav-links { display: flex; gap: 20px; font-size: 14px; }
+  .nav-link { color: var(--text-main); text-decoration: none; text-transform: uppercase; }
+  .nav-actions { display: flex; gap: 15px; align-items: center; }
+  .btn-primary { background: var(--brand-primary); color: #fff; padding: 8px 16px; text-transform: uppercase; font-size: 12px; font-weight: 500; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
+
+  /* Wireframe Canvas */
+  .wireframe-canvas { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+  .zone-divider { margin: 20px 0; border-top: 1px dashed #ccc; position: relative; }
+  .zone-divider span { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #f3f4f6; padding: 0 15px; font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* Blocks */
+  .block { border: 1px solid var(--border-color); background: #fff; border-radius: 4px; padding: 20px; position: relative; transition: all 0.2s; }
+  .block:hover { outline: 2px solid var(--brand-primary); outline-offset: -2px; }
+  
+  .block-meta { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; }
+  .badge { background: #111; color: #fff; font-size: 10px; padding: 3px 6px; border-radius: 3px; font-weight: bold; }
+  .state-pill { font-size: 10px; padding: 3px 8px; border-radius: 10px; font-weight: 500; display: flex; align-items: center; gap: 5px; }
+  .state-pill::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+  .state-pill.visible { background: #ecfdf5; color: #065f46; }
+  .state-pill.visible::before { background: var(--state-visible); }
+  .state-pill.collapsed { background: #fffbeb; color: #92400e; }
+  .state-pill.collapsed::before { background: var(--state-collapsed); }
+  .state-pill.conditional { background: #f5f3ff; color: #5b21b6; }
+  .state-pill.conditional::before { background: var(--state-conditional); }
+  .state-pill.inline { background: #eff6ff; color: #1e40af; }
+  .state-pill.inline::before { background: var(--state-inline); }
+  .audit-tag { font-size: 10px; padding: 3px 6px; border-radius: 3px; background: #e5e7eb; color: #4b5563; font-weight: bold; }
+  .hover-cue { font-size: 11px; color: var(--brand-primary); margin-left: auto; opacity: 1; transition: opacity 0.2s; }
+  .block:hover .hover-cue { opacity: 0; }
+
+  /* Wireframe Elements */
+  .wf-hero { display: flex; gap: 20px; }
+  .wf-img { background: #e5e7eb; display: flex; align-items: center; justify-content: center; color: #9ca3af; }
+  .wf-hero-img { flex: 1; height: 250px; }
+  .wf-hero-content { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .wf-h1 { font-size: 28px; font-weight: 300; margin-bottom: 10px; }
+  .wf-rating { font-size: 14px; color: #f59e0b; margin-bottom: 20px; }
+  .wf-cta-row { display: flex; gap: 10px; }
+  .wf-cta-btn { flex: 1; text-align: center; border: 1px solid var(--brand-primary); color: var(--brand-primary); padding: 10px; font-size: 13px; text-transform: uppercase; cursor: pointer; }
+  .wf-cta-btn.primary { background: var(--brand-primary); color: #fff; }
+  
+  .wf-banner { background: var(--bg-light); padding: 10px; text-align: center; font-size: 14px; font-weight: 500; border: 1px solid var(--border-color); }
+  
+  .wf-nap { display: flex; justify-content: space-between; background: var(--bg-light); padding: 20px; border-left: 4px solid var(--brand-primary); }
+  .wf-nap-col { flex: 1; }
+  .wf-h2 { font-size: 18px; margin-bottom: 10px; }
+  .wf-text { font-size: 14px; color: #4b5563; margin-bottom: 5px; }
+  
+  .wf-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .wf-card { border: 1px solid var(--border-color); padding: 15px; }
+  
+  .wf-map-embed { height: 200px; background: #e5e7eb; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; color: #9ca3af; border: 1px solid #ccc; }
+  
+  .wf-accordion { border: 1px solid var(--border-color); padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 5px; padding-right: 72px; }
+  .wf-accordion-title { font-weight: 500; font-size: 14px; }
+  .wf-plus { width: 24px; height: 24px; border: 1.5px solid var(--brand-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--brand-primary); transition: all 0.2s; flex-shrink: 0; }
+  .wf-accordion:hover .wf-plus { background: var(--brand-primary); color: #fff; }
+  
+  /* Tooltip System */
+  #tooltip-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
+  .tooltip-panel { position: fixed; top: 50%; right: 60px; transform: translateY(-50%); width: 380px; max-height: min(460px, calc(100vh - 200px)); background: #fff; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 6px; display: flex; flex-direction: column; opacity: 0; visibility: hidden; transition: opacity 0.2s; pointer-events: auto; }
+  .tooltip-panel.active { opacity: 1; visibility: visible; }
+  .tooltip-panel::before { content: ''; position: absolute; left: -8px; top: 50%; transform: translateY(-50%); border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 8px solid var(--border-color); }
+  .tooltip-panel::after { content: ''; position: absolute; left: -7px; top: 50%; transform: translateY(-50%); border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 7px solid #fff; }
+  .tooltip-header { padding: 12px 15px; border-bottom: 1px solid var(--border-color); background: #f9fafb; font-weight: bold; font-size: 13px; border-radius: 6px 6px 0 0; }
+  .tooltip-body { padding: 15px; overflow-y: auto; min-height: 0; font-size: 12px; line-height: 1.5; color: #4b5563; }
+  .tooltip-body::-webkit-scrollbar { width: 4px; }
+  .tooltip-body::-webkit-scrollbar-thumb { background: rgba(107, 114, 128, 0.3); border-radius: 4px; }
+  .tooltip-section { margin-bottom: 15px; }
+  .tooltip-section:last-child { margin-bottom: 0; }
+  .tooltip-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--brand-primary); margin-bottom: 4px; font-weight: bold; }
+  
+  /* Sprint Order */
+  .sprint-board { max-width: 1200px; margin: 0 auto 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+  .sprint-board h2 { font-size: 20px; margin-bottom: 20px; }
+  .sprint-list { display: flex; flex-direction: column; gap: 15px; }
+  .sprint-item { border-left: 4px solid var(--brand-primary); padding: 15px 20px; background: #f9fafb; display: flex; justify-content: space-between; align-items: center; }
+  .sprint-info h3 { font-size: 16px; margin-bottom: 5px; }
+  .sprint-info p { font-size: 13px; color: #6b7280; }
+  .sprint-effort { font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 12px; background: #e5e7eb; }
+  .csr-warning { background: #fef2f2; border-left-color: #ef4444; }
+  .csr-warning .sprint-effort { background: #fee2e2; color: #b91c1c; }
+
+  /* Helpers */
+  .hide { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="intro-banner">
+  <div class="intro-left">
+    <div class="logo-placeholder">maurices</div>
+    <h1>maurices - Local Page GEO Wireframe</h1>
+    <p>Prepared by Tinuiti - V1 - December 2025</p>
+  </div>
+  <div class="intro-right">
+    <ol>
+      <li>Use the toggle to switch between page-type variants</li>
+      <li>Hover over any section for rationale and AI search impact</li>
+      <li>Click FAQ rows and expand toggles to preview interactive behavior</li>
+    </ol>
+    <div class="query-chips">
+      <div class="query-chip">"maurices Roseville CA"</div>
+      <div class="query-chip">"womens clothing Roseville"</div>
+      <div class="query-chip">"plus size clothing near me"</div>
+    </div>
+  </div>
+</div>
+
+<div class="browser-container">
+  <div class="browser-header">
+    <div class="traffic-lights">
+      <div class="light red"></div>
+      <div class="light yellow"></div>
+      <div class="light green"></div>
+    </div>
+    <div class="address-bar">locations.maurices.com/us/ca/roseville/1208-galleria-blvd</div>
+  </div>
+
+  <div class="controls-bar">
+    <div class="toggle-group">
+      <div class="toggle-eyebrow">Page Type</div>
+      <div class="toggle-pills">
+        <div class="toggle-pill active" data-view="standard">Standard</div>
+        <div class="toggle-pill" data-view="promo">Promotion active</div>
+        <div class="toggle-pill" data-view="holiday">Holiday hours</div>
+      </div>
+      <div class="toggle-hint">Switches conditional blocks on/off</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background: var(--state-visible)"></div> Visible</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--state-collapsed)"></div> Collapsed</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--state-conditional)"></div> Conditional</div>
+      <div class="legend-item"><div class="legend-dot" style="background: var(--state-inline)"></div> Inline</div>
+    </div>
+    <div class="toggle-hint">Hover any section for rationale</div>
+  </div>
+
+  <div class="site-nav">
+    <div class="nav-logo">maurices</div>
+    <div class="nav-links">
+      <a href="#" class="nav-link">New</a>
+      <a href="#" class="nav-link">Clothing</a>
+      <a href="#" class="nav-link">Jeans</a>
+      <a href="#" class="nav-link">Plus Sizes</a>
+      <a href="#" class="nav-link">Intimates</a>
+      <a href="#" class="nav-link">Shoes</a>
+      <a href="#" class="nav-link">Accessories</a>
+      <a href="#" class="nav-link">Clearance</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="nav-link" style="font-size:12px;">Sign In</a>
+      <a href="#" class="btn-primary">Get Directions</a>
+    </div>
+  </div>
+
+  <div class="wireframe-canvas">
+    
+    <div class="zone-divider"><span>Above the fold</span></div>
+
+    <div class="block" data-block="01">
+      <div class="block-meta">
+        <span class="badge">01</span>
+        <span class="state-pill visible">VISIBLE</span>
+        <span class="audit-tag">RESTRUCTURED</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-hero">
+        <div class="wf-hero-content">
+          <div class="wf-h1">maurices - Women's Clothing in Roseville, CA</div>
+          <div class="wf-rating">★★★★☆ 4.6 (128 Reviews)</div>
+          <p class="wf-text" style="margin-bottom: 20px;">Come find your community and new favorite outfit at 1208 Galleria Blvd.</p>
+          <div class="wf-cta-row">
+            <button class="wf-cta-btn primary">Call Now</button>
+            <button class="wf-cta-btn">Get Directions</button>
+            <button class="wf-cta-btn">Book Styling</button>
+          </div>
+        </div>
+        <div class="wf-img wf-hero-img">Location Hero Image (Not Stock)</div>
+      </div>
+    </div>
+
+    <div class="block conditional-block hide" id="promo-banner" data-block="02">
+      <div class="block-meta">
+        <span class="badge">02</span>
+        <span class="state-pill conditional">CONDITIONAL</span>
+        <span class="audit-tag">NEW</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-banner" id="banner-text">
+        </div>
+    </div>
+
+    <div class="zone-divider"><span>Location and proof zone</span></div>
+
+    <div class="block" data-block="03">
+      <div class="block-meta">
+        <span class="badge">03</span>
+        <span class="state-pill visible">VISIBLE</span>
+        <span class="audit-tag">RESTRUCTURED</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-nap">
+        <div class="wf-nap-col">
+          <div class="wf-h2">Location & Contact</div>
+          <div class="wf-text"><strong>maurices</strong></div>
+          <div class="wf-text">1208 Galleria Blvd<br>Creekside Town Center Sp 170<br>Roseville, CA 95678</div>
+          <div class="wf-text" style="margin-top:10px;"><strong>Phone:</strong> (916) 839-5362</div>
+          <div class="wf-text" style="color:#10b981; font-weight:bold; margin-top:5px;">Open Today</div>
+        </div>
+        <div class="wf-nap-col">
+          <div class="wf-h2">Store Hours</div>
+          <div class="wf-text" style="display:flex; justify-content:space-between; max-width:200px;"><span>Mon - Sat</span><span>10:00 AM - 8:00 PM</span></div>
+          <div class="wf-text" style="display:flex; justify-content:space-between; max-width:200px;"><span>Sun</span><span>11:00 AM - 6:00 PM</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block" data-block="04">
+      <div class="block-meta">
+        <span class="badge">04</span>
+        <span class="state-pill visible">VISIBLE</span>
+        <span class="audit-tag">NEW</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-h2" style="margin-bottom:15px;">Women's Clothing & Services in Roseville</div>
+      <div class="wf-grid-3">
+        <div class="wf-card">
+          <strong>Women's Jeans</strong>
+          <p class="wf-text" style="font-size:12px; margin-top:5px;">Find your perfect fit with our extensive collection of jeans in sizes 2-24, right here in Roseville.</p>
+          <a href="#" style="font-size:12px; color:var(--brand-primary); text-decoration:none; font-weight:bold;">Shop Jeans</a>
+        </div>
+        <div class="wf-card">
+          <strong>Plus Size Clothing</strong>
+          <p class="wf-text" style="font-size:12px; margin-top:5px;">Explore trendy, comfortable plus size tops and dresses tailored to make you look and feel your best.</p>
+          <a href="#" style="font-size:12px; color:var(--brand-primary); text-decoration:none; font-weight:bold;">Shop Plus Sizes</a>
+        </div>
+        <div class="wf-card">
+          <strong>Free Styling Sessions</strong>
+          <p class="wf-text" style="font-size:12px; margin-top:5px;">Book a complimentary styling session with our expert associates at the Creekside Town Center location.</p>
+          <a href="#" style="font-size:12px; color:var(--brand-primary); text-decoration:none; font-weight:bold;">Book Session</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="block" data-block="05">
+      <div class="block-meta">
+        <span class="badge">05</span>
+        <span class="state-pill visible">VISIBLE</span>
+        <span class="audit-tag">RESTRUCTURED</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-map-embed">Interactive Map Embed</div>
+      <div class="wf-text"><strong>Getting Here:</strong> We are located at 1208 Galleria Blvd in the Creekside Town Center, Sp 170. Ample free parking is available right outside our storefront.</div>
+    </div>
+
+    <div class="block" data-block="06">
+      <div class="block-meta">
+        <span class="badge">06</span>
+        <span class="state-pill visible">VISIBLE</span>
+        <span class="audit-tag">NEW</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-h2" style="margin-bottom:15px;">What Roseville Shoppers Say</div>
+      <div class="wf-grid-3">
+        <div class="wf-card">
+          <div style="color:#f59e0b; font-size:12px; margin-bottom:5px;">★★★★★</div>
+          <p class="wf-text" style="font-size:12px; font-style:italic;">"The staff here is always so helpful and helps me find exactly what I need. Best clothing store in Roseville."</p>
+          <div class="wf-text" style="font-size:11px; font-weight:bold;">- Sarah M.</div>
+        </div>
+        <div class="wf-card">
+          <div style="color:#f59e0b; font-size:12px; margin-bottom:5px;">★★★★★</div>
+          <p class="wf-text" style="font-size:12px; font-style:italic;">"I booked a free styling session and loved every outfit they picked for me. Fantastic experience!"</p>
+          <div class="wf-text" style="font-size:11px; font-weight:bold;">- Jessica T.</div>
+        </div>
+        <div class="wf-card">
+          <div style="color:#f59e0b; font-size:12px; margin-bottom:5px;">★★★★★</div>
+          <p class="wf-text" style="font-size:12px; font-style:italic;">"Great selection of plus size jeans and tops. The store is clean, organized, and welcoming."</p>
+          <div class="wf-text" style="font-size:11px; font-weight:bold;">- Amanda R.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zone-divider"><span>AI answer engine fuel zone</span></div>
+
+    <div class="block" data-block="07">
+      <div class="block-meta">
+        <span class="badge">07</span>
+        <span class="state-pill collapsed">COLLAPSED</span>
+        <span class="audit-tag">RESTRUCTURED</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-h2" style="margin-bottom:15px;">Frequently Asked Questions</div>
+      <div class="wf-accordion js-acc">
+        <div class="wf-accordion-title">Does the Roseville maurices offer in-store pickup?</div>
+        <div class="wf-plus">+</div>
+      </div>
+      <div class="wf-accordion js-acc">
+        <div class="wf-accordion-title">Do you carry plus sizes at the Creekside Town Center location?</div>
+        <div class="wf-plus">+</div>
+      </div>
+      <div class="wf-accordion js-acc">
+        <div class="wf-accordion-title">How do I book a free styling session here?</div>
+        <div class="wf-plus">+</div>
+      </div>
+      <div class="wf-accordion js-acc">
+        <div class="wf-accordion-title">What is your return policy for in-store purchases?</div>
+        <div class="wf-plus">+</div>
+      </div>
+    </div>
+
+    <div class="block" data-block="08">
+      <div class="block-meta">
+        <span class="badge">08</span>
+        <span class="state-pill collapsed">COLLAPSED</span>
+        <span class="audit-tag">NEW</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-accordion js-acc">
+        <div class="wf-accordion-title">About the Roseville Team</div>
+        <div class="wf-plus">+</div>
+      </div>
+    </div>
+
+    <div class="block" data-block="09">
+      <div class="block-meta">
+        <span class="badge">09</span>
+        <span class="state-pill visible">VISIBLE</span>
+        <span class="audit-tag">RETAINED</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-h2" style="margin-bottom:15px;">Store Gallery</div>
+      <div class="wf-grid-3">
+        <div class="wf-img" style="height:120px;">Storefront Photo</div>
+        <div class="wf-img" style="height:120px;">Interior Photo</div>
+        <div class="wf-img" style="height:120px;">Interior Photo</div>
+      </div>
+    </div>
+
+    <div class="zone-divider"><span>Conversion close</span></div>
+
+    <div class="block" data-block="10">
+      <div class="block-meta">
+        <span class="badge">10</span>
+        <span class="state-pill inline">INLINE</span>
+        <span class="audit-tag">RESTRUCTURED</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-text" style="font-size:13px;">
+        <strong>Nearby maurices Locations:</strong> 
+        <a href="#" style="color:var(--brand-primary); text-decoration:none;">Citrus Heights</a> | 
+        <a href="#" style="color:var(--brand-primary); text-decoration:none;">Rocklin</a> | 
+        <a href="#" style="color:var(--brand-primary); text-decoration:none;">Folsom</a>
+      </div>
+    </div>
+
+    <div class="block" data-block="11">
+      <div class="block-meta">
+        <span class="badge">11</span>
+        <span class="state-pill inline">INLINE</span>
+        <span class="audit-tag">NEW</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div class="wf-text" style="display:flex; justify-content:center; gap:20px; font-size:13px; font-weight:500;">
+        <span>✓ Free Returns In-Store</span>
+        <span>✓ mRewards Accepted</span>
+        <span>✓ Established 2010</span>
+      </div>
+    </div>
+
+    <div class="block" data-block="12">
+      <div class="block-meta">
+        <span class="badge">12</span>
+        <span class="state-pill visible">VISIBLE</span>
+        <span class="audit-tag">NEW</span>
+        <span class="hover-cue">Hover for insight</span>
+      </div>
+      <div style="text-align:center; padding: 20px 0;">
+        <div class="wf-h2" style="margin-bottom:20px;">Visit Us Today</div>
+        <div class="wf-text" style="margin-bottom:20px;">1208 Galleria Blvd, Roseville, CA | Open until 8:00 PM</div>
+        <div class="wf-cta-row" style="max-width:500px; margin:0 auto;">
+          <button class="wf-cta-btn primary">Call Now</button>
+          <button class="wf-cta-btn">Get Directions</button>
+          <button class="wf-cta-btn">Book Styling</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sprint-board">
+  <h2>Implementation Sprints</h2>
+  <div class="sprint-list">
+    <div class="sprint-item csr-warning">
+      <div class="sprint-info">
+        <h3>Sprint 1: Server-Side Rendering (SSR) for NAP & Hours</h3>
+        <p>The current setup relies heavily on map scripts and JSON configs to render local store data. AI crawlers cannot parse JS-rendered text. Ensure Name, Address, Phone, and Hours are rendered in the HTML source code. Add complete FAQPage schema. No new content required.</p>
+      </div>
+      <span class="sprint-effort">HIGH EFFORT / CRITICAL</span>
+    </div>
+    <div class="sprint-item">
+      <div class="sprint-info">
+        <h3>Sprint 2: Update H1 and Page Title Intent</h3>
+        <p>Restructure the H1 from the brand-centric "maurices Creekside Town Center Sp 170" to the intent-matching "maurices - Women's Clothing in Roseville, CA". Implement the equal-weight triple CTA row above the fold.</p>
+      </div>
+      <span class="sprint-effort">LOW EFFORT</span>
+    </div>
+    <div class="sprint-item">
+      <div class="sprint-info">
+        <h3>Sprint 3: Content Expansion (Services, Local Context, Reviews)</h3>
+        <p>Deploy the SSR Services Overview (Block 04), Local Map Context Prose (Block 05), and Social Proof Strip (Block 06). This requires writing 2-3 sentence descriptions for core services and extracting 3 genuine reviews to embed directly into the HTML.</p>
+      </div>
+      <span class="sprint-effort">MEDIUM EFFORT</span>
+    </div>
+    <div class="sprint-item">
+      <div class="sprint-info">
+        <h3>Sprint 4: Localized FAQ and Team Collapsibles</h3>
+        <p>Replace generic brand FAQs with 6-8 location-specific Q&As ("Do you carry plus sizes at the Creekside Town Center location?"). Add the collapsed Team/About section. Ensure content is SSR.</p>
+      </div>
+      <span class="sprint-effort">MEDIUM EFFORT</span>
+    </div>
+  </div>
+</div>
+
+<div id="tooltip-layer">
+  <div class="tooltip-panel" id="tooltip">
+    <div class="tooltip-header" id="tt-header">Block Name</div>
+    <div class="tooltip-body">
+      <div class="tooltip-section">
+        <div class="tooltip-eyebrow">What this is</div>
+        <div id="tt-what">...</div>
+      </div>
+      <div class="tooltip-section">
+        <div class="tooltip-eyebrow">Why we recommend this structure</div>
+        <div id="tt-why">...</div>
+      </div>
+      <div class="tooltip-section">
+        <div class="tooltip-eyebrow">AI Search Impact</div>
+        <div id="tt-impact">...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tooltip Data per block based on Tinuiti GEO Best Practices (Vertical B)
+  const tooltipData = {
+    "01": {
+      title: "Hero + Above-Fold Conversion Unit",
+      what: "The hero, headline, rating, and three conversion actions above the fold. <br><br><strong>Legacy H1:</strong> maurices Creekside Town Center Sp 170",
+      why: "We recommend this because three equal CTAs serve the three most common local visitor intents simultaneously (Call, Visit, Book). The previous setup hid critical actions behind mobile icons or pushed them down.",
+      impact: "H1 written as '[Service] in [City]' is the single most important local GEO signal. Adjusting the H1 from just the brand/mall name to 'Women's Clothing in Roseville, CA' directly aligns with how users structure their prompts."
+    },
+    "02": {
+      title: "Promotional / Seasonal Banner",
+      what: "A single-row alert for active promotions or seasonal information. Currently hidden on Standard view.",
+      why: "We recommend this because conditional banners that only appear when genuinely active are more credible than permanent promotional copy taking up valuable above-the-fold space.",
+      impact: "SpecialAnnouncement schema tied to this banner makes the promotion readable by AI tools answering '[business] deals' or 'holiday hours' queries."
+    },
+    "03": {
+      title: "NAP + Hours Block (SSR)",
+      what: "Business name, address, phone, and hours as real HTML text - not a map widget.",
+      why: "We recommend this because JS-loaded NAP looks right to a human but is invisible to everything else. Ensuring this is hard-coded HTML ensures maximum indexability.",
+      impact: "This is the most important block on the page for local AI search. AI tools answering 'is [business] open right now?' read the page code. If hours are in a JS embed, AI tools cannot find them. PostalAddress and OpeningHoursSpecification schema anchor this."
+    },
+    "04": {
+      title: "Services Overview",
+      what: "Service cards with descriptions and direct actions.",
+      why: "We recommend this because a tile label alone does not answer a service-specific query. Two sentences of prose does. It explains exactly what the Roseville location offers.",
+      impact: "AI tools answering '[specific service] in [city]' need that service named in crawlable prose. Natural language descriptions of 'plus size clothing' and 'women's jeans' provide the semantic context LLMs require."
+    },
+    "05": {
+      title: "Map Embed + Location Context",
+      what: "A map embed with descriptive location context as real text around it.",
+      why: "We recommend this because the prose tells people how to actually get there, reducing friction for first-time visitors who might be confused by mall layouts.",
+      impact: "SSR location context prose builds location entity confidence beyond coordinates alone. Mentioning 'Creekside Town Center' and 'parking' in natural language helps AI synthesize directions."
+    },
+    "06": {
+      title: "Social Proof Strip",
+      what: "The overall rating and selected customer quotes, visible on load.",
+      why: "We recommend this because reviews are often the deciding factor between this location and a competitor two blocks away. Social proof must be immediate and visible.",
+      impact: "AggregateRating schema is what gets this business into AI 'best [type] in [city]' answer lists. Review schema gives AI tools individual quote content to cite."
+    },
+    "07": {
+      title: "FAQ Module",
+      what: "Questions visitors need answered before visiting, collapsed into an expandable accordion.",
+      why: "We recommend this because answering 'do you carry plus sizes here?' on the page converts passive interest into confirmed visits. Collapsing them keeps the page scroll manageable while retaining full SEO value.",
+      impact: "FAQPage schema with location-specific answers is a direct citation source for local intent queries. The previous FAQs were generic brand questions; local FAQs fuel local AI answers."
+    },
+    "08": {
+      title: "Team / About This Location",
+      what: "A short about section for this specific location, collapsed by default.",
+      why: "We recommend this because location-specific copy with named staff builds personal trust that chain-wide generic copy cannot.",
+      impact: "Location-specific, named-individual content builds entity confidence for AI tools, signaling that this is a verified, active local business and not just a programmatic directory listing."
+    },
+    "09": {
+      title: "Store Gallery",
+      what: "Real photos of this specific location. Not stock.",
+      why: "We recommend this because stock photography reduces trust. Real photos confirm to first-time visitors what to expect when they walk in.",
+      impact: "Descriptive alt text on location-specific photography builds location entity confidence and aids in Visual Search optimization (a growing facet of Gemini and Copilot)."
+    },
+    "10": {
+      title: "Nearby Locations / Service Area",
+      what: "Links to nearby locations, keeping visitors within the brand.",
+      why: "We recommend this because a visitor who finds this location is too far away will leave to search again. Nearby links keep them in the brand ecosystem.",
+      impact: "Internal links between location pages help AI tools understand geographic footprint and raise authority signals across the domain."
+    },
+    "11": {
+      title: "Trust Bar",
+      what: "A compact row of credentials confirming the business is established and trustworthy.",
+      why: "We recommend this because credentials near the conversion point reduce perceived risk.",
+      impact: "Structured credential data helps AI tools answer 'does [brand] offer free returns?' or verify business longevity."
+    },
+    "12": {
+      title: "Final CTA + Contact",
+      what: "The final conversion prompt for visitors who scrolled the full page.",
+      why: "We recommend this because visitors at the bottom are highly intent. Three equal CTAs serve all three local conversion intents without forcing them to scroll back up.",
+      impact: "Repeating SSR NAP at the bottom reinforces location entity confidence for AI crawlers."
+    }
+  };
+
+  // Tooltip Logic
+  const tooltip = document.getElementById('tooltip');
+  const ttHeader = document.getElementById('tt-header');
+  const ttWhat = document.getElementById('tt-what');
+  const ttWhy = document.getElementById('tt-why');
+  const ttImpact = document.getElementById('tt-impact');
+  let hoverTimeout;
+
+  document.querySelectorAll('.block').forEach(block => {
+    block.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimeout);
+      const id = block.getAttribute('data-block');
+      const data = tooltipData[id];
+      if(data) {
+        ttHeader.innerHTML = `${id} - ${data.title}`;
+        ttWhat.innerHTML = data.what;
+        ttWhy.innerHTML = data.why;
+        ttImpact.innerHTML = data.impact;
+        tooltip.classList.add('active');
+      }
+    });
+    
+    block.addEventListener('mouseleave', () => {
+      hoverTimeout = setTimeout(() => {
+        tooltip.classList.remove('active');
+      }, 300);
+    });
+  });
+
+  tooltip.addEventListener('mouseenter', () => clearTimeout(hoverTimeout));
+  tooltip.addEventListener('mouseleave', () => {
+    hoverTimeout = setTimeout(() => {
+      tooltip.classList.remove('active');
+    }, 300);
+  });
+
+  // Accordion Interaction
+  document.querySelectorAll('.js-acc').forEach(acc => {
+    acc.addEventListener('click', () => {
+      const plus = acc.querySelector('.wf-plus');
+      if(plus.style.transform === 'rotate(45deg)') {
+        plus.style.transform = 'rotate(0deg)';
+        plus.style.background = 'transparent';
+        plus.style.color = 'var(--brand-primary)';
+      } else {
+        plus.style.transform = 'rotate(45deg)';
+        plus.style.background = 'var(--brand-primary)';
+        plus.style.color = '#fff';
+      }
+    });
+  });
+
+  // Page Type Toggle Logic
+  const pills = document.querySelectorAll('.toggle-pill');
+  const promoBanner = document.getElementById('promo-banner');
+  const bannerText = document.getElementById('banner-text');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const view = pill.getAttribute('data-view');
+      
+      if(view === 'standard') {
+        promoBanner.classList.add('hide');
+      } else if (view === 'promo') {
+        promoBanner.classList.remove('hide');
+        bannerText.innerHTML = '🎉 <strong>Spring Sale:</strong> Buy One Get One 50% Off Women\'s Jeans (In-Store Only)';
+      } else if (view === 'holiday') {
+        promoBanner.classList.remove('hide');
+        bannerText.innerHTML = '🕒 <strong>Holiday Hours:</strong> Closing early at 4:00 PM this Thursday.';
+      }
+    });
+  });
+
+</script>
+</body>
+</html>

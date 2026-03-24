@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashlane Omnix - GEO Wireframe</title>
+    <style>
+        :root {
+            --brand-primary: #0F3F34; /* Dark Green */
+            --brand-secondary: #A2F6F5; /* Aquamarine */
+            --brand-accent: #00B1A0;
+            --text-dark: #1A1A1A;
+            --text-light: #FFFFFF;
+            --text-muted: #666666;
+            --bg-light: #F9FAFB;
+            --bg-white: #FFFFFF;
+            --border-color: #E5E7EB;
+            
+            --state-visible: #10B981; /* Green */
+            --state-collapsed: #F59E0B; /* Yellow */
+            --state-conditional: #8B5CF6; /* Purple */
+            --state-inline: #3B82F6; /* Blue */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #F3F4F6;
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding-bottom: 100px;
+        }
+
+        /* Intro Banner */
+        .intro-banner {
+            background-color: var(--brand-primary);
+            color: var(--text-light);
+            padding: 32px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .intro-left .logo-placeholder {
+            display: inline-block;
+            background-color: var(--brand-primary);
+            border: 1px solid var(--brand-secondary);
+            color: var(--text-light);
+            font-weight: 700;
+            font-size: 24px;
+            padding: 8px 16px;
+            margin-bottom: 16px;
+        }
+
+        .intro-left h1 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .intro-left p {
+            font-size: 14px;
+            color: var(--brand-secondary);
+        }
+
+        .intro-right {
+            max-width: 500px;
+        }
+
+        .intro-right ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .intro-right li {
+            margin-bottom: 8px;
+        }
+
+        .query-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+        }
+
+        /* Controls Bar */
+        .controls-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #1F2937;
+            color: var(--text-light);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toggle-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #9CA3AF;
+        }
+
+        .segmented-control {
+            display: flex;
+            background-color: #374151;
+            border-radius: 20px;
+            padding: 4px;
+        }
+
+        .segment-btn {
+            background: none;
+            border: none;
+            color: #D1D5DB;
+            padding: 6px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .segment-btn.active {
+            background-color: var(--text-light);
+            color: #1F2937;
+        }
+
+        .toggle-hint {
+            display: block;
+            font-size: 11px;
+            color: #9CA3AF;
+            margin-top: 4px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .hover-hint {
+            font-size: 13px;
+            color: var(--brand-secondary);
+            font-weight: 500;
+        }
+
+        /* Browser Chrome */
+        .browser-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .browser-header {
+            background-color: #F3F4F6;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-dot:nth-child(1) { background-color: #EF4444; }
+        .browser-dot:nth-child(2) { background-color: #F59E0B; }
+        .browser-dot:nth-child(3) { background-color: #10B981; }
+
+        .browser-address {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        /* Site Nav */
+        .site-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 72px; /* Below controls */
+            background-color: var(--bg-white);
+            z-index: 90;
+        }
+
+        .nav-logo {
+            background-color: var(--brand-primary);
+            color: var(--text-light);
+            font-weight: 700;
+            padding: 6px 12px;
+            font-size: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .nav-ctas {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .nav-ctas span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-secondary {
+            border: 1.5px solid var(--brand-primary);
+            color: var(--brand-primary);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            background: transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-secondary);
+            color: var(--brand-primary);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+        }
+
+        /* Content Blocks */
+        .zone-divider {
+            background-color: var(--bg-light);
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px 24px;
+            border-bottom: 1px solid var(--border-color);
+            border-top: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .wireframe-block {
+            position: relative;
+            padding: 40px 24px;
+            border-bottom: 1px solid var(--border-color);
+            transition: outline 0.2s;
+        }
+
+        .wireframe-block:hover {
+            outline: 2px solid var(--brand-primary);
+            outline-offset: -2px;
+        }
+
+        .wireframe-block.conditional {
+            display: none;
+        }
+
+        .wireframe-block.conditional.active {
+            display: block;
+        }
+
+        .block-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .badge-num {
+            background-color: #1F2937;
+            color: var(--text-light);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-state {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--text-light);
+        }
+
+        .badge-status {
+            background-color: #E5E7EB;
+            color: #4B5563;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .bg-visible { background-color: var(--state-visible); }
+        .bg-collapsed { background-color: var(--state-collapsed); }
+        .bg-conditional { background-color: var(--state-conditional); }
+        .bg-inline { background-color: var(--state-inline); }
+
+        .hover-cue {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 11px;
+            color: var(--brand-accent);
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .wireframe-block:hover .hover-cue {
+            opacity: 1;
+        }
+
+        /* Specific Block Styles */
+        .placeholder-img {
+            background-color: #E5E7EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9CA3AF;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .placeholder-text {
+            background-color: #E5E7EB;
+            height: 12px;
+            border-radius: 2px;
+            margin-bottom: 8px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-top: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .h1-placeholder {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .h2-placeholder {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+        }
+
+        .rating-strip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .stars {
+            color: #F59E0B;
+            font-size: 18px;
+        }
+
+        .integration-logos {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .integration-logo {
+            width: 40px;
+            height: 40px;
+            background-color: #E5E7EB;
+            border-radius: 4px;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .cta-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .cta-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Banner */
+        .promo-banner {
+            background-color: #EEF2FF;
+            border: 1px solid #C7D2FE;
+            padding: 16px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+        }
+
+        .badge-new {
+            background-color: var(--brand-accent);
+            color: var(--text-light);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Cards */
+        .card {
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 8px;
+            background-color: var(--bg-white);
+        }
+
+        .card-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #E5E7EB;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        /* Quote */
+        .quote-block {
+            border-left: 4px solid var(--brand-accent);
+            padding-left: 16px;
+            margin-top: 16px;
+        }
+
+        .quote-text {
+            font-size: 16px;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .quote-author {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .quote-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Comparison Table */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            font-size: 14px;
+        }
+
+        .comp-table th, .comp-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .comp-table th {
+            background-color: var(--bg-light);
+            font-weight: 600;
+        }
+
+        .comp-table th.brand-col {
+            background-color: #EEF2FF;
+            color: var(--brand-primary);
+        }
+
+        .check { color: #10B981; font-weight: bold; }
+        .cross { color: #EF4444; }
+
+        /* Accordion */
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 72px 16px 0; /* Min 72px right padding rule */
+            position: relative;
+            cursor: pointer;
+        }
+
+        .accordion-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .accordion-icon {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .accordion-item:hover .accordion-icon {
+            background-color: var(--brand-primary);
+            border-color: var(--brand-primary);
+            color: var(--text-light);
+        }
+
+        .accordion-icon.open {
+            background-color: var(--brand-primary);
+            border-color: var(--brand-primary);
+            color: var(--text-light);
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .accordion-content {
+            display: none;
+            padding-top: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Tooltip System */
+        #geo-tooltip {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 60px;
+            width: 380px;
+            max-height: min(460px, calc(100vh - 200px));
+            background-color: #1F2937;
+            border-radius: 8px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: visible; /* Outer container visible per rules */
+            border: 1px solid #374151;
+        }
+
+        #geo-tooltip::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -8px;
+            transform: translateY(-50%);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-right: 8px solid #1F2937;
+        }
+
+        .tooltip-header {
+            padding: 16px;
+            border-bottom: 1px solid #374151;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #111827;
+            border-radius: 8px 8px 0 0;
+            flex-shrink: 0;
+        }
+
+        .tooltip-badge {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-light);
+            background-color: #4B5563;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .tooltip-body {
+            padding: 16px;
+            overflow-y: auto;
+            min-height: 0; /* Flex child overflow rule */
+            flex-grow: 1;
+        }
+
+        /* Custom thin scrollbar */
+        .tooltip-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .tooltip-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .tooltip-body::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .tt-section {
+            margin-bottom: 16px;
+        }
+
+        .tt-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .tt-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .tt-content {
+            font-size: 12px;
+            color: #D1D5DB;
+            line-height: 1.5;
+        }
+
+        .tt-content strong {
+            color: var(--text-light);
+        }
+
+        /* Sprint Order */
+        .sprint-container {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            background-color: var(--bg-white);
+            border-radius: 8px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sprint-container h2 {
+            margin-bottom: 24px;
+            font-size: 20px;
+        }
+
+        .sprint-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sprint-row:last-child {
+            border-bottom: none;
+        }
+
+        .sprint-num {
+            width: 100px;
+            font-weight: 700;
+            color: var(--brand-primary);
+        }
+
+        .sprint-details {
+            flex-grow: 1;
+        }
+
+        .sprint-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .sprint-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .sprint-effort {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: var(--bg-light);
+            margin-left: 16px;
+        }
+
+        .sprint-effort.low { color: #10B981; background-color: #ECFDF5; }
+        .sprint-effort.medium { color: #F59E0B; background-color: #FFFBEB; }
+        .sprint-effort.high { color: #EF4444; background-color: #FEF2F2; }
+
+        .csr-warning {
+            background-color: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .csr-warning h4 {
+            color: #B91C1C;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .csr-warning p {
+            color: #7F1D1D;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="intro-banner">
+        <div class="intro-left">
+            <div class="logo-placeholder">Dashlane</div>
+            <h1>Omnix Feature Page GEO Wireframe</h1>
+            <p>Prepared by Tinuiti - V1 - October 2026</p>
+        </div>
+        <div class="intro-right">
+            <ol>
+                <li>Use the toggle to switch between page-type variants</li>
+                <li>Hover over any section for rationale and AI search impact</li>
+                <li>Click FAQ rows and expand toggles to preview interactive behavior</li>
+            </ol>
+            <div class="query-chips">
+                <div class="chip">Best credential security platform for enterprise</div>
+                <div class="chip">Dashlane Omnix vs competitors</div>
+                <div class="chip">How does Dashlane Omnix work?</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls-bar">
+        <div class="toggle-group">
+            <span class="toggle-label">Page Type</span>
+            <div>
+                <div class="segmented-control">
+                    <button class="segment-btn active" onclick="setVariant('standard')">Standard</button>
+                    <button class="segment-btn" onclick="setVariant('feature')">New feature active</button>
+                    <button class="segment-btn" onclick="setVariant('integration')">Integration highlight</button>
+                </div>
+                <span class="toggle-hint">Switches conditional blocks on/off</span>
+            </div>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><div class="dot bg-visible"></div> Visible</div>
+            <div class="legend-item"><div class="dot bg-collapsed"></div> Collapsed</div>
+            <div class="legend-item"><div class="dot bg-conditional"></div> Conditional</div>
+            <div class="legend-item"><div class="dot bg-inline"></div> Inline</div>
+        </div>
+        <div class="hover-hint">Hover any section for rationale</div>
+    </div>
+
+    <div class="browser-container">
+        <div class="browser-header">
+            <div class="browser-dots">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+            </div>
+            <div class="browser-address">dashlane.com/omnix</div>
+        </div>
+
+        <div class="site-nav">
+            <div class="nav-logo">Dashlane</div>
+            <div class="nav-links">
+                <span>Why Dashlane</span>
+                <span>Platform</span>
+                <span>Password Management</span>
+                <span>Resources</span>
+                <span>Customers</span>
+                <span>Pricing</span>
+            </div>
+            <div class="nav-ctas">
+                <button class="btn-secondary">Request a demo</button>
+                <button class="btn-primary">Contact Sales</button>
+            </div>
+        </div>
+
+        <div class="zone-divider">Above the fold</div>
+
+        <div class="wireframe-block" 
+             data-tooltip-what="The entire above-fold zone answering what Omnix does, who it is for, and how to get started - without requiring a sales conversation if self-serve is available."
+             data-tooltip-why="We recommend this because dual CTAs serve both the self-serve buyer and the sales-assisted buyer simultaneously. Subordinating either track loses a segment of high-intent visitors. The H1 targets natural language query structures."
+             data-tooltip-impact="H1 written to match the natural language query pattern ('Intelligent Credential Security Platform')—not just marketing copy—is the single most important GEO signal on a SaaS feature page. AggregateRating schema directly impacts 'best credential platform' answers.">
+            <div class="block-badge">
+                <span class="badge-num">01</span>
+                <span class="badge-state bg-visible">VISIBLE</span>
+                <span class="badge-status">RESTRUCTURED</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div class="grid-2" style="margin-top: 40px;">
+                <div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Legacy H1: Deep insights. Dynamic defense.</div>
+                    <div class="h1-placeholder">Intelligent Credential Security Platform for Enterprise</div>
+                    <p style="margin-bottom: 16px; color: var(--text-muted);">Secure all employee credentials, whether or not they’re stored in a vault. Dashlane Omnix combines Password Management with Credential Protection.</p>
+                    
+                    <div class="rating-strip">
+                        <div class="stars">★★★★★</div>
+                        <div style="font-size: 14px; font-weight: 500;">4.8/5 on G2 (1,200+ reviews)</div>
+                    </div>
+
+                    <div class="integration-logos">
+                        <div class="integration-logo"></div>
+                        <div class="integration-logo"></div>
+                        <div class="integration-logo"></div>
+                        <div style="font-size: 12px; line-height: 40px; color: var(--text-muted);">Integrates with SSO, SCIM & SIEM</div>
+                    </div>
+
+                    <div class="cta-group">
+                        <div class="cta-wrapper">
+                            <button class="btn-primary">Contact Sales</button>
+                            <span class="cta-hint">Custom enterprise pricing</span>
+                        </div>
+                        <div class="cta-wrapper">
+                            <button class="btn-secondary">Request a demo</button>
+                            <span class="cta-hint">See Omnix in action</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="placeholder-img" style="height: 350px;">Platform UI Preview</div>
+            </div>
+        </div>
+
+        <div class="wireframe-block conditional variant-feature variant-integration" id="block-02"
+             data-tooltip-what="A single-row alert for time-sensitive feature news or active integrations."
+             data-tooltip-why="We recommend this because freshness signals increase AI citation rate. A date-stamped 'New' badge communicates recency without permanently occupying page real estate."
+             data-tooltip-impact="Content with a visible date stamp contributes freshness signals that AI tools weight when choosing which source to cite.">
+            <div class="block-badge">
+                <span class="badge-num">02</span>
+                <span class="badge-state bg-conditional">CONDITIONAL</span>
+                <span class="badge-status">NEW</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div class="promo-banner" style="margin-top: 40px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="badge-new">New</span>
+                    <span style="font-size: 14px; font-weight: 500; color: var(--brand-primary);" id="banner-text">Dashlane Omnix now features AI Phishing Alerts for all browsers.</span>
+                </div>
+                <button class="btn-secondary" style="padding: 4px 12px; font-size: 12px;">Read the announcement</button>
+            </div>
+        </div>
+
+        <div class="zone-divider">Use case and proof zone</div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="A short description and three use-case cards that answer 'is this built for my situation?'"
+             data-tooltip-why="We recommend this because SaaS buyers filter primarily by use case and team type, not by feature list. Naming the use case in crawlable prose is what gets this page into 'best X for Y' AI answers."
+             data-tooltip-impact="AI tools answering 'best credential security for enterprise' cite pages that name the use case directly in SSR prose - not pages that bury it in a marketing headline.">
+            <div class="block-badge">
+                <span class="badge-num">03</span>
+                <span class="badge-state bg-visible">VISIBLE</span>
+                <span class="badge-status">RESTRUCTURED</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px; max-width: 800px;">
+                <div class="h2-placeholder">Uncover and combat human risk across your organization</div>
+                <p style="color: var(--text-muted);">Gain visibility across all employees to prioritize mitigation and keep risks from turning into threats. Omnix protects users whether they use a vault or not.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">Proactive Risk Detection</div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Track the entire credential threat lifecycle from initial detection to user response. Visualize trends from a single dashboard.</p>
+                    <a href="#" style="font-size: 13px; color: var(--brand-accent); text-decoration: none; font-weight: 600;">Explore risk detection →</a>
+                </div>
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">Automated Risk Response</div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Dashlane Nudges deliver real-time security alerts encouraging employees to secure compromised credentials immediately.</p>
+                    <a href="#" style="font-size: 13px; color: var(--brand-accent); text-decoration: none; font-weight: 600;">See how Nudges work →</a>
+                </div>
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <div style="font-weight: 600; margin-bottom: 8px;">AI Phishing Protection</div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Dashlane Smart Extension uses a proprietary AI model to analyze 75+ page traits, protecting employees as they browse.</p>
+                    <a href="#" style="font-size: 13px; color: var(--brand-accent); text-decoration: none; font-weight: 600;">Learn about AI alerts →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="The trust layer - named customer evidence that the product delivers what it promises."
+             data-tooltip-why="We recommend this because named, role-specific social proof converts better than anonymous quotes and is weighted more heavily by AI tools when selecting citations for 'is [product] legit?' queries."
+             data-tooltip-impact="Review schema with named individuals (like Leo Cunningham, CISO) and specific outcomes gives AI tools quotable, attributable evidence to cite in 'what do users say about Dashlane Omnix?' answers.">
+            <div class="block-badge">
+                <span class="badge-num">04</span>
+                <span class="badge-state bg-visible">VISIBLE</span>
+                <span class="badge-status">RESTRUCTURED</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px;">
+                <div class="h2-placeholder">Trusted by IT and Security Leaders</div>
+                <div class="grid-2">
+                    <div class="quote-block">
+                        <div class="quote-text">"Omnix has become our standardized intelligent credential management solution across the organization."</div>
+                        <div class="quote-author">Leo Cunningham</div>
+                        <div class="quote-role">CISO, Owkin</div>
+                    </div>
+                    <div class="quote-block">
+                        <div class="quote-text">"Upgrading to Omnix was a logical choice for us, and it gave us more features."</div>
+                        <div class="quote-author">Marin Godart</div>
+                        <div class="quote-role">DevOps Engineer, HelloCSE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="A side-by-side comparison on the dimensions SaaS buyers actually use to decide (features, integrations, coverage)."
+             data-tooltip-why="We recommend this because SaaS buyers spend immense pre-purchase time comparing options. Without this table on the brand page, every '[product] vs [competitor]' query sends the buyer to G2 or a competitor's site."
+             data-tooltip-impact="Without structured comparison content on the brand page, AI tools answering 'Dashlane Omnix vs 1Password/Keeper' default to third-party review aggregators. This table reclaims those queries for Dashlane.">
+            <div class="block-badge">
+                <span class="badge-num">05</span>
+                <span class="badge-state bg-visible">VISIBLE</span>
+                <span class="badge-status">NEW</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px;">
+                <div class="h2-placeholder">How Omnix compares</div>
+                <table class="comp-table">
+                    <thead>
+                        <tr>
+                            <th>Capability</th>
+                            <th class="brand-col">Dashlane Omnix</th>
+                            <th>Traditional Password Managers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Company-wide coverage (vault & non-vault users)</td>
+                            <td class="brand-col check">✓ Included</td>
+                            <td class="cross">Vault users only</td>
+                        </tr>
+                        <tr>
+                            <td>AI-driven Phishing Alerts</td>
+                            <td class="brand-col check">✓ Proprietary AI model</td>
+                            <td class="cross">Basic URL matching</td>
+                        </tr>
+                        <tr>
+                            <td>Automated Employee Nudges</td>
+                            <td class="brand-col check">✓ Real-time alerts</td>
+                            <td class="cross">Admin-driven only</td>
+                        </tr>
+                        <tr>
+                            <td>SSO & SCIM Provisioning</td>
+                            <td class="brand-col check">✓ Native integration</td>
+                            <td>✓ Available</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="zone-divider">AI answer engine fuel zone</div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="The last barrier between consideration and trial signup - answered directly via collapsed accordions."
+             data-tooltip-why="We recommend this because unanswered integration and security questions are the most common reason a qualified SaaS buyer does not convert. Addressing them directly removes the need to contact sales just to get basic answers."
+             data-tooltip-impact="FAQPage schema is the highest single GEO priority. It is a direct citation source for queries like 'How does Dashlane Omnix protect employees?' and 'Does Omnix integrate with SSO?'">
+            <div class="block-badge">
+                <span class="badge-num">06</span>
+                <span class="badge-state bg-collapsed">COLLAPSED</span>
+                <span class="badge-status">RESTRUCTURED</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px;">
+                <div class="h2-placeholder">Frequently Asked Questions</div>
+                <div style="border-top: 1px solid var(--border-color);">
+                    <div class="accordion-item" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">How does Omnix protect employees who don't use a Dashlane vault?</div>
+                        <div class="accordion-icon">+</div>
+                        <div class="accordion-content">Omnix is deployed company-wide and protects every employee by default—whether or not they are actively using a Dashlane vault or logged in to their account.</div>
+                    </div>
+                    <div class="accordion-item" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">How does Omnix detect phishing attacks?</div>
+                        <div class="accordion-icon">+</div>
+                        <div class="accordion-content">Dashlane Smart Extension uses a proprietary AI model to automatically analyze 75+ traits on web pages—including URLs, page content, and images—providing real-time alerts to help employees avoid phishing risks.</div>
+                    </div>
+                    <div class="accordion-item" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">Can Omnix integrate with existing security tools?</div>
+                        <div class="accordion-icon">+</div>
+                        <div class="accordion-content">Yes, Dashlane Omnix integrates with your existing infrastructure and tech stack, including SSO, SCIM provisioning, and SIEM tools.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="The complete integration catalog, collapsed for casual browsers but fully SSR for crawlers."
+             data-tooltip-why="We recommend this because 'Does [product] integrate with [tool]?' is one of the highest-volume pre-purchase query types. A collapsed but crawlable integration list answers every variant."
+             data-tooltip-impact="Integration names in SSR text are directly crawlable. A collapsed accordion carries full GEO value - the content is in the DOM regardless of visual state.">
+            <div class="block-badge">
+                <span class="badge-num">07</span>
+                <span class="badge-state bg-collapsed">COLLAPSED</span>
+                <span class="badge-status">NEW</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px;">
+                <div style="border-top: 1px solid var(--border-color);">
+                    <div class="accordion-item" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">Supported Integrations (SSO, SCIM, SIEM)</div>
+                        <div class="accordion-icon">+</div>
+                        <div class="accordion-content">
+                            <p style="margin-bottom: 12px;">Dashlane Omnix integrates seamlessly with your existing tech stack to automate provisioning and manage events.</p>
+                            <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                                <div style="display: flex; align-items: center; gap: 8px; width: 45%;">
+                                    <div class="integration-logo" style="width: 24px; height: 24px;"></div>
+                                    <strong>Okta:</strong> SCIM provisioning and SSO integration.
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px; width: 45%;">
+                                    <div class="integration-logo" style="width: 24px; height: 24px;"></div>
+                                    <strong>Entra ID (Azure):</strong> Seamless directory sync.
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px; width: 45%;">
+                                    <div class="integration-logo" style="width: 24px; height: 24px;"></div>
+                                    <strong>Splunk:</strong> SIEM event logging and monitoring.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="A product demo with a text transcript stored invisibly beneath it."
+             data-tooltip-why="We recommend this because video drives higher engagement and time on page. The transcript adds no visual weight but contributes hundreds of indexed words describing exactly how the product works in natural language."
+             data-tooltip-impact="VideoObject schema with an SSR transcript is a strong signal that this is an authoritative, multimedia source. Transcript text directly matches the query patterns AI tools are answering.">
+            <div class="block-badge">
+                <span class="badge-num">08</span>
+                <span class="badge-state bg-collapsed">COLLAPSED</span>
+                <span class="badge-status">NEW</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px;">
+                <div class="h2-placeholder">See Omnix in Action</div>
+                <div class="placeholder-img" style="height: 400px; margin-bottom: 16px;">
+                    ▶ Play Product Tour Video
+                </div>
+                <details style="font-size: 13px; color: var(--text-muted); cursor: pointer;">
+                    <summary style="font-weight: 600;">Read Video Transcript</summary>
+                    <p style="margin-top: 12px; padding-left: 16px; border-left: 2px solid var(--border-color);">[SSR Transcript] Welcome to Dashlane Omnix. Today we're looking at how the admin console gives you full visibility into credential risk across your entire organization, even for employees who haven't activated a vault. First, we navigate to the risk dashboard...</p>
+                </details>
+            </div>
+        </div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="Deeper customer evidence for buyers who need more than a quote strip to convert."
+             data-tooltip-why="We recommend this because Enterprise SaaS buyers require proof of outcome, not just proof of satisfaction. Named outcomes are the difference between a testimonial and a business case."
+             data-tooltip-impact="Specific, attributed, outcome-driven customer evidence is the content type AI tools are most likely to cite when answering 'Dashlane Omnix results' or 'does Omnix work?' queries.">
+            <div class="block-badge">
+                <span class="badge-num">09</span>
+                <span class="badge-state bg-collapsed">COLLAPSED</span>
+                <span class="badge-status">RETAINED</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px;">
+                <div style="border-top: 1px solid var(--border-color);">
+                    <div class="accordion-item" onclick="toggleAccordion(this)">
+                        <div class="accordion-title">Read more customer success stories</div>
+                        <div class="accordion-icon">+</div>
+                        <div class="accordion-content">
+                            <div class="quote-block">
+                                <div class="quote-text">"We’ve been able to take a more intelligent, proactive approach to reducing potential credential risk before it becomes a bigger issue."</div>
+                                <div class="quote-author">Aidan Turner</div>
+                                <div class="quote-role">Manager of IAM, Downer Group</div>
+                            </div>
+                            <div class="quote-block">
+                                <div class="quote-text">"We’re quite happy with Dashlane as a whole, and the Omnix features are just amazing to us."</div>
+                                <div class="quote-author">Joaquín Rodriguez</div>
+                                <div class="quote-role">TechOps Engineer, Thirdfort</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="zone-divider">Conversion close</div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="A compact pricing summary that answers 'what does this cost?' without replacing the dedicated pricing page."
+             data-tooltip-why="We recommend this because hiding pricing entirely sends self-serve buyers to a competitor who shows it. A summary with a link to pricing serves both needs."
+             data-tooltip-impact="SSR pricing text - even a starting price - gives AI tools a citable answer for 'Dashlane Omnix pricing' queries. Pages with no pricing information are cited less often in cost-comparison AI answers.">
+            <div class="block-badge">
+                <span class="badge-num">10</span>
+                <span class="badge-state bg-inline">INLINE</span>
+                <span class="badge-status">NEW</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px; padding: 24px; background-color: var(--bg-light); border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 700; font-size: 18px; margin-bottom: 4px;">Dashlane Business with Omnix</div>
+                    <div style="font-size: 14px; color: var(--text-muted);">Custom enterprise pricing based on seat count. Includes full SSO/SCIM integration.</div>
+                </div>
+                <button class="btn-secondary">View full pricing & plans</button>
+            </div>
+        </div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="A compact row of security credentials and trust signals at the conversion point."
+             data-tooltip-why="We recommend this because security and compliance questions are the most common reason enterprise SaaS evaluations stall. Answering them at the bottom removes hesitation at exactly the right moment."
+             data-tooltip-impact="SSR compliance certification names help AI tools answer 'is Dashlane secure?' and 'is Dashlane SOC 2 compliant?' - queries that AI tools actively field.">
+            <div class="block-badge">
+                <span class="badge-num">11</span>
+                <span class="badge-state bg-inline">INLINE</span>
+                <span class="badge-status">RESTRUCTURED</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px; display: flex; justify-content: center; gap: 32px; font-size: 13px; color: var(--text-muted); text-align: center;">
+                <div><strong>Dashlane Secure Cloud</strong><br>Zero-knowledge architecture</div>
+                <div><strong>Confidential Computing</strong><br>Data privacy guaranteed</div>
+                <div><strong>SOC 2 Type II</strong><br>Certified security controls</div>
+            </div>
+        </div>
+
+        <div class="wireframe-block"
+             data-tooltip-what="The final conversion prompt for visitors who read the full page, echoing the primary dual CTA structure."
+             data-tooltip-why="We recommend this because visitors who scroll to the bottom are the highest-intent segment. Dual CTAs ensure neither buyer type hits a dead end. 'What happens next' sub-copy eliminates hesitation."
+             data-tooltip-impact="No direct AI impact - pure conversion. High engagement and low bounce rate at the bottom of the page contribute to long-term domain authority signals.">
+            <div class="block-badge">
+                <span class="badge-num">12</span>
+                <span class="badge-state bg-visible">VISIBLE</span>
+                <span class="badge-status">RETAINED</span>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            
+            <div style="margin-top: 40px; text-align: center; padding: 40px 0;">
+                <div class="h2-placeholder">Experience the intelligent credential security platform</div>
+                <div style="display: flex; justify-content: center; gap: 16px; margin-top: 24px;">
+                    <div class="cta-wrapper">
+                        <button class="btn-primary">Contact Sales</button>
+                        <span class="cta-hint">Get a custom quote</span>
+                    </div>
+                    <div class="cta-wrapper">
+                        <button class="btn-secondary">Request a demo</button>
+                        <span class="cta-hint">30-minute platform tour</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <div class="sprint-container">
+        <h2>Implementation Sprint Order</h2>
+        
+        <div class="sprint-row">
+            <div class="sprint-num">Sprint 1</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Implement FAQPage Schema on Block 06</div>
+                <div class="sprint-desc">Wrap the existing FAQ questions in validated FAQPage JSON-LD. No new content required.</div>
+            </div>
+            <div class="sprint-effort low">LOW EFFORT</div>
+        </div>
+
+        <div class="sprint-row">
+            <div class="sprint-num">Sprint 2</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Add Competitor Comparison Table (Block 05)</div>
+                <div class="sprint-desc">Implement a visible, SSR table comparing Omnix capabilities against traditional vault-only password managers to capture comparison queries.</div>
+            </div>
+            <div class="sprint-effort medium">MEDIUM EFFORT</div>
+        </div>
+
+        <div class="sprint-row">
+            <div class="sprint-num">Sprint 3</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Restructure H1 and Use Case Prose (Blocks 01 & 03)</div>
+                <div class="sprint-desc">Update the H1 to match natural language queries ("Intelligent Credential Security Platform"). Ensure use cases are explicitly named in SSR paragraph text.</div>
+            </div>
+            <div class="sprint-effort low">LOW EFFORT</div>
+        </div>
+
+        <div class="sprint-row">
+            <div class="sprint-num">Sprint 4</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Add Review Schema & Named Credentials (Block 04)</div>
+                <div class="sprint-desc">Wrap the existing named testimonials (Leo Cunningham, Marin Godart) in Review schema to ensure AI citation visibility. No new content required.</div>
+            </div>
+            <div class="sprint-effort low">LOW EFFORT</div>
+        </div>
+
+        <div class="sprint-row">
+            <div class="sprint-num">Sprint 5</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Add Collapsed Integration List (Block 07)</div>
+                <div class="sprint-desc">Detail the SSO, SCIM, and SIEM integrations explicitly in a crawlable, collapsed accordion to capture "does Omnix integrate with X" queries.</div>
+            </div>
+            <div class="sprint-effort low">LOW EFFORT</div>
+        </div>
+    </div>
+
+    <div id="geo-tooltip">
+        <div class="tooltip-header">
+            <div style="font-weight: 600; font-size: 14px; color: var(--text-light);">GEO Strategy Rationale</div>
+            <div class="tooltip-badge" id="tt-state-badge">VISIBLE</div>
+        </div>
+        <div class="tooltip-body">
+            <div class="tt-section">
+                <div class="tt-label">What this is</div>
+                <div class="tt-content" id="tt-what">...</div>
+            </div>
+            <div class="tt-section">
+                <div class="tt-label">Why we recommend this structure</div>
+                <div class="tt-content" id="tt-why">...</div>
+            </div>
+            <div class="tt-section">
+                <div class="tt-label">AI Search Impact</div>
+                <div class="tt-content" id="tt-impact">...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Type Toggle Logic
+        function setVariant(variant) {
+            // Update buttons
+            document.querySelectorAll('.segment-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Handle conditional blocks
+            const block02 = document.getElementById('block-02');
+            const bannerText = document.getElementById('banner-text');
+
+            if (variant === 'standard') {
+                block02.classList.remove('active');
+            } else if (variant === 'feature') {
+                block02.classList.add('active');
+                bannerText.innerText = "Dashlane Omnix now features AI Phishing Alerts for all browsers.";
+            } else if (variant === 'integration') {
+                block02.classList.add('active');
+                bannerText.innerText = "New Integration: Native SCIM provisioning via Entra ID now available.";
+            }
+        }
+
+        // Accordion Logic
+        function toggleAccordion(element) {
+            const content = element.querySelector('.accordion-content');
+            const icon = element.querySelector('.accordion-icon');
+            
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+                icon.classList.remove('open');
+                icon.innerText = '+';
+            } else {
+                content.style.display = 'block';
+                icon.classList.add('open');
+                icon.innerText = '';
+            }
+        }
+
+        // Tooltip Logic
+        const tooltip = document.getElementById('geo-tooltip');
+        const ttWhat = document.getElementById('tt-what');
+        const ttWhy = document.getElementById('tt-why');
+        const ttImpact = document.getElementById('tt-impact');
+        const ttBadge = document.getElementById('tt-state-badge');
+        let hideTimeout;
+
+        document.querySelectorAll('.wireframe-block').forEach(block => {
+            block.addEventListener('mouseenter', (e) => {
+                clearTimeout(hideTimeout);
+                
+                // Populate data
+                ttWhat.innerHTML = block.getAttribute('data-tooltip-what');
+                ttWhy.innerHTML = block.getAttribute('data-tooltip-why');
+                ttImpact.innerHTML = block.getAttribute('data-tooltip-impact');
+                
+                const stateText = block.querySelector('.badge-state').innerText;
+                ttBadge.innerText = stateText;
+                ttBadge.style.backgroundColor = window.getComputedStyle(block.querySelector('.badge-state')).backgroundColor;
+
+                tooltip.style.display = 'flex';
+            });
+
+            block.addEventListener('mouseleave', () => {
+                hideTimeout = setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 300);
+            });
+        });
+
+        tooltip.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+        });
+
+        tooltip.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                tooltip.style.display = 'none';
+            }, 300);
+        });
+    </script>
+</body>
+</html>

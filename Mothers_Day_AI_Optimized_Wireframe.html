@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI SEO Wireframe — Mother's Day Holiday Template | Save the Children × Tinuiti</title>
+    <style>
+        :root {
+            --bg: #FFFFFF;
+            --surface: #F4F0EB;
+            --text: #222222;
+            --primary: #DA291C;
+            --border-light: rgba(0,0,0,0.08);
+            --placeholder: rgba(34,34,34,0.15);
+            --image-placeholder: rgba(34,34,34,0.05);
+            --state-visible: #10b981;
+            --state-collapsed: #f59e0b;
+            --state-new: #DA291C;
+            --state-inline: #3b82f6;
+            --state-enhanced: #8b5cf6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #E5E5E5; color: var(--text); padding-bottom: 60px; }
+
+        .intro-banner { background: var(--primary); color: #fff; padding: 24px 40px; display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; font-size: 14px; }
+        .intro-brand-logo { background: #fff; color: var(--primary); padding: 6px 14px; font-weight: bold; display: inline-block; margin-bottom: 10px; border-radius: 3px; font-size: 13px; }
+        .intro-title { font-size: 19px; font-weight: bold; margin-bottom: 6px; }
+        .intro-meta { opacity: 0.85; font-size: 11px; margin-bottom: 14px; }
+        .intro-queries { display: flex; gap: 8px; flex-wrap: wrap; }
+        .query-chip { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 16px; font-size: 11px; }
+        .intro-right { display: flex; gap: 20px; flex-shrink: 0; }
+        .intro-box { background: rgba(0,0,0,0.22); padding: 16px 18px; border-radius: 8px; font-size: 12px; max-width: 270px; line-height: 1.5; }
+        .intro-box h4 { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; opacity: 0.75; }
+        .intro-box ol { margin-left: 16px; }
+        .intro-box li { margin-bottom: 5px; }
+
+        .browser-container { max-width: 1200px; margin: 0 auto; background: var(--bg); border-radius: 8px 8px 0 0; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); position: relative; }
+        .browser-chrome { background: #f1f1f1; padding: 12px 20px; display: flex; align-items: center; border-bottom: 1px solid #ccc; position: sticky; top: 0; z-index: 100; }
+        .mac-dots { display: flex; gap: 6px; margin-right: 20px; }
+        .mac-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .mac-dot.red { background: #ff5f56; } .mac-dot.yellow { background: #ffbd2e; } .mac-dot.green { background: #27c93f; }
+        .browser-tab { background: var(--bg); padding: 6px 16px; border-radius: 6px 6px 0 0; font-size: 12px; color: #333; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 16px; }
+        .browser-address { background: #fff; padding: 6px 16px; border-radius: 4px; flex-grow: 1; font-size: 12px; color: #666; border: 1px solid #ddd; }
+
+        .controls-bar { background: #1A1A1A; color: #fff; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 49px; z-index: 99; }
+        .legend { display: flex; gap: 14px; font-size: 11px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        .site-nav { background: var(--bg); padding: 14px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .nav-logo { background: var(--primary); color: #fff; padding: 5px 12px; font-weight: bold; font-size: 13px; border-radius: 2px; }
+        .nav-links { display: flex; gap: 22px; font-size: 13px; font-weight: 500; }
+        .btn-primary { background: var(--primary); color: #fff; border: none; padding: 9px 22px; font-size: 13px; font-weight: bold; border-radius: 3px; cursor: pointer; }
+
+        .page-content { background: var(--bg); }
+        .zone-divider { background: var(--surface); padding: 10px 40px; font-size: 10px; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+
+        .wf-block { position: relative; padding: 52px 40px; border-bottom: 1px solid var(--border-light); background: var(--bg); cursor: default; transition: outline 0.15s; }
+        .wf-block.surface { background: var(--surface); }
+        .wf-block.compact { padding: 24px 40px; }
+        .wf-block:hover { outline: 2px solid var(--primary); outline-offset: -2px; z-index: 10; }
+
+        .block-badge { position: absolute; top: 14px; left: 14px; display: flex; gap: 6px; align-items: center; z-index: 2; flex-wrap: wrap; }
+        .badge-num { background: var(--primary); color: #fff; font-size: 10px; font-weight: bold; padding: 3px 7px; border-radius: 3px; }
+        .badge-state { font-size: 10px; font-weight: bold; padding: 3px 7px; border-radius: 3px; color: #fff; }
+        .badge-audit { background: #f3f4f6; color: #374151; border: 1px solid var(--border-light); font-size: 10px; padding: 2px 7px; border-radius: 3px; }
+        .hover-cue { position: absolute; top: 18px; right: 40px; font-size: 11px; color: var(--primary); opacity: 0.45; pointer-events: none; }
+        .wf-block:hover .hover-cue { opacity: 0; }
+
+        .wf-h1 { font-size: 34px; font-weight: bold; margin-bottom: 14px; line-height: 1.2; }
+        .wf-h2 { font-size: 22px; font-weight: bold; margin-bottom: 12px; }
+        .wf-text { font-size: 14px; line-height: 1.65; margin-bottom: 12px; opacity: 0.85; }
+        .wf-box { background: var(--image-placeholder); display: flex; align-items: center; justify-content: center; opacity: 0.45; font-size: 11px; border: 1px dashed rgba(0,0,0,0.12); border-radius: 4px; text-align: center; padding: 10px; }
+        .wf-btn { background: var(--primary); color: #fff; padding: 12px 28px; display: inline-block; font-weight: bold; font-size: 13px; margin-top: 14px; border-radius: 3px; cursor: pointer; }
+        .wf-btn.teal { background: #007B74; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+        .gift-card { background: #fff; border: 1px solid var(--border-light); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .gift-img { background: var(--image-placeholder); height: 170px; display: flex; align-items: flex-end; font-size: 10px; color: rgba(0,0,0,0.3); position: relative; border-radius: 8px 8px 0 0; overflow: hidden; }
+        .gift-overlay { width: 100%; background: rgba(0,0,0,0.52); color: #fff; padding: 10px 14px; }
+        .gift-overlay h6 { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+        .gift-body { padding: 14px; font-size: 13px; line-height: 1.55; color: rgba(0,0,0,0.72); flex-grow: 1; }
+        .gift-cta { padding: 0 14px 14px; }
+        .gift-cta .wf-btn { margin-top: 0; font-size: 12px; padding: 9px 18px; }
+
+        .impact-strip { display: flex; background: #fff; border: 1px solid var(--border-light); border-radius: 6px; overflow: hidden; margin-top: 24px; }
+        .impact-item { flex: 1; padding: 20px 18px; border-right: 1px solid var(--border-light); text-align: center; }
+        .impact-item:last-child { border-right: none; }
+        .impact-num { font-size: 26px; font-weight: bold; color: var(--primary); }
+        .impact-label { font-size: 12px; margin-top: 5px; opacity: 0.7; line-height: 1.4; }
+
+        .trust-strip { display: flex; background: var(--surface); border-radius: 6px; overflow: hidden; }
+        .trust-item { flex: 1; padding: 18px 16px; border-right: 1px solid var(--border-light); text-align: center; }
+        .trust-item:last-child { border-right: none; }
+        .trust-num { font-size: 20px; font-weight: bold; color: var(--primary); }
+        .trust-label { font-size: 11px; margin-top: 3px; opacity: 0.65; line-height: 1.3; }
+        .trust-logos { display: flex; gap: 10px; justify-content: center; align-items: center; }
+        .trust-logo-box { background: var(--image-placeholder); border: 1px solid var(--border-light); border-radius: 3px; width: 70px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 9px; opacity: 0.5; }
+
+        .callout { padding: 18px 22px; border-left: 3px solid var(--primary); background: #fff; border-radius: 0 6px 6px 0; margin-top: 20px; }
+        .callout strong { display: block; margin-bottom: 4px; font-size: 13px; }
+        .callout p { font-size: 13px; opacity: 0.78; line-height: 1.5; }
+
+        .quote-block { background: var(--surface); border-radius: 8px; padding: 28px 28px 22px; position: relative; }
+        .quote-mark { font-size: 56px; color: var(--primary); opacity: 0.15; position: absolute; top: 10px; left: 18px; line-height: 1; font-family: Georgia, serif; }
+        .quote-text { font-size: 16px; font-style: italic; line-height: 1.6; position: relative; z-index: 1; margin-bottom: 12px; }
+        .quote-attr { font-size: 12px; font-weight: bold; opacity: 0.65; }
+
+        .accordion-row { border-bottom: 1px solid var(--border-light); padding: 17px 52px 17px 0; position: relative; cursor: pointer; }
+        .accordion-row:first-of-type { border-top: 1px solid var(--border-light); }
+        .accordion-title { font-weight: bold; font-size: 15px; }
+        .accordion-content { display: none; padding-top: 11px; font-size: 13px; line-height: 1.65; opacity: 0.8; }
+        .accordion-row.open .accordion-content { display: block; }
+        .toggle-icon { position: absolute; right: 0; top: 17px; width: 22px; height: 22px; border: 1.5px solid rgba(34,34,34,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .toggle-icon::before, .toggle-icon::after { content: ''; position: absolute; background: rgba(34,34,34,0.4); transition: all 0.2s; }
+        .toggle-icon::before { width: 10px; height: 1.5px; }
+        .toggle-icon::after { width: 1.5px; height: 10px; }
+        .accordion-row:hover .toggle-icon, .accordion-row.open .toggle-icon { background: var(--primary); border-color: var(--primary); }
+        .accordion-row:hover .toggle-icon::before, .accordion-row:hover .toggle-icon::after,
+        .accordion-row.open .toggle-icon::before, .accordion-row.open .toggle-icon::after { background: #fff; }
+        .accordion-row.open .toggle-icon { transform: rotate(45deg); }
+
+        .new-tag { background: var(--state-new); color: #fff; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.5px; vertical-align: middle; margin-left: 5px; }
+        .enhanced-tag { background: var(--state-enhanced); color: #fff; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 3px; letter-spacing: 0.5px; vertical-align: middle; margin-left: 5px; }
+
+        .signup-form { display: flex; gap: 8px; margin-top: 14px; }
+        .signup-input { flex: 1; background: #f5f5f5; border: 1px solid #ddd; border-radius: 3px; height: 40px; padding: 0 14px; font-size: 13px; color: #aaa; display: flex; align-items: center; }
+
+        .tooltip-container { position: fixed; right: 56px; top: 50%; transform: translateY(-50%); width: 355px; max-height: min(480px, calc(100vh - 200px)); background: rgba(250,250,250,0.97); border: 1px solid rgba(218,41,28,0.22); box-shadow: -8px 16px 40px rgba(0,0,0,0.12); border-radius: 8px; z-index: 1000; display: flex; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.2s; overflow: visible; }
+        .tooltip-container.active { opacity: 1; pointer-events: auto; }
+        .tooltip-caret { position: absolute; right: -8px; top: 50%; transform: translateY(-50%) rotate(45deg); width: 14px; height: 14px; background: rgba(250,250,250,0.97); border-top: 1px solid rgba(218,41,28,0.22); border-right: 1px solid rgba(218,41,28,0.22); }
+        .tooltip-body { padding: 20px; overflow-y: auto; flex-grow: 1; min-height: 0; }
+        .tooltip-body::-webkit-scrollbar { width: 3px; }
+        .tooltip-body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+        .tt-label { font-size: 9px; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; margin-top: 14px; }
+        .tt-label:first-child { margin-top: 0; }
+        .tt-text { font-size: 12px; line-height: 1.55; color: var(--text); }
+
+        .sprint-container { max-width: 1200px; margin: 40px auto; background: var(--surface); padding: 36px 40px; border-radius: 8px; }
+        .sprint-h2 { font-size: 20px; font-weight: bold; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid var(--border-light); }
+        .sprint-item { display: flex; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border-light); align-items: flex-start; }
+        .sprint-num { font-weight: bold; color: var(--primary); min-width: 76px; font-size: 13px; padding-top: 1px; }
+        .sprint-details { flex-grow: 1; }
+        .sprint-title { font-weight: bold; margin-bottom: 4px; font-size: 14px; }
+        .sprint-desc { font-size: 12px; opacity: 0.75; line-height: 1.55; }
+        .sprint-note { font-size: 11px; color: #b91c1c; font-weight: bold; margin-top: 6px; }
+        .sprint-effort { font-size: 10px; font-weight: bold; padding: 3px 9px; border-radius: 4px; white-space: nowrap; height: fit-content; margin-top: 2px; }
+        .effort-low { background: #d1fae5; color: #065f46; }
+        .effort-med { background: #fef3c7; color: #92400e; }
+        .effort-high { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+
+<div class="intro-banner">
+    <div>
+        <div class="intro-brand-logo">Save the Children</div>
+        <div class="intro-title">Mother's Day — AI-Optimized Holiday Page Template</div>
+        <div class="intro-meta">Prepared by Tinuiti · March 2026 · Built on V-Day page structure + Country Page AI framework</div>
+        <div class="intro-queries">
+            <div class="query-chip">"best charity gift for Mother's Day"</div>
+            <div class="query-chip">"donate in honor of mom"</div>
+            <div class="query-chip">"meaningful Mother's Day gift ideas"</div>
+            <div class="query-chip">"is Save the Children a good charity?"</div>
+        </div>
+    </div>
+    <div class="intro-right">
+        <div class="intro-box">
+            <h4>How to use</h4>
+            <ol>
+                <li>Hover any section for AI rationale + CRO note</li>
+                <li>Click FAQ rows to preview expand behavior</li>
+                <li>Review the Sprint Order below the page</li>
+            </ol>
+        </div>
+        <div class="intro-box">
+            <h4>Strategic direction</h4>
+            The V-Day page structure works — we're not rebuilding it. We're adding an <strong>AI Answer Engine Fuel layer</strong> (knowledge block, FAQ schema, trust signals) and <strong>light CRO improvements</strong> (impact pricing, trust strip, attributed quotes) without disrupting the gift-card grid that drives conversions.
+        </div>
+    </div>
+</div>
+
+<div class="browser-container">
+    <div class="browser-chrome">
+        <div class="mac-dots">
+            <div class="mac-dot red"></div><div class="mac-dot yellow"></div><div class="mac-dot green"></div>
+        </div>
+        <div class="browser-tab">Mother's Day Charity Gifts That Change Lives | Save The Children</div>
+        <div class="browser-address">https://www.savethechildren.org/us/charity-stories/mothers-day-donations</div>
+    </div>
+
+    <div class="controls-bar">
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--state-visible)"></div> RETAINED</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--state-new)"></div> NEW</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--state-enhanced)"></div> ENHANCED</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--state-collapsed)"></div> ACCORDION</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--state-inline)"></div> INLINE</div>
+        </div>
+        <div style="font-size:11px; color:#888;">Hover any section for rationale</div>
+    </div>
+
+    <div class="site-nav">
+        <div class="nav-logo">Save the Children</div>
+        <div class="nav-links">
+            <span>Who We Are</span><span>What We Do</span><span>Ways to Help</span><span>Browse Gift Guide</span><span>Monthly Support</span>
+        </div>
+        <div><button class="btn-primary">Donate</button></div>
+    </div>
+
+    <div class="page-content">
+
+        <div class="zone-divider">Above the fold</div>
+
+        <!-- BLOCK 01: H1 HERO -->
+        <div class="wf-block" data-tooltip="block-01">
+            <div class="block-badge">
+                <div class="badge-num">01</div>
+                <div class="badge-state" style="background:var(--state-enhanced)">ENHANCED</div>
+                <div class="badge-audit">WAS: "Ways to Give Back This Mother's Day"</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div style="max-width:760px; margin:0 auto; text-align:center;">
+                <div class="wf-h1">Mother's Day Charity Gifts That Change Lives</div>
+                <p class="wf-text">Honor the mother in your life with a gift that gives back. Save the Children supports mothers and children in the U.S. and around the world — helping them access food, health care, and education. A donation in her name is one of the most meaningful Mother's Day gifts you can give.</p>
+                <div class="wf-btn">Browse Gift Ideas</div>
+                <span style="color:var(--primary); font-size:13px; text-decoration:underline; margin-left:16px; cursor:pointer;">Jump to Donate ↓</span>
+            </div>
+        </div>
+
+        <div class="zone-divider">Knowledge Zone <span class="new-tag">NEW</span> — AI Answer Engine Fuel</div>
+
+        <!-- BLOCK 02: WHY MOTHERS MATTER -->
+        <div class="wf-block surface" data-tooltip="block-02">
+            <div class="block-badge">
+                <div class="badge-num">02</div>
+                <div class="badge-state" style="background:var(--state-new)">NEW</div>
+                <div class="badge-audit">SSR TEXT BLOCK</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div style="max-width:820px; margin:0 auto; text-align:center;">
+                <div class="wf-h2">Why Mothers Are at the Heart of Our Mission</div>
+                <p class="wf-text">When mothers are healthy, their children are more likely to survive and thrive. Save the Children has worked for over 100 years to support mothers and children — from prenatal health care to nutrition programs and early education. Today, millions of mothers around the world are watching their children go hungry while lifesaving supplies run short. Your Mother's Day donation helps change that.</p>
+                <div class="impact-strip">
+                    <div class="impact-item">
+                        <div class="impact-num">$67</div>
+                        <div class="impact-label">Provides a full treatment course for a severely malnourished child</div>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-num">$50</div>
+                        <div class="impact-label">Trains a Community Health Worker to deliver care in a crisis zone</div>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-num">$30</div>
+                        <div class="impact-label">Sends an orphaned child to school with the supplies they need</div>
+                    </div>
+                    <div class="impact-item">
+                        <div class="impact-num">84%</div>
+                        <div class="impact-label">Of every dollar goes directly to our mission</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="zone-divider">Gift Ideas Grid — Retained structure, enhanced copy</div>
+
+        <!-- BLOCK 03: SECTION INTRO -->
+        <div class="wf-block compact" data-tooltip="block-03">
+            <div class="block-badge">
+                <div class="badge-num">03</div>
+                <div class="badge-state" style="background:var(--state-visible)">RETAINED</div>
+            </div>
+            <div style="text-align:center; max-width:640px; margin:0 auto;">
+                <div class="wf-h2">Mother's Day Donation Gift Ideas</div>
+                <p class="wf-text">Choose a Mother's Day charity gift that provides essentials like food, education, and health care for children and families around the world.</p>
+            </div>
+        </div>
+
+        <!-- BLOCK 04: GIFT GRID ROW 1 -->
+        <div class="wf-block surface" data-tooltip="block-04">
+            <div class="block-badge">
+                <div class="badge-num">04</div>
+                <div class="badge-state" style="background:var(--state-enhanced)">ENHANCED</div>
+                <div class="badge-audit">WAS: No body copy on cards</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div class="grid-2" style="max-width:940px; margin:0 auto;">
+                <div class="gift-card">
+                    <div class="gift-img">Photo: Mother &amp; infant in DRC<div class="gift-overlay"><h6>Give in Honor of Mom</h6></div></div>
+                    <div class="gift-body">Honor the maternal figure in your life with a Mother's Day donation in her name. Your gift helps provide lifesaving care for mothers and children in the world's most vulnerable communities.</div>
+                    <div class="gift-cta"><div class="wf-btn teal">Donate in Honor of Mom Today</div></div>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-img">Photo: Child receiving treatment, Somalia<div class="gift-overlay"><h6>Help a Mother Feed a Child</h6></div></div>
+                    <div class="gift-body">Millions of children are going hungry while mothers watch, knowing a simple course of treatment could save them. <strong>$67 provides a full treatment course</strong> for a severely malnourished child.</div>
+                    <div class="gift-cta"><div class="wf-btn teal">Give Now</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BLOCK 05: GIFT GRID ROW 2 -->
+        <div class="wf-block surface" style="padding-top:10px;" data-tooltip="block-05">
+            <div class="block-badge">
+                <div class="badge-num">05</div>
+                <div class="badge-state" style="background:var(--state-enhanced)">ENHANCED</div>
+                <div class="badge-audit">WAS: No body copy on cards</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div class="grid-2" style="max-width:940px; margin:0 auto;">
+                <div class="gift-card">
+                    <div class="gift-img">Photo: Gift boxes<div class="gift-overlay"><h6>Send a Gift Box</h6></div></div>
+                    <div class="gift-body">Our curated gift boxes include essential items that help children around the world. Each purchase directly supports Save the Children's mission — a Mother's Day gift that truly makes a difference.</div>
+                    <div class="gift-cta"><div class="wf-btn teal">Send a Gift Box</div></div>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-img">Photo: Family receiving grocery basket<div class="gift-overlay"><h6>Grocery Basket for a Family</h6></div></div>
+                    <div class="gift-body">A basket filled with pasta, beans, vegetables, oil and bread eliminates urgent hunger for a mother and her family. No mother should watch her child go hungry.</div>
+                    <div class="gift-cta"><div class="wf-btn teal">Learn More</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BLOCK 06: GIFT GRID ROW 3 -->
+        <div class="wf-block surface" style="padding-top:10px;" data-tooltip="block-06">
+            <div class="block-badge">
+                <div class="badge-num">06</div>
+                <div class="badge-state" style="background:var(--state-enhanced)">ENHANCED</div>
+                <div class="badge-audit">WAS: No body copy on cards</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div class="grid-2" style="max-width:940px; margin:0 auto;">
+                <div class="gift-card">
+                    <div class="gift-img">Photo: Child at school, Cambodia<div class="gift-overlay"><h6>Educate a Child</h6></div></div>
+                    <div class="gift-body">Your Mother's Day gift can help provide children with books, learning materials, and access to education. <strong>Every mother wants a future for her child.</strong></div>
+                    <div class="gift-cta"><div class="wf-btn teal">Learn More</div></div>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-img">Photo: Mother &amp; infant, Pakistan nutrition clinic<div class="gift-overlay"><h6>Mother and Infant Kit</h6></div></div>
+                    <div class="gift-body">Your donation can help ensure a mother and her newborn have a healthy start — providing prenatal care, nutrition support, and essential supplies for mother and baby.</div>
+                    <div class="gift-cta"><div class="wf-btn teal">Learn More</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="zone-divider">Conversion Close</div>
+
+        <!-- BLOCK 07: TRUST STRIP + DONATE -->
+        <div class="wf-block compact" data-tooltip="block-07" id="donate">
+            <div class="block-badge">
+                <div class="badge-num">07</div>
+                <div class="badge-state" style="background:var(--state-new)">NEW</div>
+                <div class="badge-audit">INLINE · WAS: Only in footer</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div style="max-width:780px; margin:0 auto;">
+                <div class="trust-strip">
+                    <div class="trust-item">
+                        <div class="trust-num">84%</div>
+                        <div class="trust-label">of every dollar funds our mission</div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-num">100+</div>
+                        <div class="trust-label">years supporting children worldwide</div>
+                    </div>
+                    <div class="trust-item">
+                        <div class="trust-num">4-Star</div>
+                        <div class="trust-label">Charity Navigator rating</div>
+                    </div>
+                    <div class="trust-item" style="display:flex; align-items:center; justify-content:center;">
+                        <div class="trust-logos">
+                            <div class="trust-logo-box">Charity Nav</div>
+                            <div class="trust-logo-box">CharityWatch</div>
+                            <div class="trust-logo-box">BBB</div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:22px;">
+                    <div class="wf-btn">Donate for Mother's Day</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="zone-divider">AI Answer Engine Fuel Zone <span class="new-tag">NEW</span></div>
+
+        <!-- BLOCK 08: ATTRIBUTED QUOTES -->
+        <div class="wf-block" data-tooltip="block-08">
+            <div class="block-badge">
+                <div class="badge-num">08</div>
+                <div class="badge-state" style="background:var(--state-enhanced)">ENHANCED</div>
+                <div class="badge-audit">WAS: Buried below email signup</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div class="grid-2" style="max-width:940px; margin:0 auto; gap:28px;">
+                <div class="quote-block">
+                    <div class="quote-mark">"</div>
+                    <p class="quote-text">I need this kit. I have a 6-month old baby. If it wasn't for Save the Children handing out this kit, I wouldn't be able to afford it.</p>
+                    <div class="quote-attr">— Samah, a mother in Gaza who received a Mother and Infant Kit</div>
+                </div>
+                <div class="quote-block">
+                    <div class="quote-mark">"</div>
+                    <p class="quote-text">Donating in my mom's name was the most meaningful thing I could do. She cried. It felt like we were both doing something good together.</p>
+                    <div class="quote-attr">— [Named donor], monthly supporter <span class="new-tag">CONTENT NEEDED</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BLOCK 09: EDITORIAL COPY — ROLE OF MOTHERS -->
+        <div class="wf-block surface" data-tooltip="block-09">
+            <div class="block-badge">
+                <div class="badge-num">09</div>
+                <div class="badge-state" style="background:var(--state-enhanced)">ENHANCED</div>
+                <div class="badge-audit">WAS: Two orphaned paragraphs at bottom</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div class="grid-2" style="max-width:940px; margin:0 auto; gap:48px;">
+                <div>
+                    <div class="wf-h2">The Essential Role of Mothers</div>
+                    <p class="wf-text">Mothers who are healthy have healthier children and more prosperous families. Societies with well-nourished populations are more productive, economically viable and secure. Save the Children is committed to improving the lives of women and mothers — supporting healthy pregnancies, early childhood development, and long-term family wellbeing.</p>
+                    <p class="wf-text">When you make a Mother's Day donation, you're not just honoring the mother in your life — you're investing in mothers everywhere who need support most.</p>
+                </div>
+                <div>
+                    <div class="wf-h2">Celebrating Mothers: Prioritize Well-Being</div>
+                    <p class="wf-text">Mothers often put themselves last. Save the Children believes that supporting mothers' health, nutrition, and access to resources is one of the most powerful ways to help children thrive. A donation in her honor this Mother's Day is a gift that keeps giving — to her, to you, and to families who need it most.</p>
+                    <div class="callout">
+                        <strong>Did you know?</strong>
+                        <p>A child born to a mother who can read is 50% more likely to survive past age five. Investing in mothers changes everything for the children they raise.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BLOCK 10: FAQ (ENHANCED + SCHEMA-READY) -->
+        <div class="wf-block" data-tooltip="block-10">
+            <div class="block-badge">
+                <div class="badge-num">10</div>
+                <div class="badge-state" style="background:var(--state-enhanced)">ENHANCED</div>
+                <div class="badge-audit">WAS: 4 FAQs, no schema</div>
+            </div>
+            <div class="hover-cue">Hover for insight</div>
+            <div style="max-width:820px; margin:0 auto;">
+                <div class="wf-h2" style="margin-bottom:6px;">Mother's Day Donation FAQs <span class="new-tag">+ FAQPage Schema</span></div>
+                <p class="wf-text" style="margin-bottom:20px;">Common questions from donors structured for AI answer engine inclusion.</p>
+
+                <div class="accordion-row open" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">Is a Mother's Day charity donation a good gift?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Yes. A Mother's Day charity donation is one of the most meaningful gifts you can give — it honors the mother in your life while helping vulnerable mothers and children around the world access food, health care and education. Save the Children makes it easy to donate in someone's name and send a personalized notification.</div>
+                </div>
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">Can I donate to charity in someone's name for Mother's Day?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Yes. You can make a Mother's Day donation in honor of a mother, grandmother, or caregiver. Save the Children will acknowledge your tribute gift. It's a thoughtful way to celebrate your relationship while doing good for children around the world.</div>
+                </div>
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">Are Mother's Day charity donations tax-deductible?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Yes. Save the Children Federation, Inc. is a 501(c)(3) organization. Mother's Day donations are tax-deductible to the full extent allowable under IRS regulations. You will receive a confirmation of your gift for your tax records.</div>
+                </div>
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">What does my Mother's Day donation actually do?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">84% of every dollar goes directly to Save the Children's mission. Depending on the amount, your gift can provide a full course of treatment for a malnourished child ($67), train a Community Health Worker ($50), or send an orphaned child to school with supplies ($30). You can also choose a specific gift catalog item — like a Mother and Infant Kit or Grocery Basket — that funds a targeted program.</div>
+                </div>
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">How is Save the Children rated as a charity?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Save the Children holds a 4-star rating from Charity Navigator and is rated highly by CharityWatch and the Better Business Bureau. We are one of the most trusted children's charities in the world, with over 100 years of operation in more than 100 countries.</div>
+                </div>
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">Can I set up a recurring monthly gift in honor of Mother's Day?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Yes. Monthly giving through our Team Tomorrow program provides sustained support for children year-round. You can start, modify, or cancel your monthly gift at any time by contacting Donor Services at 1.800.728.3843 (Monday–Friday, 8am–5pm EST).</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="zone-divider">Sign-Up + Related Links</div>
+
+        <!-- BLOCK 11: RELATED LINKS (NEW INLINE) -->
+        <div class="wf-block compact" data-tooltip="block-11">
+            <div class="block-badge">
+                <div class="badge-num">11</div>
+                <div class="badge-state" style="background:var(--state-inline)">INLINE</div>
+                <div class="badge-audit">NEW · Holiday cluster linking</div>
+            </div>
+            <div style="display:flex; gap:20px; align-items:center; justify-content:center; font-size:14px; flex-wrap:wrap;">
+                <strong style="color:var(--primary);">More Ways to Give:</strong>
+                <span style="text-decoration:underline; cursor:pointer;">Valentine's Day Donations</span>
+                <span style="text-decoration:underline; cursor:pointer;">Father's Day Gifts</span>
+                <span style="text-decoration:underline; cursor:pointer;">Give in Honor</span>
+                <span style="text-decoration:underline; cursor:pointer;">Browse All Gift Ideas</span>
+                <span style="text-decoration:underline; cursor:pointer;">Monthly Support</span>
+            </div>
+        </div>
+
+        <!-- BLOCK 12: EMAIL SIGNUP (RETAINED) -->
+        <div class="wf-block surface compact" data-tooltip="block-12">
+            <div class="block-badge">
+                <div class="badge-num">12</div>
+                <div class="badge-state" style="background:var(--state-visible)">RETAINED</div>
+            </div>
+            <div style="max-width:520px; margin:0 auto; text-align:center;">
+                <div class="wf-h2" style="font-size:18px;">Sign Up &amp; Stay Connected</div>
+                <p class="wf-text">Get updates on how your donations are helping mothers and children around the world.</p>
+                <div class="signup-form">
+                    <div class="signup-input">Email Address</div>
+                    <div class="wf-btn" style="margin-top:0; padding:10px 20px;">Sign Up</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip-container" id="geo-tooltip">
+    <div class="tooltip-caret"></div>
+    <div class="tooltip-body">
+        <div class="tt-label">WHAT THIS BLOCK IS</div>
+        <div class="tt-text" id="tt-what"></div>
+        <div class="tt-label">WHY WE RECOMMEND THIS</div>
+        <div class="tt-text" id="tt-why"></div>
+        <div class="tt-label">AI SEARCH IMPACT</div>
+        <div class="tt-text" id="tt-impact"></div>
+        <div class="tt-label">CRO RATIONALE</div>
+        <div class="tt-text" id="tt-cro"></div>
+    </div>
+</div>
+
+<!-- SPRINT ORDER -->
+<div class="sprint-container">
+    <div class="sprint-h2">Implementation Sprint Order — Mother's Day Holiday Template</div>
+
+    <div class="sprint-item">
+        <div class="sprint-num">Sprint 1</div>
+        <div class="sprint-details">
+            <div class="sprint-title">H1 Copy + Meta Update + FAQ Schema</div>
+            <div class="sprint-desc">Update H1 from "Ways to Give Back This Mother's Day" to "Mother's Day Charity Gifts That Change Lives." Align meta description to donor-intent queries. Add FAQPage schema to Block 10 — all 6 Q&A pairs are in native SSR HTML with no JS dependency, so schema can be applied immediately.</div>
+            <div class="sprint-note">⚠ Confirm FAQ answers render in SSR — not loaded client-side — before applying schema.</div>
+        </div>
+        <div class="sprint-effort effort-low">LOW EFFORT</div>
+    </div>
+
+    <div class="sprint-item">
+        <div class="sprint-num">Sprint 2</div>
+        <div class="sprint-details">
+            <div class="sprint-title">Knowledge Block + Impact Stats (Block 02)</div>
+            <div class="sprint-desc">Insert the SSR "Why Mothers Matter" paragraph and 4-column impact strip above the gift grid. Pricing points ($30/$50/$67) already exist in the page — this surfaces them prominently in structured HTML. This block is the primary extraction point for AI crawlers answering "what does Save the Children do for mothers?"</div>
+        </div>
+        <div class="sprint-effort effort-med">MEDIUM EFFORT</div>
+    </div>
+
+    <div class="sprint-item">
+        <div class="sprint-num">Sprint 3</div>
+        <div class="sprint-details">
+            <div class="sprint-title">Gift Card Copy Enhancement (Blocks 04–06)</div>
+            <div class="sprint-desc">Add one to two sentences of impact-specific body copy to each gift card. The existing cards have almost no prose — just a one-line caption and a CTA button. Adding outcome-specific copy ("$67 provides a full treatment course") increases AI citeability and donor confidence without changing the visual card structure.</div>
+        </div>
+        <div class="sprint-effort effort-low">LOW EFFORT</div>
+    </div>
+
+    <div class="sprint-item">
+        <div class="sprint-num">Sprint 4</div>
+        <div class="sprint-details">
+            <div class="sprint-title">Trust Strip + Anchor Link (Block 07)</div>
+            <div class="sprint-desc">Move the 84% stat and charity rating logos from the footer into Block 07, directly above the primary donate CTA. Add a "Jump to Donate" anchor in the hero for returning high-intent donors. Wrap Organization schema around the trust figures so AI can cite the efficiency number confidently.</div>
+        </div>
+        <div class="sprint-effort effort-low">LOW EFFORT</div>
+    </div>
+
+    <div class="sprint-item">
+        <div class="sprint-num">Sprint 5</div>
+        <div class="sprint-details">
+            <div class="sprint-title">Quote Block Reposition + Second Quote (Block 08)</div>
+            <div class="sprint-desc">Move the existing Samah quote from below the email signup into Block 08 in the content body. Source one real named donor quote about giving in someone's honor for Mother's Day. Named, attributed quotes with specific outcomes carry significantly more weight for both donor trust and AI citeability than anonymous testimonials.</div>
+            <div class="sprint-note">⚠ Content team dependency: one named donor quote required.</div>
+        </div>
+        <div class="sprint-effort effort-med">MEDIUM EFFORT</div>
+    </div>
+
+    <div class="sprint-item">
+        <div class="sprint-num">Sprint 6</div>
+        <div class="sprint-details">
+            <div class="sprint-title">Related Links Bar (Block 11) — Holiday Cluster Foundation</div>
+            <div class="sprint-desc">Add the inline related links bar connecting Mother's Day to Valentine's Day, Father's Day, and Give in Honor. This begins the cross-holiday internal linking architecture that treats each holiday page as a node in a "meaningful gifts" topical cluster — raising authority signals across all pages simultaneously, and enabling the same template to roll out to Father's Day with minimal incremental effort.</div>
+        </div>
+        <div class="sprint-effort effort-low">LOW EFFORT</div>
+    </div>
+</div>
+
+<script>
+const tooltipData = {
+    'block-01': {
+        what: 'H1 hero with updated keyword-led headline, supporting intro copy, primary CTA, and a "Jump to Donate" anchor bypass for returning donors.',
+        why: 'The current H1 ("Ways to Give Back This Mother\'s Day") is action-oriented but not keyword-led. "Mother\'s Day Charity Gifts That Change Lives" mirrors how donors phrase queries in AI search and matches the Valentine\'s Day title pattern that is already indexed. The anchor bypass serves returning high-intent donors who don\'t need content context.',
+        impact: 'The H1 and first two sentences are the primary extraction point for AI answer engines responding to "what is the best Mother\'s Day charity gift?" — keyword precision here directly determines citation frequency.',
+        cro: 'The anchor link reduces friction for returning donors. No structural change required — copy and one link addition.'
+    },
+    'block-02': {
+        what: 'A new SSR knowledge block explaining Save the Children\'s maternal mission, followed by a 4-column impact stat strip with specific dollar outcomes.',
+        why: 'The current page has no "why" content above the gift grid — it jumps straight from a brief intro to the conversion ask. Both donor behavior and AI ranking reward value propositions established before asking for money. The $30/$50/$67 pricing already exists buried in the current page copy — this makes it scannable and prominent.',
+        impact: 'LLMs favor factual, attributed content in plain HTML. This block directly intercepts "what does a donation to Save the Children do?" and "how much does it cost to help a malnourished child?" — high-frequency donor-intent queries currently unanswered on-page.',
+        cro: 'Donors who see specific impact outcomes before the ask convert at higher rates. "Your $67 provides a full treatment course" is more actionable than "help mothers and children."'
+    },
+    'block-03': {
+        what: 'Section heading and intro copy for the gift ideas grid. Retained from current page.',
+        why: 'This content works and provides a clean visual transition into the gift grid. No changes needed.',
+        impact: 'Minor structural role — provides topical context for the gift section.',
+        cro: 'Retained as-is to avoid disrupting a working page structure.'
+    },
+    'block-04': {
+        what: 'First row of the gift card grid — Give in Honor and Help a Mother Feed a Child. Cards now include one to two sentences of outcome-specific body copy beneath the image.',
+        why: 'The current gift cards have almost no prose — just a single caption line and a CTA. Adding outcome copy ("$67 provides a full treatment course") gives both donors and AI crawlers something concrete to cite. The image-with-overlay layout and CTA structure are fully retained.',
+        impact: 'AI cannot reliably read text overlaid on images. Impact copy must appear in the native card body to be crawlable. Specific dollar outcomes in prose are heavily weighted for AI answer inclusion.',
+        cro: 'Impact-specific copy reduces hesitation by showing exactly what happens when a donor gives. Anchoring a gift to a specific outcome ("$67") makes the decision feel concrete rather than abstract.'
+    },
+    'block-05': {
+        what: 'Second row of the gift card grid — Gift Boxes and Grocery Basket. Same enhancement approach as Block 04.',
+        why: 'Same rationale: one to two lines of specific outcome copy per card. The emotional framing ("no mother should watch her child go hungry") reinforces the Mother\'s Day context without adding promotional language.',
+        impact: 'Each card body is independently citable for product-type queries such as "what does the Save the Children Grocery Basket gift do?"',
+        cro: 'Connecting the donor\'s experience (honoring their mother) to the recipient\'s experience (a mother in need) is a proven conversion driver for tribute gifts.'
+    },
+    'block-06': {
+        what: 'Third row of the gift card grid — Educate a Child and Mother and Infant Kit.',
+        why: 'The Mother and Infant Kit is the most directly relevant gift to Mother\'s Day and should be framed around maternal outcomes, not just infant care. Copy update shifts emphasis to prenatal support and the mother\'s wellbeing.',
+        impact: 'Prose description of the Mother and Infant Kit makes it discoverable for "what is a good Mother\'s Day gift that helps mothers in crisis?" — a query the current page cannot answer clearly.',
+        cro: '"Every mother wants a future for her child" creates aspirational alignment between the donor\'s values and the gift action.'
+    },
+    'block-07': {
+        what: 'A new inline trust strip (84% efficiency, 100+ years, 4-star Charity Navigator, watchdog logos) placed directly above the primary donate CTA. Currently this content only appears in the footer.',
+        why: 'Donor hesitation peaks at the moment of commitment. Placing credibility signals at that exact moment — rather than in a footer that most donors never reach — reduces abandonment at the highest-friction point in the funnel.',
+        impact: 'Organization schema around the 84% efficiency figure gives AI a definitive, citable answer to "how much of Save the Children donations actually goes to the cause?" — a trust query that currently sends users off-site to Charity Navigator.',
+        cro: 'Trust signals at the conversion point are among the highest-ROI CRO interventions available. This requires no structural rebuild — just moving existing footer content into the body.'
+    },
+    'block-08': {
+        what: 'Two attributed quotes — the existing Samah quote moved from below the email signup into the content body, paired with a new named donor quote about giving in someone\'s honor.',
+        why: 'The Samah quote is powerful and already exists on the page — but it currently sits below the email signup form, where almost no donor sees it. Moving it above the editorial section dramatically increases its impact. The new donor quote speaks to the gifting journey ("donating in my mom\'s name"), which is the primary emotional intent on this page.',
+        impact: 'Named, first-person quotes with specific outcomes carry significantly more weight for AI answer engines than anonymous or generic testimonials. They serve as evidence of real-world impact.',
+        cro: 'Social proof from a donor who gave in a mother\'s name directly addresses the primary hesitation of tribute gift-givers: "will this actually feel like a real, meaningful gift?"'
+    },
+    'block-09': {
+        what: 'The existing editorial copy about the role of mothers — restructured from two orphaned paragraphs into a two-column layout with a factual callout stat added.',
+        why: 'The current page places this content as bare paragraphs near the very bottom, with no visual container or structural weight. Reframing it in a two-column grid with a supporting stat adds factual depth and citeability. The content itself requires minimal rewriting.',
+        impact: 'Factual statements with specific statistics are heavily favored by AI models for inclusion in answers about maternal health and charitable giving. This block will surface for informational queries like "why does supporting mothers help children?"',
+        cro: 'Moving this content before the FAQ section keeps engaged donors in the narrative longer and reinforces the mission before the email capture ask.'
+    },
+    'block-10': {
+        what: 'The existing 4-question FAQ expanded to 6 questions and restructured for FAQPage schema. All answers are in native SSR HTML — no JavaScript dependency.',
+        why: 'The current FAQ has 4 questions but no schema, and the answers are relatively thin. Two new questions — "What does my donation actually do?" and "Can I set up a recurring gift?" — address high-frequency donor queries that currently send users off-site to Charity Navigator or call center. The "Back to Top" jump links have been removed — they interrupt reading flow with no measurable UX benefit on a page of this length.',
+        impact: 'FAQPage schema is one of the highest-confidence AI inclusion signals. It directly intercepts multi-turn conversational queries. The tax-deductibility question currently forces donors to leave the page to verify — answering it on-page captures that intent.',
+        cro: 'Answering "can I cancel a monthly gift?" and "how is the charity rated?" on-page prevents the two most common pre-conversion abandonments. Donors who get answers stay on-page and convert.'
+    },
+    'block-11': {
+        what: 'A new inline internal linking bar connecting the Mother\'s Day page to Valentine\'s Day, Father\'s Day, Give in Honor, and the gift catalog.',
+        why: 'Each holiday page currently exists as an isolated island with no links to sister pages. Connecting them creates a "meaningful gifts" topical cluster — and turns each holiday page into a building block of a larger authority signal rather than a standalone seasonal page.',
+        impact: 'Internal linking between topically related pages is a core signal for AI systems assessing entity breadth and authority. A "meaningful gifts" cluster positions Save the Children for a much wider range of donor-intent queries beyond any single holiday.',
+        cro: 'Donors who arrive for Mother\'s Day but are actually shopping ahead for Father\'s Day stay in the Save the Children ecosystem rather than bouncing back to Google.'
+    },
+    'block-12': {
+        what: 'The existing email sign-up form. Retained as-is.',
+        why: 'The sign-up form is a high-value retention mechanism for non-converting visitors. No changes needed.',
+        impact: 'No direct AI impact — this is a conversion and email retention tool.',
+        cro: 'Retained as-is. Email capture for non-donors is a strong secondary conversion goal.'
+    }
+};
+
+const tooltip = document.getElementById('geo-tooltip');
+const ttWhat = document.getElementById('tt-what');
+const ttWhy = document.getElementById('tt-why');
+const ttImpact = document.getElementById('tt-impact');
+const ttCro = document.getElementById('tt-cro');
+let tooltipTimeout;
+
+document.querySelectorAll('.wf-block').forEach(block => {
+    block.addEventListener('mouseenter', () => {
+        clearTimeout(tooltipTimeout);
+        const id = block.getAttribute('data-tooltip');
+        if (tooltipData[id]) {
+            ttWhat.textContent = tooltipData[id].what;
+            ttWhy.textContent = tooltipData[id].why;
+            ttImpact.textContent = tooltipData[id].impact;
+            ttCro.textContent = tooltipData[id].cro;
+            tooltip.classList.add('active');
+        }
+    });
+    block.addEventListener('mouseleave', () => {
+        tooltipTimeout = setTimeout(() => tooltip.classList.remove('active'), 300);
+    });
+});
+
+tooltip.addEventListener('mouseenter', () => clearTimeout(tooltipTimeout));
+tooltip.addEventListener('mouseleave', () => {
+    tooltipTimeout = setTimeout(() => tooltip.classList.remove('active'), 300);
+});
+
+function toggleAccordion(el) { el.classList.toggle('open'); }
+</script>
+</body>
+</html>

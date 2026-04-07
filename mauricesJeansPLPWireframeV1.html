@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maurices_PLP_GEO_Wireframe_V4</title>
+    <style>
+        :root {
+            --brand-bg: #FFFFFF;
+            --brand-surface: #F5F5F5;
+            --brand-primary: #55BAB7;
+            --brand-secondary: #38807C;
+            --brand-text: #111111;
+            --wireframe-bar: rgba(17, 17, 17, 0.15);
+            --wireframe-img: rgba(17, 17, 17, 0.08);
+            --border-light: rgba(0, 0, 0, 0.08);
+            --border-focus: rgba(85, 186, 183, 0.8);
+            --chrome-bg: #E0E0E0;
+            --controls-bg: #1A1A1A;
+            --tooltip-bg: rgba(245, 245, 245, 0.98);
+            --state-visible: #28A745;
+            --state-collapsed: #FFC107;
+            --state-conditional: #6F42C1;
+            --state-inline: #007BFF;
+        }
+
+        body {
+            margin: 0; padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #D0D0D0; color: var(--brand-text); padding-bottom: 60px;
+        }
+
+        /* Intro Banner */
+        .intro-banner { background-color: var(--brand-primary); color: #FFFFFF; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .intro-left { display: flex; align-items: center; gap: 20px; }
+        .brand-logo-mock { background-color: var(--brand-primary); border: 2px solid #FFFFFF; color: #FFFFFF; font-weight: 700; font-size: 24px; padding: 10px 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .intro-details h1 { margin: 0 0 8px 0; font-size: 20px; font-weight: 600; }
+        .intro-details p { margin: 0 0 12px 0; font-size: 14px; opacity: 0.9; }
+        .query-chips { display: flex; gap: 10px; }
+        .query-chip { background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 500; }
+        .intro-instructions { background: rgba(0,0,0,0.15); padding: 16px 24px; border-radius: 8px; max-width: 400px; }
+        .intro-instructions h3 { margin: 0 0 12px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .intro-instructions ol { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.6; }
+
+        /* Browser Chrome */
+        .browser-container { max-width: 1400px; margin: 0 auto; background: var(--brand-bg); box-shadow: 0 20px 40px rgba(0,0,0,0.15); min-height: 100vh; position: relative; }
+        .browser-chrome { background: var(--chrome-bg); height: 40px; display: flex; align-items: center; padding: 0 16px; position: sticky; top: 0; z-index: 100; }
+        .chrome-dots { display: flex; gap: 6px; }
+        .chrome-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #FF5F56; } .dot-yellow { background: #FFBD2E; } .dot-green { background: #27C93F; }
+        .chrome-tab { background: var(--brand-bg); margin-left: 20px; padding: 6px 24px; border-radius: 6px 6px 0 0; font-size: 12px; font-weight: 500; height: 28px; display: flex; align-items: center; transform: translateY(6px); }
+
+        /* Controls Bar */
+        .controls-bar { background: var(--controls-bg); color: #FFFFFF; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 40px; z-index: 99; font-size: 13px; }
+        .controls-left { display: flex; align-items: center; gap: 16px; }
+        .page-toggle { display: flex; background: rgba(255,255,255,0.1); border-radius: 20px; padding: 4px; }
+        .toggle-btn { background: transparent; border: none; color: rgba(255,255,255,0.6); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .toggle-btn.active { background: #FFFFFF; color: var(--controls-bg); }
+        .legend { display: flex; gap: 16px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        /* Site Nav */
+        .site-nav { background: var(--brand-bg); border-bottom: 1px solid var(--border-light); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 101px; z-index: 98; }
+        .nav-links { display: flex; gap: 24px; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .btn-primary { background: var(--brand-primary); border: none; color: #FFFFFF; padding: 8px 24px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-secondary { background: transparent; border: 1px solid var(--brand-primary); color: var(--brand-primary); padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+        /* Content Area */
+        .content-area { padding: 40px; max-width: 1200px; margin: 0 auto; }
+        .zone-divider { text-align: center; margin: 60px 0 40px; position: relative; }
+        .zone-divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; border-top: 1px dashed var(--brand-primary); opacity: 0.6; z-index: 1; }
+        .zone-divider span { background: var(--brand-bg); padding: 0 20px; color: var(--brand-primary); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; position: relative; z-index: 2; }
+
+        /* Blocks */
+        .geo-block { background: var(--brand-surface); border: 1px solid var(--border-light); border-radius: 4px; margin-bottom: 24px; padding: 32px; position: relative; cursor: crosshair; transition: all 0.2s; }
+        .geo-block:hover { outline: 2px solid var(--border-focus); outline-offset: -2px; }
+        
+        .var-standard, .var-opt1, .var-opt2, .var-filtered-both { display: none; }
+        body[data-page-state="standard"] .var-standard,
+        body[data-page-state="sale"] .var-standard { display: block; }
+        body[data-page-state="filter-opt1"] .var-opt1,
+        body[data-page-state="filter-opt1"] .var-filtered-both { display: block; }
+        body[data-page-state="filter-opt2"] .var-opt2,
+        body[data-page-state="filter-opt2"] .var-filtered-both { display: block; }
+        
+        .block-conditional { display: none; }
+        body[data-page-state="sale"] .block-conditional.cond-sale { display: block; }
+
+        .block-badge-container { position: absolute; top: -12px; left: 20px; display: flex; gap: 8px; z-index: 10; }
+        .block-number, .render-pill, .audit-tag { font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; color: #FFFFFF; }
+        .block-number { background: var(--brand-primary); }
+        .pill-visible { background: var(--state-visible); }
+        .pill-collapsed { background: var(--state-collapsed); color: #000; }
+        .pill-conditional { background: var(--state-conditional); }
+        .pill-inline { background: var(--state-inline); }
+        .audit-tag { position: absolute; top: -12px; right: 20px; background: #E0E0E0; color: #333; }
+        .hover-cue { position: absolute; bottom: 12px; right: 20px; font-size: 11px; color: var(--brand-primary); font-weight: 600; opacity: 0.7; }
+        .geo-block:hover .hover-cue { opacity: 0; }
+
+        .wf-bar { background: var(--wireframe-bar); height: 12px; border-radius: 2px; margin-bottom: 12px; }
+        .wf-bar.medium { width: 70%; }
+        .wf-img { background: var(--wireframe-img); display: flex; align-items: center; justify-content: center; color: rgba(17,17,17,0.4); font-size: 12px; border-radius: 4px; }
+        .wf-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px; }
+        .wf-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 20px; }
+        .filter-chip { display: inline-flex; align-items: center; background: var(--brand-primary); color: white; padding: 4px 12px; border-radius: 16px; font-size: 13px; font-weight: 600; margin-right: 8px; }
+        .filter-chip span { margin-left: 8px; font-size: 10px; cursor: pointer; }
+
+        .real-h1 { font-size: 32px; font-weight: 700; margin: 0 0 16px 0; line-height: 1.2; }
+        .real-h2 { font-size: 24px; font-weight: 600; margin: 0 0 16px 0; }
+        .real-p { font-size: 16px; line-height: 1.6; margin: 0 0 20px 0; }
+
+        /* Accordion */
+        .accordion-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border-light); cursor: pointer; padding-right: 72px; }
+        .accordion-row:last-child { border-bottom: none; }
+        .accordion-title { font-size: 16px; font-weight: 600; }
+        .plus-icon { width: 24px; height: 24px; border: 1.5px solid var(--brand-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 300; transition: all 0.2s; }
+        .accordion-row:hover .plus-icon, .accordion-row.open .plus-icon { background: var(--brand-primary); border-color: var(--brand-primary); color: #FFFFFF; }
+        .accordion-row.open .plus-icon { transform: rotate(45deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; padding-right: 72px; }
+        .accordion-row.open + .accordion-content { max-height: 800px; padding-bottom: 16px; }
+
+        /* Tooltip */
+        #geo-tooltip { position: fixed; right: 60px; top: 50%; transform: translateY(-50%); width: 380px; max-height: min(460px, calc(100vh - 200px)); background: var(--tooltip-bg); border: 1px solid rgba(85, 186, 183, 0.3); box-shadow: -5px 15px 30px rgba(0,0,0,0.1); border-radius: 8px; z-index: 1000; display: none; flex-direction: column; opacity: 0; transition: opacity 0.2s; overflow: visible; backdrop-filter: blur(8px); }
+        #geo-tooltip::after { content: ''; position: absolute; top: 50%; right: -8px; transform: translateY(-50%); border-width: 8px 0 8px 8px; border-style: solid; border-color: transparent transparent transparent var(--tooltip-bg); }
+        .tooltip-inner { padding: 24px; overflow-y: auto; min-height: 0; }
+        .tooltip-inner::-webkit-scrollbar { width: 4px; }
+        .tooltip-inner::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+        .tt-section { margin-bottom: 20px; }
+        .tt-section:last-child { margin-bottom: 0; }
+        .tt-label { font-size: 9px; font-weight: 700; color: var(--brand-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .tt-body { font-size: 13px; line-height: 1.5; margin: 0; }
+        
+        .legacy-h1 { font-family: monospace; background: rgba(0,0,0,0.05); padding: 4px 8px; border-radius: 4px; display: block; margin: 8px 0; font-size: 12px; }
+        .sprint-warning { display: inline-block; background: #FFF3CD; color: #856404; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; margin-top: 8px; border: 1px solid #FFEEBA; }
+        .opt-rec { display: inline-block; background: #D4EDDA; color: #155724; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; margin-bottom: 8px; border: 1px solid #C3E6CB; }
+        .opt-warn { display: inline-block; background: #F8D7DA; color: #721C24; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 11px; margin-bottom: 8px; border: 1px solid #F5C6CB; }
+
+        /* Sprint Order */
+        .sprint-section { max-width: 1200px; margin: 0 auto; background: var(--brand-surface); padding: 40px; border-radius: 8px; border: 1px solid var(--border-light); }
+        .sprint-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+        .sprint-item { display: flex; align-items: flex-start; gap: 20px; background: var(--brand-bg); padding: 20px; border-radius: 6px; border: 1px solid var(--border-light); }
+        .sprint-number { background: var(--brand-primary); color: #FFFFFF; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; }
+        .effort-badge { font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+        .effort-low { background: #D4EDDA; color: #155724; }
+        .effort-med { background: #FFF3CD; color: #856404; }
+        .effort-high { background: #F8D7DA; color: #721C24; }
+    </style>
+</head>
+<body data-page-state="standard">
+
+    <div class="intro-banner">
+        <div class="intro-left">
+            <div class="brand-logo-mock">Maurices</div>
+            <div class="intro-details">
+                <h1>Ecommerce PLP Wireframe</h1>
+                <p>Prepared by Tinuiti - V4 - April 2026 - LIGHT MODE</p>
+                <div class="query-chips">
+                    <span class="query-chip">"Best jeans for women"</span>
+                    <span class="query-chip">"High rise bootcut jeans"</span>
+                </div>
+            </div>
+        </div>
+        <div class="intro-instructions">
+            <h3>How to use this wireframe</h3>
+            <ol>
+                <li>Use toggles below to compare Filter Opt 1 vs Opt 2</li>
+                <li>Hover over any section for SEO/GEO impact</li>
+                <li>Note how the browser URL tab dynamically updates</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="browser-container">
+        <div class="browser-chrome">
+            <div class="chrome-dots">
+                <div class="chrome-dot dot-red"></div>
+                <div class="chrome-dot dot-yellow"></div>
+                <div class="chrome-dot dot-green"></div>
+            </div>
+            <div class="chrome-tab" id="browser-tab-text">Women's Jeans | maurices</div>
+        </div>
+
+        <div class="controls-bar">
+            <div class="controls-left">
+                <span style="font-weight: 600; text-transform: uppercase;">Page Type</span>
+                <div class="page-toggle">
+                    <button class="toggle-btn active" data-state="standard">Standard</button>
+                    <button class="toggle-btn" data-state="sale">Sale active</button>
+                    <button class="toggle-btn" data-state="filter-opt1">Filtered (Opt 1: Same Page)</button>
+                    <button class="toggle-btn" data-state="filter-opt2" style="background: rgba(40,167,69,0.2);">Filtered (Opt 2: Dedicated)</button>
+                </div>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-visible)"></div> Visible</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-collapsed)"></div> Collapsed</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-conditional)"></div> Conditional</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-inline)"></div> Inline</div>
+            </div>
+        </div>
+
+        <div class="site-nav">
+            <div class="brand-logo-mock" style="font-size: 18px; padding: 6px 12px;">Maurices</div>
+            <div class="nav-links">
+                <span>NEW</span><span>CLOTHING</span>
+                <span style="border-bottom: 2px solid var(--brand-primary); padding-bottom: 4px;">JEANS</span>
+                <span>PLUS SIZES</span><span>SHOES</span><span>ACCESSORIES</span>
+            </div>
+            <div class="nav-right">
+                <button class="btn-primary">Add To Bag</button>
+            </div>
+        </div>
+
+        <div class="content-area">
+            
+            <div class="zone-divider"><span>Above the fold</span></div>
+
+            <div class="geo-block var-standard" 
+                 data-what="The broad category header and hero area." 
+                 data-why="We recommend rewriting the H1 from the generic 'jeans' to a natural language phrase. In the standard state, this establishes your brand as a broad topical authority for all things denim." 
+                 data-impact="H1 written to match the natural language query pattern is the strongest topical signal for AI search engines. <br><br><span class='legacy-h1'>Legacy H1: &quot;jeans&quot;</span>">
+                <div class="block-badge-container">
+                    <span class="block-number">01</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div style="display: flex; gap: 40px; align-items: center;">
+                    <div style="flex: 1;">
+                        <h1 class="real-h1">Women's Jeans: Fits for Real Life &amp; Every Body Type</h1>
+                        <p class="real-p">Shop jeans that fit your real life in skinny, bootcut, straight, flare and wide leg styles with comfortable rises and stretchy fabrics for every body.</p>
+                        <div class="wf-bar medium"></div>
+                    </div>
+                    <div class="wf-img" style="flex: 1; height: 200px;">[Broad Category Hero Image]</div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-opt1" 
+                 data-what="<span class='opt-warn'>Option 1 Fallback</span><br><br>The standard category hero area remains unchanged during a filtered state." 
+                 data-why="In Option 1, the user stays on the same page and the URL appends a parameter (e.g. ?fit=bootcut). Because it is the exact same page template, the H1 ('Women's Jeans') and text cannot change without confusing search engines." 
+                 data-impact="To prevent duplicate content penalties, a canonical tag must point back to the main category. This protects the site, but sacrifices the ability to rank for specific AI queries like 'best bootcut jeans' because the AI crawler ignores the filtered page completely.">
+                <div class="block-badge-container">
+                    <span class="block-number">01</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RETAINED</span>
+                <div style="display: flex; gap: 40px; align-items: center;">
+                    <div style="flex: 1;">
+                        <h1 class="real-h1">Women's Jeans: Fits for Real Life &amp; Every Body Type</h1>
+                        <p class="real-p">Shop jeans that fit your real life in skinny, bootcut, straight, flare and wide leg styles with comfortable rises and stretchy fabrics for every body.</p>
+                        <div class="wf-bar medium"></div>
+                    </div>
+                    <div class="wf-img" style="flex: 1; height: 200px;">[Broad Category Hero Image]</div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-opt2" 
+                 data-what="<span class='opt-rec'>Option 2 Recommended</span><br><br>The dynamically updated header for a dedicated filtered page." 
+                 data-why="In Option 2, clicking a primary filter (like Bootcut) routes the user to a clean, separate page (/jeans/bootcut). Because it is a distinct page, we can inject a highly specific H1 ('Bootcut Jeans') and targeted paragraph text." 
+                 data-impact="AI engines process this as a distinct, authoritative answer to long-tail queries ('Find me bootcut jeans'). By providing a unique page tailored entirely to the user's prompt, you yield maximum GEO value.">
+                <div class="block-badge-container">
+                    <span class="block-number">01</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">NEW</span>
+                <div style="display: flex; gap: 40px; align-items: center;">
+                    <div style="flex: 1;">
+                        <h1 class="real-h1">Women's High Rise Bootcut Jeans</h1>
+                        <p class="real-p">Classic, leg-lengthening bootcut fits featuring a comfortable high rise that sits perfectly at the waist to flatter your natural shape.</p>
+                        <div class="wf-bar medium"></div>
+                    </div>
+                    <div class="wf-img" style="flex: 1; height: 200px;">[Bootcut Specific Image]</div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block block-conditional cond-sale" 
+                 data-what="A single-row alert bar for active promotions." 
+                 data-why="We recommend conditional banners that only appear when genuinely active rather than permanent promotional copy." 
+                 data-impact="Using SpecialOffer schema makes this promotional pricing readable by AI shopping tools.">
+                <div class="block-badge-container">
+                    <span class="block-number">02</span><span class="render-pill pill-conditional">Conditional</span>
+                </div>
+                <span class="audit-tag">RETAINED</span>
+                <div style="background: #EFEFEF; padding: 16px; text-align: center; border: 1px dashed var(--brand-primary); font-weight: 600; color: var(--brand-primary);">
+                    Sitewide! Now 35% Off + Extra 20% Off Clearance
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-standard" 
+                 data-what="A 2-3 sentence Server-Side Rendered (SSR) paragraph leading with category use cases." 
+                 data-why="We recommend framing the category through the lens of the buyer's actual needs." 
+                 data-impact="AI tools synthesizing 'best jeans for women' answers rely on authoritative, conversational category descriptions.">
+                <div class="block-badge-container">
+                    <span class="block-number">03</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">NEW</span>
+                <h2 class="real-h2">Find Your Perfect Denim Match</h2>
+                <p class="real-p">Whether you're looking for the body-hugging stretch of our jeggings, the classic everyday comfort of straight-leg denim, or specialized curvy fits that eliminate waist gap, our denim collection is designed for real movement.</p>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="zone-divider"><span>Discovery &amp; Selection Zone</span></div>
+
+            <div class="geo-block var-standard" 
+                 data-what="Clear filter UI with Server-Side Rendered (SSR) links." 
+                 data-why="We recommend ensuring all primary category filters generate clean, SSR internal links rather than just relying on client-side JS filtering." 
+                 data-impact="Internal linking between related topics raises authority signals and helps AI crawlers completely map the catalog structure.">
+                <div class="block-badge-container">
+                    <span class="block-number">04</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div style="display: flex; gap: 20px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 16px 0; margin-bottom: 24px;">
+                    <div style="font-weight: 600; padding-right: 20px; border-right: 1px solid var(--border-light);">Filter By:</div>
+                    <div style="color: var(--brand-primary); font-weight: 500; cursor: pointer;">Brands We Love</div>
+                    <div style="color: var(--brand-primary); font-weight: 500; cursor: pointer;">Plus Jeans</div>
+                    <div style="color: var(--brand-primary); font-weight: 500; cursor: pointer;">Fit (Skinny, Bootcut, Flare)</div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-opt1" 
+                 data-what="Filter UI showing active user selections via URL parameters." 
+                 data-why="In Option 1, when someone clicks a filter, they stay on the same page and just see updated results. The CMS handles this by adding parameters to the URL (e.g., ?fit=bootcut)." 
+                 data-impact="Because this relies on canonical tags pointing back to the main jeans page, AI engines will literally not 'see' this specific product mix. It is easier to implement technically, but you abandon the ability to capture conversational search traffic for this specific filter.">
+                <div class="block-badge-container">
+                    <span class="block-number">04</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div style="margin-bottom: 16px;">
+                    <span style="font-weight: 600; margin-right: 12px; font-size: 13px;">Active Filters:</span>
+                    <div class="filter-chip">Bootcut <span>✕</span></div>
+                    <div class="filter-chip">High Rise <span>✕</span></div>
+                    <span style="color: var(--brand-primary); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: underline; margin-left: 8px;">Clear All</span>
+                </div>
+                <div style="display: flex; gap: 20px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 16px 0; margin-bottom: 24px;">
+                    <div style="font-weight: 600; padding-right: 20px; border-right: 1px solid var(--border-light);">More Filters:</div>
+                    <div style="color: var(--brand-primary); font-weight: 500; cursor: pointer;">Size</div>
+                    <div style="color: var(--brand-primary); font-weight: 500; cursor: pointer;">Inseam Length</div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-opt2" 
+                 data-what="Filter UI acting as navigation to dedicated SSR pages, with a 'Hard Cap' safety mechanism." 
+                 data-why="In Option 2, clicking major filters routes the user to a clean, separate page (/jeans/bootcut). <br><br><b>What if they click 3 or 4 filters?</b> To prevent infinite duplicate pages (index bloat), we use a 'Hard Cap'. If a user selects more than 2 filters (e.g., Bootcut + High Rise + Black), the system safely reverts back to Option 1 behavior (URL parameters with canonicals)." 
+                 data-impact="AI engines cannot 'click' checkboxes. By generating dedicated pages for the most common 1-2 filter combos, you give AI tools indexable links for high-value long-tail questions, while the hard cap protects your crawl budget.">
+                <div class="block-badge-container">
+                    <span class="block-number">04</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div style="margin-bottom: 16px;">
+                    <span style="font-weight: 600; margin-right: 12px; font-size: 13px;">Active Category:</span>
+                    <div class="filter-chip">Bootcut <span>✕</span></div>
+                    <div class="filter-chip">High Rise <span>✕</span></div>
+                </div>
+                <div style="display: flex; gap: 20px; border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 16px 0; margin-bottom: 24px;">
+                    <div style="font-weight: 600; padding-right: 20px; border-right: 1px solid var(--border-light);">Sub-Filters:</div>
+                    <div style="color: var(--brand-primary); font-weight: 500; cursor: pointer;">Size</div>
+                    <div style="color: var(--brand-primary); font-weight: 500; cursor: pointer;">Inseam Length</div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-standard" 
+                 data-what="The first 4-8 product cards on the page. Structured with ItemList schema." 
+                 data-why="We recommend displaying the top-selling products across ALL categories immediately after the filters to give users immediate entry points." 
+                 data-impact="Aligning product feeds and ItemList structured data ensures individual products are directly recommendable by AI shopping surfaces.">
+                <div class="block-badge-container">
+                    <span class="block-number">05</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RETAINED</span>
+                <div class="wf-grid-4">
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Skinny Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Silver Jeans Co. Elyse Curvy</div>
+                        <div style="font-size: 16px; font-weight: 700;">$50.70</div>
+                    </div>
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Wide Leg Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">m jeans High Rise Wide Leg</div>
+                        <div style="font-size: 16px; font-weight: 700;">$29.24</div>
+                    </div>
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Flare Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">KanCan High Rise Flare</div>
+                        <div style="font-size: 16px; font-weight: 700;">$51.99</div>
+                    </div>
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Bootcut Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Flying Monkey Dark Bootcut</div>
+                        <div style="font-size: 16px; font-weight: 700;">$50.04</div>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-filtered-both" 
+                 data-what="The dynamically filtered product grid containing only matching items." 
+                 data-why="The product loop updates to show only items matching the user's intent." 
+                 data-impact="In Option 2, ItemList schema combined with a highly specific product set (all Bootcuts) signals high relevance to an AI crawler evaluating whether to rank this URL. In Option 1, this specific product view is ignored by crawlers.">
+                <div class="block-badge-container">
+                    <span class="block-number">05</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div class="wf-grid-4">
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Bootcut Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">m jeans High Rise Bootcut</div>
+                        <div style="font-size: 16px; font-weight: 700;">$34.90</div>
+                    </div>
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Bootcut Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">KanCan Vintage Bootcut</div>
+                        <div style="font-size: 16px; font-weight: 700;">$54.99</div>
+                    </div>
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Bootcut Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Flying Monkey Dark Bootcut</div>
+                        <div style="font-size: 16px; font-weight: 700;">$50.04</div>
+                    </div>
+                    <div>
+                        <div class="wf-img" style="height: 250px; margin-bottom: 12px;">[Bootcut Fit]</div>
+                        <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">Classic High Rise Bootcut</div>
+                        <div style="font-size: 16px; font-weight: 700;">$39.90</div>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="zone-divider"><span>AI Answer Engine Fuel Zone</span></div>
+
+            <div class="geo-block" style="display:block;"
+                 data-what="A brief guide answering how to select the right item in this category, collapsed by default." 
+                 data-why="We recommend integrating your existing 'maurices jeans guide' directly into the PLP layout via a collapsed accordion. This keeps the page visually clean while embedding critical decision-making content." 
+                 data-impact="Deep, comprehensive content formatted for AI readability builds E-E-A-T and secures placement in curated guides. Because it is in the DOM, it carries full GEO value even when collapsed.">
+                <div class="block-badge-container">
+                    <span class="block-number">06</span><span class="render-pill pill-collapsed">Collapsed</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div class="accordion-row" onclick="this.classList.toggle('open')">
+                    <span class="accordion-title">Maurices Jeans Fit Guide: How to Choose Your Perfect Pair</span>
+                    <div class="plus-icon">+</div>
+                </div>
+                <div class="accordion-content">
+                    <div style="padding-top: 16px;">
+                        <p class="real-p"><strong>Jeggings:</strong> When you want the body-hugging stretch of leggings but the structure and coverage of jeans. Fitted from waist to ankle.</p>
+                        <p class="real-p"><strong>Skinny Jeans:</strong> Flattering on every body type. More structured than jeggings, highlighting curves while providing a classic denim feel.</p>
+                        <p class="real-p"><strong>Bootcut:</strong> Universally flattering, giving a long-legged look. Fits closely through the hip and thigh, opening slightly from knee to ankle.</p>
+                        <p class="real-p"><strong>Curvy Fit:</strong> Designed with more room in the hips and thighs, and a contoured waistband to eliminate gaping.</p>
+                        <button class="btn-secondary" style="margin-top: 12px;">View Full Fit Guide</button>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block" style="display:block;"
+                 data-what="6-8 Q&A pairs directly answering conversational queries about the category, annotated with FAQPage schema." 
+                 data-why="We recommend answering common questions ('What sizes are available?') directly on the PLP. Moving it here into a collapsed accordion with proper schema makes it highly effective." 
+                 data-impact="FAQPage schema is the highest single GEO priority. LLMs heavily favor structured Q&A formats for multi-turn queries. <br><br><span class='sprint-warning'>SPRINT 1: Standardize FAQPage schema.</span>">
+                <div class="block-badge-container">
+                    <span class="block-number">07</span><span class="render-pill pill-collapsed">Collapsed</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div class="accordion-row" onclick="this.classList.toggle('open')">
+                    <span class="accordion-title">Frequently Asked Questions about Maurices Jeans</span>
+                    <div class="plus-icon">+</div>
+                </div>
+                <div class="accordion-content">
+                    <div style="padding-top: 16px; display: flex; flex-direction: column; gap: 16px;">
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 4px;">What sizes are available for maurices jeans?</div>
+                            <div style="font-size: 14px; line-height: 1.5;">Maurices jeans come in regular sizes 0-20 (XS-XXL) and plus sizes 14W-24W, with various inseam lengths from extra short (28 inches) to extra long (36 inches) to ensure the perfect fit.</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; margin-bottom: 4px;">How do I find my correct size using the maurices jeans size chart?</div>
+                            <div style="font-size: 14px; line-height: 1.5;">Refer to the maurices size chart for measurements like waist and hip. Measure yourself and match to the closest fit for the best comfort.</div>
+                        </div>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block" style="display:block;"
+                 data-what="Reviews highlighting the brand's quality within this specific category." 
+                 data-why="We recommend elevating category-level social proof. Showcasing named customer quotes about the durability and fit of Maurices denim reinforces category authority." 
+                 data-impact="Amplifying user stories provides depth, context, and semantic richness. LLMs weight attributed, first-person experiences heavily when formulating subjective answers.">
+                <div class="block-badge-container">
+                    <span class="block-number">08</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">NEW</span>
+                <h2 class="real-h2" style="font-size: 20px;">What Our Customers Say About Our Denim</h2>
+                <div class="wf-grid-3">
+                    <div style="background: var(--brand-bg); padding: 20px; border: 1px solid var(--border-light); border-radius: 4px;">
+                        <div style="color: #FFC107; margin-bottom: 12px;">★★★★★</div>
+                        <p style="font-size: 14px; font-style: italic; margin-bottom: 12px;">"Finally found jeans that fit my curves without a massive gap in the back waistband. The stretch is perfect."</p>
+                        <div style="font-size: 12px; font-weight: 600;">— Sarah T., Verified Buyer</div>
+                    </div>
+                    <div style="background: var(--brand-bg); padding: 20px; border: 1px solid var(--border-light); border-radius: 4px;">
+                        <div style="color: #FFC107; margin-bottom: 12px;">★★★★★</div>
+                        <p style="font-size: 14px; font-style: italic; margin-bottom: 12px;">"The extra-long inseam option is a lifesaver. These are my go-to bootcut jeans for everyday wear."</p>
+                        <div style="font-size: 12px; font-weight: 600;">— Jessica M., Verified Buyer</div>
+                    </div>
+                    <div style="background: var(--brand-bg); padding: 20px; border: 1px solid var(--border-light); border-radius: 4px;">
+                        <div style="color: #FFC107; margin-bottom: 12px;">★★★★★</div>
+                        <p style="font-size: 14px; font-style: italic; margin-bottom: 12px;">"So incredibly soft. The m jeans line feels like leggings but looks like high-quality denim."</p>
+                        <div style="font-size: 12px; font-weight: 600;">— Amanda R., Verified Buyer</div>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block var-standard"
+                 data-what="Pagination or 'load-more' UI revealing the rest of the category inventory." 
+                 data-why="We recommend standard pagination or a controlled 'Load More' to ensure performance doesn't drag, while keeping products crawlable." 
+                 data-impact="Extreme performance problems (like loading 200 products via infinite scroll at once) can cause crawlability issues and negatively impact inclusions in AI answers.">
+                <div class="block-badge-container">
+                    <span class="block-number">09</span><span class="render-pill pill-visible">Visible</span>
+                </div>
+                <span class="audit-tag">RETAINED</span>
+                <div class="wf-grid-4">
+                    <div class="wf-img" style="height: 250px;">[Product]</div>
+                    <div class="wf-img" style="height: 250px;">[Product]</div>
+                    <div class="wf-img" style="height: 250px;">[Product]</div>
+                    <div class="wf-img" style="height: 250px;">[Product]</div>
+                </div>
+                <div style="text-align: center; margin-top: 32px;">
+                    <button class="btn-secondary">Load More Products</button>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="zone-divider"><span>Conversion Close</span></div>
+
+            <div class="geo-block" style="display:block;"
+                 data-what="A video explaining the category fits with an SSR transcript, collapsed by default." 
+                 data-why="We recommend hosting a short 'Fit Guide' video. Video drives higher engagement, and the transcript contributes hundreds of indexed, conversational words." 
+                 data-impact="VideoObject schema with an SSR transcript is a strong signal of a multimedia authoritative source. Transcript text that describes fits in natural language directly matches LLM query patterns.">
+                <div class="block-badge-container">
+                    <span class="block-number">10</span><span class="render-pill pill-collapsed">Collapsed</span>
+                </div>
+                <span class="audit-tag">NEW</span>
+                <div class="accordion-row" onclick="this.classList.toggle('open')">
+                    <span class="accordion-title">Watch: How to Find Your Perfect Fit</span>
+                    <div class="plus-icon">+</div>
+                </div>
+                <div class="accordion-content">
+                    <div style="padding-top: 16px; display: flex; gap: 24px;">
+                        <div class="wf-img" style="flex: 1; height: 180px; position: relative;">
+                            <div style="position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:40px; height:40px; background:rgba(0,0,0,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff;">▶</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="margin:0 0 8px 0;">Video Transcript</h4>
+                            <div style="font-size: 13px; line-height: 1.5; color: #555;">
+                                [00:00] Finding the perfect pair of jeans shouldn't be a struggle.<br>
+                                [00:05] At Maurices, we design denim for real life and every body type.<br>
+                                [00:12] If you're looking for ultimate comfort, our Jeggings offer body-hugging stretch...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block" style="display:block;"
+                 data-what="A single row confirming shipping policies and rewards." 
+                 data-why="We recommend clearly stating free shipping thresholds and reward benefits just before the footer. This reduces friction as the user finishes scrolling." 
+                 data-impact="SSR shipping and returns copy helps AI tools answer brand-level pre-purchase queries like 'Does Maurices offer free shipping?'">
+                <div class="block-badge-container">
+                    <span class="block-number">11</span><span class="render-pill pill-inline">Inline</span>
+                </div>
+                <span class="audit-tag">RETAINED</span>
+                <div style="display: flex; justify-content: space-around; align-items: center; background: var(--brand-bg); padding: 20px; border: 1px solid var(--border-light); border-radius: 4px; text-align: center;">
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">Free Shipping</div>
+                        <div style="font-size: 13px;">On all orders $50 or more (U.S. only)</div>
+                    </div>
+                    <div style="width: 1px; height: 30px; background: var(--border-light);"></div>
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">mRewards</div>
+                        <div style="font-size: 13px;">Earn 1 point for every $1 spent</div>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+            <div class="geo-block" style="display:block;"
+                 data-what="Extended SSR text covering the category in depth at the bottom of the page, collapsed." 
+                 data-why="We recommend keeping your existing dense SEO content ('Discover Your Perfect Pair...') but collapsing it into an accordion. This prevents it from cluttering the visual layout while retaining 100% of its SEO value." 
+                 data-impact="Keeps the page visually clean while ensuring dense, comprehensive content is accessible to LLMs. Because the text is in the DOM, it carries full weight for establishing topical authority.">
+                <div class="block-badge-container">
+                    <span class="block-number">12</span><span class="render-pill pill-collapsed">Collapsed</span>
+                </div>
+                <span class="audit-tag">RESTRUCTURED</span>
+                <div class="accordion-row" onclick="this.classList.toggle('open')">
+                    <span class="accordion-title">Discover Your Perfect Pair of Jeans at Maurices</span>
+                    <div class="plus-icon">+</div>
+                </div>
+                <div class="accordion-content">
+                    <div style="padding-top: 16px; font-size: 13px; line-height: 1.6;">
+                        <p class="real-p">Finding the perfect pair of jeans shouldn't be a struggle. Every woman deserves denim that fits just right, and maurices is here to help. From ultra-soft jeggings and classic bootcut styles to trendy wide-leg options and flattering high-rise fits, our collection is crafted to celebrate your curves. Experience comfort and confidence with jeans designed to move with you, making every day a stylish occasion.</p>
+                    </div>
+                </div>
+                <span class="hover-cue">Hover for insight</span>
+            </div>
+
+        </div>
+
+        <div class="sprint-section">
+            <h2>Implementation Sprint Order</h2>
+            <div class="sprint-list">
+                <div class="sprint-item">
+                    <div class="sprint-number">1</div>
+                    <div class="sprint-content">
+                        <h4>Decide Filter Architecture (Option 1 vs Option 2)</h4>
+                        <p>Align with dev team on whether key filters (Fit, Plus Size) will route to dedicated SSR pages (/jeans/bootcut) or rely on parameters and canonical tags.</p>
+                        <span class="effort-badge effort-high">High Effort</span>
+                    </div>
+                </div>
+                <div class="sprint-item">
+                    <div class="sprint-number">2</div>
+                    <div class="sprint-content">
+                        <h4>FAQ Schema Implementation</h4>
+                        <p>Standardize FAQPage schema on the existing category Q&A content (Block 07).</p>
+                        <span class="effort-badge effort-low">Low Effort</span>
+                        <span class="sprint-warning">No new content required</span>
+                    </div>
+                </div>
+                <div class="sprint-item">
+                    <div class="sprint-number">3</div>
+                    <div class="sprint-content">
+                        <h4>Restructure H1 &amp; Intro Prose</h4>
+                        <p>Update the legacy "jeans" H1 to the natural language target query (Block 01). Add the conversational intro prose (Block 03).</p>
+                        <span class="effort-badge effort-low">Low Effort</span>
+                    </div>
+                </div>
+                <div class="sprint-item">
+                    <div class="sprint-number">4</div>
+                    <div class="sprint-content">
+                        <h4>Category Social Proof</h4>
+                        <p>Implement the named customer review strip (Block 08) highlighting denim fit and durability.</p>
+                        <span class="effort-badge effort-med">Medium Effort</span>
+                    </div>
+                </div>
+                <div class="sprint-item">
+                    <div class="sprint-number">5</div>
+                    <div class="sprint-content">
+                        <h4>Video Guide + Transcript</h4>
+                        <p>Produce and embed a brief category fit guide video with an SSR transcript (Block 10) to capture multimodal AI search signals.</p>
+                        <span class="effort-badge effort-high">High Effort</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="geo-tooltip">
+        <div class="tooltip-inner">
+            <div class="tt-section">
+                <div class="tt-label">What this is</div>
+                <p class="tt-body tooltip-what"></p>
+            </div>
+            <div class="tt-section">
+                <div class="tt-label">Why we recommend this structure</div>
+                <p class="tt-body tooltip-why"></p>
+            </div>
+            <div class="tt-section">
+                <div class="tt-label">AI Search Impact</div>
+                <p class="tt-body tooltip-impact"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle Logic & Browser URL Updates
+        const toggles = document.querySelectorAll('.toggle-btn');
+        const tabText = document.getElementById('browser-tab-text');
+        
+        toggles.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                toggles.forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                const state = e.target.dataset.state;
+                document.body.setAttribute('data-page-state', state);
+                
+                if(state === 'standard' || state === 'sale') {
+                    tabText.innerText = "Women's Jeans | maurices";
+                } else if(state === 'filter-opt1') {
+                    tabText.innerHTML = "Women's Jeans | maurices <span style='opacity:0.6; font-weight:normal; font-family:monospace; margin-left:8px;'>?fit=bootcut</span>";
+                } else if(state === 'filter-opt2') {
+                    tabText.innerHTML = "Bootcut Jeans | maurices <span style='opacity:0.6; font-weight:normal; font-family:monospace; margin-left:8px;'>/jeans/bootcut</span>";
+                }
+            });
+        });
+
+        // Tooltip Logic
+        let tooltipTimeout;
+        const tooltip = document.getElementById('geo-tooltip');
+
+        function setupTooltips() {
+            const blocks = document.querySelectorAll('.geo-block');
+            
+            blocks.forEach(block => {
+                const newBlock = block.cloneNode(true);
+                block.parentNode.replaceChild(newBlock, block);
+                
+                newBlock.addEventListener('mouseenter', (e) => {
+                    if(newBlock.dataset.what) {
+                        clearTimeout(tooltipTimeout);
+                        tooltip.querySelector('.tooltip-what').innerHTML = newBlock.dataset.what;
+                        tooltip.querySelector('.tooltip-why').innerHTML = newBlock.dataset.why;
+                        tooltip.querySelector('.tooltip-impact').innerHTML = newBlock.dataset.impact;
+                        
+                        tooltip.style.display = 'flex';
+                        requestAnimationFrame(() => tooltip.style.opacity = '1');
+                    }
+                });
+                
+                newBlock.addEventListener('mouseleave', () => {
+                    tooltipTimeout = setTimeout(() => {
+                        tooltip.style.opacity = '0';
+                        setTimeout(() => { if (tooltip.style.opacity === '0') tooltip.style.display = 'none'; }, 200);
+                    }, 300);
+                });
+            });
+        }
+        
+        setupTooltips();
+
+        tooltip.addEventListener('mouseenter', () => clearTimeout(tooltipTimeout));
+        tooltip.addEventListener('mouseleave', () => {
+            tooltipTimeout = setTimeout(() => {
+                tooltip.style.opacity = '0';
+                setTimeout(() => { if (tooltip.style.opacity === '0') tooltip.style.display = 'none'; }, 200);
+            }, 300);
+        });
+    </script>
+</body>
+</html>

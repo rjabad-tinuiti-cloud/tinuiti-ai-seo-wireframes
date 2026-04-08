@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI SEO Wireframe - Save the Children Gaza Campaign</title>
+    <style>
+        :root {
+            /* Save the Children Extracted Palette */
+            --bg: #FFFFFF;
+            --surface: #F4F0EB; /* biscuit_light from source */
+            --text: #222222;
+            --primary: #DA291C; /* button-cta--red */
+            --secondary: #B22222;
+            --border-light: rgba(0, 0, 0, 0.08);
+            --placeholder: rgba(34, 34, 34, 0.15);
+            --image-placeholder: rgba(34, 34, 34, 0.05);
+            
+            --state-visible: #10b981;
+            --state-collapsed: #f59e0b;
+            --state-conditional: #8b5cf6;
+            --state-inline: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #E5E5E5;
+            color: var(--text);
+            padding-bottom: 60px;
+        }
+
+        /* Intro Banner */
+        .intro-banner {
+            background-color: var(--primary);
+            color: #FFFFFF;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-size: 14px;
+        }
+        .intro-brand-logo {
+            background-color: #FFFFFF;
+            color: var(--primary);
+            padding: 8px 16px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+        .intro-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .intro-meta {
+            opacity: 0.9;
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+        .intro-queries {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .query-chip {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 11px;
+        }
+        .intro-instructions {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px 24px;
+            border-radius: 8px;
+            max-width: 400px;
+        }
+        .intro-instructions ol {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        .intro-instructions li {
+            margin-bottom: 6px;
+        }
+
+        /* Browser Chrome */
+        .browser-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg);
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .browser-chrome {
+            background: #f1f1f1;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .mac-dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 24px;
+        }
+        .mac-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .mac-dot.red { background: #ff5f56; }
+        .mac-dot.yellow { background: #ffbd2e; }
+        .mac-dot.green { background: #27c93f; }
+        .browser-tab {
+            background: var(--bg);
+            padding: 6px 16px;
+            border-radius: 6px 6px 0 0;
+            font-size: 12px;
+            color: #333;
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-right: 16px;
+        }
+        .browser-address {
+            background: #fff;
+            padding: 6px 16px;
+            border-radius: 4px;
+            flex-grow: 1;
+            font-size: 12px;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        /* Controls Bar */
+        .controls-bar {
+            background: #1A1A1A;
+            color: #fff;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 49px;
+            z-index: 99;
+        }
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .toggle-group {
+            display: flex;
+            background: #333;
+            border-radius: 20px;
+            padding: 4px;
+        }
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: #aaa;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-btn.active {
+            background: #fff;
+            color: #111;
+            font-weight: bold;
+        }
+        .legend {
+            display: flex;
+            gap: 16px;
+            font-size: 11px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Site Nav */
+        .site-nav {
+            background: var(--bg);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 104px;
+            z-index: 98;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .nav-logo {
+            background: var(--primary);
+            color: #FFFFFF;
+            padding: 6px 12px;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 2px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn-secondary {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 24px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        /* Wireframe Blocks */
+        .page-content {
+            background: var(--bg);
+            min-height: 800px;
+        }
+        .zone-divider {
+            background: var(--surface);
+            padding: 12px 40px;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--primary);
+            opacity: 0.9;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .wf-block {
+            position: relative;
+            padding: 60px 40px;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg);
+            transition: outline 0.2s;
+            cursor: default;
+        }
+        .wf-block:hover {
+            outline: 2px solid var(--primary);
+            outline-offset: -2px;
+            z-index: 10;
+        }
+        .wf-block.conditional {
+            display: none;
+            background: var(--surface);
+            padding: 24px 40px;
+        }
+        .wf-block.conditional.active {
+            display: block;
+        }
+        .wf-block.inline {
+            padding: 24px 40px;
+        }
+        
+        /* Block Badges */
+        .block-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            z-index: 2;
+        }
+        .badge-num {
+            background: var(--primary);
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .badge-state {
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #fff;
+        }
+        .badge-audit {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border-light);
+            font-size: 10px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .hover-cue {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 11px;
+            color: var(--primary);
+            opacity: 0.6;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .wf-block:hover .hover-cue {
+            opacity: 0;
+        }
+
+        /* Wireframe Elements */
+        .wf-h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--text);
+            opacity: 0.9;
+        }
+        .wf-h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--text);
+            opacity: 0.9;
+        }
+        .wf-text-line {
+            height: 12px;
+            background: var(--placeholder);
+            margin-bottom: 12px;
+            border-radius: 2px;
+        }
+        .wf-text-line.short { width: 60%; }
+        .wf-text-line.medium { width: 85%; }
+        .wf-box {
+            background: var(--image-placeholder);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            opacity: 0.5;
+            font-size: 12px;
+            border: 1px dashed var(--border-light);
+        }
+        .wf-btn-primary {
+            background: var(--primary);
+            color: #fff;
+            padding: 12px 32px;
+            display: inline-block;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 16px;
+            border-radius: 4px;
+        }
+        .wf-btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 32px;
+            display: inline-block;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 16px;
+            border-radius: 4px;
+        }
+        .wf-anchor-link {
+            color: var(--primary);
+            text-decoration: underline;
+            font-size: 13px;
+            display: inline-block;
+            margin-left: 16px;
+        }
+
+        /* Specific Layouts */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        
+        .split-hero { align-items: center; }
+        .stats-strip {
+            display: flex;
+            gap: 40px;
+            padding: 24px;
+            background: var(--surface);
+            margin-top: 24px;
+            border-radius: 8px;
+        }
+        .stat-item {
+            flex: 1;
+        }
+        .stat-num {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .widget-placeholder {
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .widget-header {
+            font-weight: bold;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .widget-tiers {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .widget-tier {
+            padding: 10px 4px;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .widget-warning {
+            color: #d97706;
+            font-size: 11px;
+            margin-top: 16px;
+            background: #fef3c7;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        /* Accordion */
+        .accordion-row {
+            border-bottom: 1px solid var(--border-light);
+            padding: 20px 72px 20px 0;
+            position: relative;
+            cursor: pointer;
+        }
+        .accordion-title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .accordion-content {
+            display: none;
+            padding-top: 16px;
+            color: var(--text);
+            opacity: 0.8;
+        }
+        .accordion-row.open .accordion-content {
+            display: block;
+        }
+        .toggle-icon {
+            position: absolute;
+            right: 0;
+            top: 20px;
+            width: 24px;
+            height: 24px;
+            border: 1.5px solid rgba(34, 34, 34, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .toggle-icon::before, .toggle-icon::after {
+            content: '';
+            position: absolute;
+            background: rgba(34, 34, 34, 0.4);
+            transition: all 0.2s;
+        }
+        .toggle-icon::before { width: 12px; height: 1.5px; }
+        .toggle-icon::after { width: 1.5px; height: 12px; }
+        
+        .accordion-row:hover .toggle-icon {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        .accordion-row:hover .toggle-icon::before,
+        .accordion-row:hover .toggle-icon::after {
+            background: #fff;
+        }
+        .accordion-row.open .toggle-icon {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: rotate(45deg);
+        }
+        .accordion-row.open .toggle-icon::before,
+        .accordion-row.open .toggle-icon::after {
+            background: #fff;
+        }
+
+        /* Tooltip System */
+        .tooltip-container {
+            position: fixed;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 380px;
+            max-height: min(460px, calc(100vh - 200px));
+            background: rgba(249, 249, 249, 0.95);
+            border: 1px solid rgba(218, 41, 28, 0.3); /* Primary with opacity */
+            box-shadow: -10px 20px 40px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            overflow: visible;
+        }
+        .tooltip-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .tooltip-caret {
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 16px;
+            height: 16px;
+            background: rgba(249, 249, 249, 0.95);
+            border-top: 1px solid rgba(218, 41, 28, 0.3);
+            border-right: 1px solid rgba(218, 41, 28, 0.3);
+        }
+        .tooltip-body {
+            padding: 24px;
+            overflow-y: auto;
+            min-height: 0;
+            flex-grow: 1;
+        }
+        .tooltip-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        .tooltip-body::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .tooltip-section-label {
+            font-size: 9px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            margin-top: 20px;
+        }
+        .tooltip-section-label:first-child { margin-top: 0; }
+        .tooltip-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        /* Sprint Order */
+        .sprint-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 8px;
+        }
+        .sprint-h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 16px;
+        }
+        .sprint-item {
+            display: flex;
+            gap: 24px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .sprint-num {
+            font-weight: bold;
+            color: var(--primary);
+            width: 80px;
+        }
+        .sprint-details { flex-grow: 1; }
+        .sprint-title { font-weight: bold; margin-bottom: 4px; }
+        .sprint-desc { font-size: 13px; opacity: 0.8; }
+        .sprint-effort {
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            height: fit-content;
+        }
+        .sprint-warning {
+            color: #dc2626;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="intro-banner">
+        <div>
+            <div class="intro-brand-logo">Save the Children</div>
+            <div class="intro-title">Save the Children - Prepared by Tinuiti</div>
+            <div class="intro-meta">V2 - March 2026 - LIGHT MODE</div>
+            <div class="intro-queries">
+                <div class="query-chip">"What is Save the Children doing in Gaza?"</div>
+                <div class="query-chip">"How to help people in Gaza"</div>
+                <div class="query-chip">"Is Save the Children a good charity?"</div>
+            </div>
+        </div>
+        <div class="intro-instructions">
+            <strong>How to use this wireframe:</strong>
+            <ol>
+                <li>Use the toggle to switch between page-type variants</li>
+                <li>Hover over any section for rationale and AI search impact</li>
+                <li>Click FAQ rows and expand toggles to preview interactive behavior</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="browser-container">
+        
+        <div class="browser-chrome">
+            <div class="mac-dots">
+                <div class="mac-dot red"></div>
+                <div class="mac-dot yellow"></div>
+                <div class="mac-dot green"></div>
+            </div>
+            <div class="browser-tab">Donate to Help Children in Gaza | Save The Children</div>
+            <div class="browser-address">https://www.savethechildren.org/us/where-we-work/west-bank-gaza</div>
+        </div>
+
+        <div class="controls-bar">
+            <div class="controls-left">
+                <div style="font-size: 12px; font-weight: bold; color: #aaa;">PAGE TYPE</div>
+                <div class="toggle-group">
+                    <button class="toggle-btn active" onclick="setPageType('standard')">Standard</button>
+                    <button class="toggle-btn" onclick="setPageType('crisis')">Active Crisis</button>
+                </div>
+                <div style="font-size: 10px; color: #666; margin-left: 8px;">Switches conditional blocks on/off</div>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-visible)"></div> VISIBLE</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-collapsed)"></div> COLLAPSED</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-conditional)"></div> CONDITIONAL</div>
+                <div class="legend-item"><div class="legend-dot" style="background: var(--state-inline)"></div> INLINE</div>
+            </div>
+            <div style="font-size: 12px; color: #aaa;">Hover any section for rationale</div>
+        </div>
+
+        <div class="site-nav">
+            <div class="nav-logo">Save the Children</div>
+            <div class="nav-links">
+                <div>Who We Are</div>
+                <div>What We Do</div>
+                <div>Ways to Help</div>
+                <div>Browse Gift Guide</div>
+                <div>Monthly Support</div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-secondary">Sign In</button>
+                <button class="btn-primary">Donate</button>
+            </div>
+        </div>
+
+        <div class="page-content">
+            
+            <div class="zone-divider">Above the fold</div>
+
+            <div class="wf-block" data-tooltip="block-01" style="padding: 0; overflow: hidden;">
+                <div class="block-badge" style="top: 16px; left: 16px; z-index: 10;">
+                    <div class="badge-num">01</div>
+                    <div class="badge-state" style="background: var(--state-visible)">VISIBLE</div>
+                    <div class="badge-audit">RETAINED</div>
+                </div>
+                <div class="hover-cue" style="top: 20px; right: 40px; z-index: 10; color: #fff;">Hover for insight</div>
+                
+                <!-- Hero: full-bleed image backdrop with overlaid content -->
+                <div style="position: relative; min-height: 460px; border-radius: 8px; overflow: hidden; display: flex; align-items: center;">
+                    <!-- Background image placeholder -->
+                    <div style="position: absolute; inset: 0; background: rgba(34,34,34,0.08); border: 2px dashed rgba(34,34,34,0.15);"></div>
+                    <!-- Dark overlay for legibility -->
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.1) 100%);"></div>
+                    <!-- Image label above overlay -->
+                    <div style="position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 1; pointer-events: none;">
+                        <span style="font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.5px; background: rgba(0,0,0,0.25); padding: 4px 12px; border-radius: 4px; white-space: nowrap;">Hero Image: A toddler sits on the floor in a tent shelter in Gaza</span>
+                    </div>
+                    <!-- Foreground content -->
+                    <div style="position: relative; z-index: 2; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; width: 100%; padding: 48px 40px;">
+                        <!-- Left: Hero Copy + CTA -->
+                        <div>
+                            <div class="wf-h1" style="color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.4);">Donate to Help Children in Gaza & Around the World</div>
+                            <div class="wf-text-line" style="background: rgba(255,255,255,0.35);"></div>
+                            <div class="wf-text-line" style="background: rgba(255,255,255,0.35);"></div>
+                            <div class="wf-text-line short" style="background: rgba(255,255,255,0.35);"></div>
+                            <div style="margin-top: 16px; font-weight: bold; font-size: 14px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.4);">More than 20,000 children in Gaza have been killed in the last two years.</div>
+                            <div class="wf-btn-primary" style="margin-top: 20px;">MATCH MY GIFT</div>
+                        </div>
+                        <!-- Right: Donation Widget (Hero Instance) -->
+                        <div style="width: 300px; flex-shrink: 0;">
+                            <div class="widget-placeholder" style="margin-top: 0; background: #fff; box-shadow: 0 8px 32px rgba(0,0,0,0.18);">
+                                <div class="widget-header">Donate to Save the Children</div>
+                                <div style="margin-bottom: 16px;">
+                                    <span style="font-weight: bold; border-bottom: 2px solid var(--primary); padding-bottom: 4px; margin-right: 16px;">Give Monthly</span>
+                                    <span style="opacity: 0.6;">Give Once</span>
+                                </div>
+                                <div class="widget-tiers">
+                                    <div class="widget-tier">$25</div>
+                                    <div class="widget-tier" style="background: var(--primary); color: #fff;">$50</div>
+                                    <div class="widget-tier">$100</div>
+                                    <div class="widget-tier">Other</div>
+                                </div>
+                                <div class="wf-btn-primary" style="width: 100%; margin-top: 0;">Donate $50 Monthly</div>
+                                <div class="widget-warning">
+                                    ⚠ <strong>CSR WIDGET ZONE</strong><br>Hero instance of the donation widget.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wf-block conditional" id="block-02" data-tooltip="block-02">
+                <div class="block-badge">
+                    <div class="badge-num">02</div>
+                    <div class="badge-state" style="background: var(--state-conditional)">CONDITIONAL</div>
+                    <div class="badge-audit">NEW</div>
+                </div>
+                <div class="hover-cue">Hover for insight</div>
+                
+                <div style="background: #fee2e2; border: 1px solid #ef4444; padding: 16px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <span style="background: #ef4444; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-right: 12px;">ACTIVE CRISIS</span>
+                        <span style="font-weight: bold; font-size: 14px; color: #7f1d1d;">Updated [Date]: Emergency response underway in Gaza. Your immediate support is needed.</span>
+                    </div>
+                    <div class="wf-btn-primary" style="margin-top: 0; padding: 8px 16px; background: #ef4444;">Give to Emergency Fund</div>
+                </div>
+            </div>
+
+            <div class="zone-divider">Knowledge & Context Zone</div>
+
+            <div class="wf-block" data-tooltip="block-03">
+                <div class="block-badge">
+                    <div class="badge-num">03</div>
+                    <div class="badge-state" style="background: var(--state-visible)">VISIBLE</div>
+                    <div class="badge-audit">NEW</div>
+                </div>
+                <div class="hover-cue">Hover for insight</div>
+
+                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <div class="wf-h2">The Situation in Gaza</div>
+                    <p style="font-size: 14px; line-height: 1.6; margin-bottom: 24px;">A pause in hostilities in Gaza signals a hopeful reprieve on the horizon. However, after two years of war, nothing less than a definitive ceasefire and full humanitarian access will be enough to save children in Gaza and prevent further suffering. Famine has been officially confirmed, and children are dying from malnutrition.</p>
+                    
+                    <div class="stats-strip">
+                        <div class="stat-item">
+                            <div class="stat-num">2.1M+</div>
+                            <div style="font-size: 12px;">People reached across the region</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-num">20,000+</div>
+                            <div style="font-size: 12px;">Children killed in the last two years</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-num">132,000</div>
+                            <div style="font-size: 12px;">Children under 5 at risk of acute malnutrition</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wf-block" data-tooltip="block-04">
+                <div class="block-badge">
+                    <div class="badge-num">04</div>
+                    <div class="badge-state" style="background: var(--state-visible)">VISIBLE</div>
+                    <div class="badge-audit">NEW</div>
+                </div>
+                <div class="hover-cue">Hover for insight</div>
+
+                <div class="wf-h2" style="text-align: center;">Our Response in Gaza</div>
+                <div class="grid-3">
+                    <div style="background: var(--surface); padding: 24px; border-radius: 8px;">
+                        <div class="wf-box" style="height: 120px; margin-bottom: 16px;">Water Icon</div>
+                        <div style="font-weight: bold; margin-bottom: 8px;">Water & Infrastructure</div>
+                        <p style="font-size: 13px;">Provided fuel and water infrastructure for hospitals and distributing water storage tanks.</p>
+                    </div>
+                    <div style="background: var(--surface); padding: 24px; border-radius: 8px;">
+                        <div class="wf-box" style="height: 120px; margin-bottom: 16px;">Mental Health Icon</div>
+                        <div style="font-weight: bold; margin-bottom: 8px;">Mental Health Support</div>
+                        <p style="font-size: 13px;">Delivered mental health and psychosocial support services for children and caregivers.</p>
+                    </div>
+                    <div style="background: var(--surface); padding: 24px; border-radius: 8px;">
+                        <div class="wf-box" style="height: 120px; margin-bottom: 16px;">Shelter Icon</div>
+                        <div style="font-weight: bold; margin-bottom: 8px;">Essential Items</div>
+                        <p style="font-size: 13px;">Delivered essential items, like tents, bedding, warm clothes and basic cooking items.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zone-divider">Conversion Close</div>
+
+            <div class="wf-block" id="donate-section" data-tooltip="block-05">
+                <div class="block-badge">
+                    <div class="badge-num">05</div>
+                    <div class="badge-state" style="background: var(--state-visible)">VISIBLE</div>
+                    <div class="badge-audit">RESTRUCTURED</div>
+                </div>
+                <div class="hover-cue">Hover for insight</div>
+
+                <div class="grid-2">
+                    <div style="padding-right: 24px;">
+                        <div class="wf-h2">How Your Support Helps</div>
+                        <p style="margin-bottom: 24px; font-size: 14px; opacity: 0.9;">Your reliable, monthly gifts allow us to sustain long-term programs and respond instantly to the crisis. Your donation helps us:</p>
+                        
+                        <div style="margin-bottom: 16px; padding: 16px; border-left: 3px solid var(--primary); background: var(--surface);">
+                            <strong>Health & Nutrition</strong>
+                            <div style="font-size: 13px; margin-top: 4px;">Deliver food and medical care to malnourished children by keeping our clinics open and staff on the ground.</div>
+                        </div>
+                        <div style="margin-bottom: 16px; padding: 16px; border-left: 3px solid var(--primary); background: var(--surface);">
+                            <strong>Emergency Mobilization</strong>
+                            <div style="font-size: 13px; margin-top: 4px;">Mobilize emergency supplies already staged near Gaza to distribute clean drinking water in 26 communities daily.</div>
+                        </div>
+                        <div style="margin-bottom: 16px; padding: 16px; border-left: 3px solid var(--primary); background: var(--surface);">
+                            <strong>Advocacy & Protection</strong>
+                            <div style="font-size: 13px; margin-top: 4px;">Continue advocating for a permanent ceasefire and safe humanitarian access while identifying the most at-risk children.</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="widget-placeholder">
+                            <div class="widget-header">Donate to Save the Children</div>
+                            <div style="margin-bottom: 16px;">
+                                <span style="font-weight: bold; border-bottom: 2px solid var(--primary); padding-bottom: 4px; margin-right: 16px;">Give Monthly</span>
+                                <span style="opacity: 0.6;">Give Once</span>
+                            </div>
+                            <div class="widget-tiers">
+                                <div class="widget-tier">$25</div>
+                                <div class="widget-tier" style="background: var(--primary); color: #fff;">$50</div>
+                                <div class="widget-tier">$100</div>
+                                <div class="widget-tier">Other</div>
+                            </div>
+                            <div class="wf-btn-primary" style="width: 100%; margin-top: 0;">Donate $50 Monthly</div>
+                            <div class="widget-warning">
+                                ⚠ <strong>CSR WIDGET ZONE</strong><br>Third-party donation iframe/script loads here.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wf-block inline" data-tooltip="block-06">
+                <div class="block-badge">
+                    <div class="badge-num">06</div>
+                    <div class="badge-state" style="background: var(--state-inline)">INLINE</div>
+                    <div class="badge-audit">NEW</div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto; background: var(--surface); padding: 16px 32px; border-radius: 8px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                        <div class="wf-box" style="width: 60px; height: 60px; border-radius: 4px;">Charity Navigator</div>
+                        <div class="wf-box" style="width: 60px; height: 60px; border-radius: 4px;">Charity Watch</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--primary);">84%</div>
+                        <div style="font-size: 12px; font-weight: bold;">of every dollar goes straight to our mission</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zone-divider">AI Answer Engine Fuel Zone</div>
+
+            <div class="wf-block" data-tooltip="block-07" style="padding-top: 40px; padding-bottom: 40px;">
+                <div class="block-badge">
+                    <div class="badge-num">07</div>
+                    <div class="badge-state" style="background: var(--state-collapsed)">COLLAPSED</div>
+                    <div class="badge-audit">NEW</div>
+                </div>
+
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">Aid Worker's Witness: Mervat Ouda Hijazi</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">
+                        <div class="grid-2" style="align-items: center; margin-top: 16px;">
+                            <div class="wf-box" style="height: 200px; border-radius: 8px;">Photo of Aid Worker with infant</div>
+                            <div>
+                                <p style="font-size: 14px; line-height: 1.6;">"Over the past two years, living and working as a humanitarian in Gaza has been personally painful and professionally brutal. I have witnessed children and families visiting Save the Children clinics... hungry, injured and emotionally scarred." — Mervat Ouda Hijazi, Health & Nutrition Advisor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wf-block" data-tooltip="block-08" style="padding-top: 40px; padding-bottom: 40px;">
+                <div class="block-badge">
+                    <div class="badge-num">08</div>
+                    <div class="badge-state" style="background: var(--state-collapsed)">COLLAPSED</div>
+                    <div class="badge-audit">RESTRUCTURED</div>
+                </div>
+                <div class="hover-cue">Hover for insight</div>
+
+                <div class="wf-h2" style="margin-bottom: 24px; text-align: center;">Crisis in Gaza: What to Know</div>
+                
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">What does it mean that famine has been confirmed in Gaza?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Famine is the most extreme level of hunger, defined by the Integrated Food Security Phase Classification (IPC). It is confirmed when all three conditions are met: At least 20% of households face extreme shortages, 15%+ of children are acutely malnourished, and at least two people per 10,000 die each day from hunger.</div>
+                </div>
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">Has the UN concluded that genocide is occurring in Gaza?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Yes. A UN commission concluded, for the first time, that genocide is being committed in Gaza. The inhumanity of the situation is unconscionable. As humanitarian leaders, we have borne direct witness to the horrifying deaths and suffering.</div>
+                </div>
+                <div class="accordion-row" onclick="toggleAccordion(this)">
+                    <div class="accordion-title">What is the current humanitarian situation in Gaza?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">The situation in Gaza is catastrophic. Children are literally starving. Markets are empty, food is unavailable, and malnutrition is widespread. Save the Children teams are seeing a sharp rise in malnourished children at our clinics.</div>
+                </div>
+                <div class="accordion-row conditional-faq" style="display: none; background: #fff1f2;" onclick="toggleAccordion(this)">
+                    <div class="accordion-title" style="color: #be123c;">Are you currently on the ground in Gaza?</div>
+                    <div class="toggle-icon"></div>
+                    <div class="accordion-content">Yes, our teams are actively distributing aid, providing clean drinking water in 26 communities daily, and operating two primary healthcare centers.</div>
+                </div>
+            </div>
+
+            <div class="wf-block" data-tooltip="block-09" style="padding-top: 40px; padding-bottom: 40px;">
+                <div class="block-badge">
+                    <div class="badge-num">09</div>
+                    <div class="badge-state" style="background: var(--state-collapsed)">COLLAPSED</div>
+                    <div class="badge-audit">NEW</div>
+                </div>
+
+                <div style="max-width: 800px; margin: 0 auto 24px auto; text-align: center;">
+                    <div class="wf-h2">Field Report: Save the Children's Response in Gaza</div>
+                    <p style="font-size: 13px; opacity: 0.7; margin-top: -8px;">Watch our team on the ground — expand the transcript below for full indexed content.</p>
+                </div>
+                <div class="wf-box" style="height: 400px; width: 100%; max-width: 800px; margin: 0 auto; border-radius: 8px;">
+                    ▶ Video Player: Field Report from Gaza
+                </div>
+                
+                <div style="max-width: 800px; margin: 24px auto 0 auto;">
+                    <div class="accordion-row" onclick="toggleAccordion(this)" style="border-top: 1px solid var(--border-light);">
+                        <div class="accordion-title" style="font-size: 14px;">View Video Transcript & Chapters</div>
+                        <div class="toggle-icon"></div>
+                        <div class="accordion-content" style="font-size: 13px; line-height: 1.6;">
+                            <strong>0:00 - Assessing Needs</strong><br>
+                            We are on the ground right now assessing the immediate needs...<br><br>
+                            <strong>1:15 - Distributing Medical Supplies</strong><br>
+                            Thanks to your donations, we've delivered critical medical kits...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wf-block" data-tooltip="block-10">
+                <div class="block-badge">
+                    <div class="badge-num">10</div>
+                    <div class="badge-state" style="background: var(--state-visible)">VISIBLE</div>
+                    <div class="badge-audit">RESTRUCTURED</div>
+                </div>
+
+                <div class="wf-h2" style="text-align: center;">Why Our Sustainers Give Monthly</div>
+                <div class="grid-3" style="margin-top: 32px;">
+                    <div style="padding: 24px; background: var(--surface); border-radius: 8px; position: relative;">
+                        <div style="color: var(--primary); font-size: 40px; position: absolute; top: 16px; left: 16px; opacity: 0.2; line-height: 1;">"</div>
+                        <p style="font-size: 14px; position: relative; z-index: 1; margin-bottom: 16px; font-style: italic;">"I choose to give monthly because I know emergencies happen when we least expect them. I want Save the Children to have the resources ready before disaster strikes."</p>
+                        <div style="font-weight: bold; font-size: 12px;">— Sarah J., Monthly Donor since 2023</div>
+                    </div>
+                    <div style="padding: 24px; background: var(--surface); border-radius: 8px; position: relative;">
+                        <div style="color: var(--primary); font-size: 40px; position: absolute; top: 16px; left: 16px; opacity: 0.2; line-height: 1;">"</div>
+                        <p style="font-size: 14px; position: relative; z-index: 1; margin-bottom: 16px; font-style: italic;">"Knowing my monthly contribution helps provide clean water year-round gives me peace of mind. It's the most effective way I can help."</p>
+                        <div style="font-weight: bold; font-size: 12px;">— Michael T., Monthly Sustainer</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wf-block inline" data-tooltip="block-11">
+                <div class="block-badge">
+                    <div class="badge-num">11</div>
+                    <div class="badge-state" style="background: var(--state-inline)">INLINE</div>
+                    <div class="badge-audit">NEW</div>
+                </div>
+
+                <div style="display: flex; gap: 24px; justify-content: center; align-items: center; font-size: 14px;">
+                    <strong style="color: var(--primary);">Related Programs:</strong>
+                    <span style="text-decoration: underline;">Hunger and Famine</span>
+                    <span style="text-decoration: underline;">Emergency Response</span>
+                    <span style="text-decoration: underline;">Global Clean Water Initiative</span>
+                </div>
+            </div>
+
+            <div class="wf-block" data-tooltip="block-12">
+                <div class="block-badge">
+                    <div class="badge-num">12</div>
+                    <div class="badge-state" style="background: var(--state-visible)">VISIBLE</div>
+                    <div class="badge-audit">RETAINED</div>
+                </div>
+
+                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                    <div class="wf-h2">Sign Up & Stay Connected</div>
+                    <p style="margin-bottom: 24px; opacity: 0.8;">Join thousands of others providing critical support to those who need it most.</p>
+                    <div style="display: flex; gap: 16px; justify-content: center;">
+                        <div class="wf-btn-primary" style="margin-top: 0;">Donate Now</div>
+                    </div>
+                    
+                    <div style="margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--border-light);">
+                        <div style="font-weight: bold; margin-bottom: 12px;">Get Updates from the Field</div>
+                        <div style="display: flex; gap: 8px; justify-content: center;">
+                            <div class="wf-box" style="width: 250px; height: 40px; background: var(--surface); border: 1px solid #ccc; border-radius: 4px; text-align: left; padding-left: 12px;">Email Address</div>
+                            <div class="wf-btn-primary" style="margin-top: 0; padding: 10px 24px;">Sign Up</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div> <div class="tooltip-container" id="geo-tooltip">
+        <div class="tooltip-caret"></div>
+        <div class="tooltip-body">
+            <div class="tooltip-section-label">WHAT THIS IS</div>
+            <div class="tooltip-text" id="tt-what"></div>
+            
+            <div class="tooltip-section-label">WHY WE RECOMMEND THIS STRUCTURE</div>
+            <div class="tooltip-text" id="tt-why"></div>
+            
+            <div class="tooltip-section-label">AI SEARCH IMPACT</div>
+            <div class="tooltip-text" id="tt-impact"></div>
+        </div>
+    </div>
+
+    <div class="sprint-container">
+        <div class="sprint-h2">Implementation Sprint Order</div>
+        
+        <div class="sprint-item">
+            <div class="sprint-num">Sprint 1</div>
+            <div class="sprint-details">
+                <div class="sprint-title">FAQ & Schema Deployment</div>
+                <div class="sprint-desc">Implement FAQPage schema on Block 08 and Organization schema on Block 06. (No new content required if Q&A pairs exist).</div>
+                <div class="sprint-warning">⚠ CRITICAL: Ensure widget bypass answers (tax status, cancellation) are coded in native HTML, not inside the JS widget.</div>
+            </div>
+            <div class="sprint-effort">LOW EFFORT</div>
+        </div>
+        
+        <div class="sprint-item">
+            <div class="sprint-num">Sprint 2</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Widget De-Risking & SSR Context</div>
+                <div class="sprint-desc">Build out Blocks 03 (Situation Summary) and 05 (Split Layout). Move the donation widget below the initial SSR text block to ensure AI bots can read the contextual mission data before hitting the CSR payload.</div>
+            </div>
+            <div class="sprint-effort">HIGH EFFORT</div>
+        </div>
+        
+        <div class="sprint-item">
+            <div class="sprint-num">Sprint 3</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Attributed Social Proof</div>
+                <div class="sprint-desc">Update Block 10 with named monthly donors and specific outcomes. Move away from anonymous or generic quotes.</div>
+            </div>
+            <div class="sprint-effort">MEDIUM EFFORT</div>
+        </div>
+        
+        <div class="sprint-item">
+            <div class="sprint-num">Sprint 4</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Video & Transcript Collapse</div>
+                <div class="sprint-desc">Implement Block 09. Extract the video transcript, add timestamps, and place it in a collapsed, SSR HTML details element beneath the video.</div>
+            </div>
+            <div class="sprint-effort">MEDIUM EFFORT</div>
+        </div>
+        
+        <div class="sprint-item">
+            <div class="sprint-num">Sprint 5</div>
+            <div class="sprint-details">
+                <div class="sprint-title">Conditional Crisis Logic</div>
+                <div class="sprint-desc">Build CMS toggles for Block 02 (Crisis Banner) and the conditional FAQ rows to allow real-time SpecialAnnouncement schema updates during active emergencies.</div>
+            </div>
+            <div class="sprint-effort">HIGH EFFORT</div>
+        </div>
+    </div>
+
+    <script>
+        const tooltipData = {
+            'block-01': {
+                what: 'The above-the-fold introduction and immediate conversion bypass.',
+                why: 'We must establish the entity\'s value to the AI immediately. Putting a heavy JS donation widget at the very top creates a technical blind spot. By placing factual, Server-Side Rendered (SSR) text here, we feed the AI the necessary context. The "Jump to Donate" anchor satisfies CRO by giving high-intent returning users zero friction.',
+                impact: 'This is the primary text real-time AI crawlers extract for "What is Save the Children doing in Gaza?" queries.'
+            },
+            'block-02': {
+                what: 'Single-row alert bar with a date stamp and direct donate CTA. Only renders during active emergencies.',
+                why: 'Conditional banners that only appear when genuinely active are more credible than permanent promotional copy.',
+                impact: 'SpecialAnnouncement schema helps AI tools surface real-time crisis updates and date-stamps provide freshness signals.'
+            },
+            'block-03': {
+                what: 'The core "knowledge block" that explains the crisis and the organization\'s specific response, followed by a 3-column SSR stats strip.',
+                why: 'Modern CRO shows that asking for money before establishing the value proposition increases bounce rates. This block provides the emotional and logical justification the user needs before they are asked to pull out a credit card.',
+                impact: 'LLMs prefer content that is "original, expert & up-to-date". Factual, attributed numbers in plain HTML are highly citable for AI answers.'
+            },
+            'block-04': {
+                what: 'Grid of 3-4 program areas with 2 sentences of prose describing the actual field work.',
+                why: 'Users and AI both need to understand the depth of the intervention, not just the high-level mission.',
+                impact: 'AI cannot read icon labels. Prose descriptions signal topical authority across multiple issues and use cases.'
+            },
+            'block-05': {
+                what: 'The primary conversion point, strategically placed after context has been established, paired with hardcoded impact statements.',
+                why: 'Donation widgets often rely on JavaScript. We must avoid Client-Side Rendering (CSR) reliance for core content to ensure indexability. By pairing the widget with an SSR text column, we ensure the AI can actually read what the donation tiers accomplish and that the charity accepts monthly recurring gifts.',
+                impact: 'We keep the language in the SSR column factual and grounded in expertise since LLMs often use content verbatim. This ensures the AI bots can confidently extract and cite your specific programmatic impact instead of getting blocked by widget code.'
+            },
+            'block-06': {
+                what: 'Hard data proving organizational efficiency, positioned at the highest point of user friction (the credit card ask).',
+                why: 'Before completing a transaction, users often hesitate due to digital trust. Placing these credentials right next to the widget seals the deal from a CRO perspective and keeps the donor on the page instead of bouncing to a third-party watchdog site.',
+                impact: 'Wrapping these financial efficiency numbers in Organization schema gives the AI a definitive, citable answer when users prompt generative engines with "How much of my donation actually goes to the cause?"'
+            },
+            'block-07': {
+                what: 'First-person story about a named individual on the ground, collapsed in an accordion.',
+                why: 'Balancing page length while providing emotional depth. Collapsed content is DOM-present and carries full SEO value without forcing a long scroll.',
+                impact: 'Specific, location-based narratives are heavily weighted by AI tools answering "what is life like in Gaza right now?"'
+            },
+            'block-08': {
+                what: 'Common donor questions and situational FAQs, collapsed into an expandable accordion to save scroll depth but remaining fully crawlable.',
+                why: 'Transaction widgets often hide tax-deductible status or cancellation policies inside JS pop-ups. If the AI can\'t click the pop-up, it doesn\'t know the answer. Putting these answers in the native HTML bypasses the widget entirely.',
+                impact: 'FAQ and Q&A Sections are favored by AI models for multi-turn queries and snippets. FAQPage schema here directly intercepts high-intent queries about the organization\'s policies and the crisis itself.'
+            },
+            'block-09': {
+                what: 'Field footage video with a descriptive H2 header and a text transcript stored in a collapsible element beneath it.',
+                why: 'Video drives higher engagement. The header anchors the block in the document outline, giving AI crawlers semantic context before reaching the transcript. The transcript adds no visual weight but contributes hundreds of indexed words describing the impact in natural language.',
+                impact: 'The H2 header ("Field Report: Save the Children\'s Response in Gaza") serves as the VideoObject schema name value. Full transcripts and time-stamped chapters improve discoverability and provide structured context for real-time LLM crawlers.'
+            },
+            'block-10': {
+                what: '2-3 attributed quotes from current monthly donors/sustainers.',
+                why: 'Social proof drives conversion. Using named individuals with specific reasons for giving monthly builds higher trust than anonymous quotes.',
+                impact: 'Encouraging and amplifying user stories provides depth, context, and semantic richness for AI systems assessing entity trust.'
+            },
+            'block-11': {
+                what: 'Links to nearby thematic hubs.',
+                why: 'Keeps visitors engaged with the brand if this specific crisis isn\'t their primary philanthropic focus.',
+                impact: 'Internal linking between related topics raises authority signals and helps AI understand the full scope of your global operations.'
+            },
+            'block-12': {
+                what: 'Primary donate CTA, monthly give option, and email sign-up.',
+                why: 'The final conversion prompt. Monthly recurring giving must be presented at equal visual weight to one-time donations—do not subordinate the higher LTV action.',
+                impact: 'No direct AI impact—pure conversion architecture to capture high-intent users at the bottom of the page.'
+            }
+        };
+
+        const tooltip = document.getElementById('geo-tooltip');
+        const ttWhat = document.getElementById('tt-what');
+        const ttWhy = document.getElementById('tt-why');
+        const ttImpact = document.getElementById('tt-impact');
+        let tooltipTimeout;
+
+        // Block Hover Logic
+        document.querySelectorAll('.wf-block').forEach(block => {
+            block.addEventListener('mouseenter', (e) => {
+                clearTimeout(tooltipTimeout);
+                const blockId = block.getAttribute('data-tooltip');
+                if(tooltipData[blockId]) {
+                    ttWhat.innerHTML = tooltipData[blockId].what;
+                    ttWhy.innerHTML = tooltipData[blockId].why;
+                    ttImpact.innerHTML = tooltipData[blockId].impact;
+                    tooltip.classList.add('active');
+                }
+            });
+            
+            block.addEventListener('mouseleave', () => {
+                tooltipTimeout = setTimeout(() => {
+                    tooltip.classList.remove('active');
+                }, 300);
+            });
+        });
+
+        // Tooltip Hover Grace Period
+        tooltip.addEventListener('mouseenter', () => {
+            clearTimeout(tooltipTimeout);
+        });
+        tooltip.addEventListener('mouseleave', () => {
+            tooltipTimeout = setTimeout(() => {
+                tooltip.classList.remove('active');
+            }, 300);
+        });
+
+        // Accordion Logic
+        function toggleAccordion(element) {
+            element.classList.toggle('open');
+        }
+
+        // Page Type Toggle Logic
+        function setPageType(type) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const condBlock = document.getElementById('block-02');
+            const condFaq = document.querySelector('.conditional-faq');
+            
+            if(type === 'crisis') {
+                condBlock.classList.add('active');
+                if(condFaq) condFaq.style.display = 'block';
+            } else {
+                condBlock.classList.remove('active');
+                if(condFaq) condFaq.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
